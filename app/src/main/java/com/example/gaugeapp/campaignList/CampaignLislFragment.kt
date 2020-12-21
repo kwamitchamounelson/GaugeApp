@@ -32,6 +32,7 @@ class CampaignLislFragment : Fragment() {
         (requireActivity() as AppCompatActivity).setSupportActionBar(root.my_toolbar_campaign_main)
         setHasOptionsMenu(true)
         viewPager = root.view_pager_campaign_main
+        viewPager.isUserInputEnabled = false
         return root
     }
 
