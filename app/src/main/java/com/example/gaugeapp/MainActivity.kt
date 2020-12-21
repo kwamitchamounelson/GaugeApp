@@ -13,8 +13,9 @@ class MainActivity : AppCompatActivity() {
 
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
-                .replace(R.id.container,
-                    CreatedCampaignFragment.newInstance()
+                .replace(
+                    R.id.container,
+                    CampaignLislFragment.newInstance()
                 )
                 .commitNow()
         }

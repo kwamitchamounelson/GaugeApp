@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/sort_by_amount_campaign"
+        android:icon="@drawable/ic_baseline_arrow_downward_black"
+        android:title="@string/search_str"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/filter_campaign"
+        android:icon="@drawable/ic_filter_list_black"
+        android:title="@string/filter"
+        app:showAsAction="ifRoom">
+        <menu>
+            <item
+                android:id="@+id/filter_campaign_by_guaranteeing"
+                android:title="@string/guaranteeing" />
+            <item
+                android:id="@+id/filter_campaign_by_highest_first"
+                android:title="@string/highest_first" />
+        </menu>
+    </item>
+
+    <item
+        android:id="@+id/campaign_history"
+        android:title="@string/history" />
+    <item
+        android:id="@+id/campaign_search"
+        android:title="@string/search_str" />
+
+</menu>

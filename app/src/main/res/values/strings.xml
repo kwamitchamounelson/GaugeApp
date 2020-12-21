@@ -615,4 +615,7 @@
     <string name="lend">Lend</string>
     <string name="created_campaign">Created Campaign</string>
     <string name="contribute_to_campaign">Contribute to Campaign</string>
+    <string name="guaranteeing">Guaranteeing</string>
+    <string name="highest_first">Highest First</string>
+    <string name="options">Options</string>
 </resources>

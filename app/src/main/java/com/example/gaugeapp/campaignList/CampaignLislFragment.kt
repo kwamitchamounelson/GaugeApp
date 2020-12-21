@@ -1,9 +1,7 @@
 package com.example.gaugeapp.campaignList
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2
@@ -95,6 +93,37 @@ class CampaignLislFragment : Fragment() {
         btn_tab_all_campaign.isEnabled = true
         btn_tab_contact_campaign.isEnabled = true
         btn_tab_lend_campaign.isEnabled = false
+    }
+
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu_campaign_main, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+
+        return when (item.itemId) {
+            android.R.id.home -> {
+                return true
+            }
+            R.id.sort_by_amount_campaign -> {
+                true
+            }
+            R.id.filter_campaign_by_guaranteeing -> {
+                true
+            }
+            R.id.filter_campaign_by_highest_first -> {
+                true
+            }
+            R.id.campaign_history -> {
+                true
+            }
+            R.id.campaign_search -> {
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 
 }
