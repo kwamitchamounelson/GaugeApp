@@ -1,0 +1,160 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowTranslucentNavigation">false</item>
+        <item name="android:editTextColor">@android:color/black</item>
+        <item name="android:textColorHint">@android:color/white</item>
+        <item name="autoCompleteTextViewStyle">@style/SearchAutoCompleteTextView</item>
+
+        <item name="bottomSheetDialogTheme">@style/AppBottomSheetDialogTheme2</item>
+
+    </style>
+
+    <style name="AppThemeNoActionBar" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="height">0dp</item>
+        <item name="android:editTextColor">@android:color/black</item>
+        <item name="android:textColorHint">@android:color/white</item>
+        <item name="autoCompleteTextViewStyle">@style/SearchAutoCompleteTextView</item>
+
+        <item name="bottomSheetDialogTheme">@style/AppBottomSheetDialogTheme2</item>
+        <item name="textInputStyle">
+            @style/textInputStyle
+        </item>
+
+    </style>
+
+    <style name="textInputStyle" parent="Theme.MaterialComponents.DayNight">
+        <item name="android:backgroundTint">@color/white</item>
+        <item name="hintTextAppearance">@style/TextAppearance.AppCompat.Medium</item>
+    </style>
+
+    <style name="AppBottomSheetDialogTheme2"
+        parent="Theme.Design.Light.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/AppModalStyle2</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="height">0dp</item>
+        <item name="android:editTextColor">@android:color/black</item>
+        <item name="android:textColorHint">@android:color/white</item>
+        <item name="autoCompleteTextViewStyle">@style/SearchAutoCompleteTextView</item>
+    </style>
+
+    <style name="AppModalStyle2"
+        parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@drawable/rounded_dialog</item>
+    </style>
+
+    <style name="AppBottomSheetDialogTheme"
+        parent="Theme.Design.Light.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/AppModalStyle</item>
+    </style>
+
+    <style name="AppModalStyle"
+        parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@drawable/shape_with_radius_small_just_on_top</item>
+    </style>
+
+    <style name="PermmissionsTitleStyle">
+        <item name="android:textSize">24sp</item>
+        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+    <style name="ToolbarColoredBackArrow" parent="AppThemeNoActionBar">
+        <item name="android:textColorSecondary">@color/white</item>
+    </style>
+
+
+    <style name="Toolbar.TitleText" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="TabLayout_community_style" parent="Widget.Design.TabLayout">
+        <item name="tabIndicatorColor">@color/color_tab_transaction_indicator</item>
+        <item name="tabSelectedTextColor">@color/color_tab_transaction_indicator</item>
+        <item name="tabTextColor">@android:color/white</item>
+        <item name="tabTextAppearance">@style/TabLayoutTextAppearance</item>
+    </style>
+
+    <style name="SearchAutoCompleteTextView" parent="Widget.AppCompat.Light.AutoCompleteTextView">
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="TabLayoutTextAppearance" parent="TextAppearance.Design.Tab">
+        <item name="android:textSize">15dp</item>
+        <item name="textAllCaps">false</item>
+        <item name="android:textAllCaps">false</item>
+    </style>
+
+    <style name="bouton_style">
+        <item name="android:elevation">10dp</item>
+        <item name="android:textColor">@color/color_tab_transaction_indicator</item>
+        <item name="android:backgroundTint">@color/colorPrimary</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+
+    <style name="bouton_style2">
+        <item name="android:elevation">10dp</item>
+        <item name="android:textColor">@color/red_outcomes</item>
+        <item name="android:textSize">@dimen/dimen_12sp</item>
+        <item name="android:background">@drawable/shape_with_radius_small</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="bouton_style_desable">
+        <item name="android:elevation">10dp</item>
+        <item name="android:textColor">@color/color_tab_transaction_indicator</item>
+        <item name="android:backgroundTint">@color/gray_text</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="button_default_style">
+        <item name="android:elevation">@dimen/dimen_10dp</item>
+        <item name="android:textColor">@color/color_tab_transaction_indicator</item>
+        <item name="android:backgroundTint">@color/colorPrimary</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_height">40dp</item>
+        <item name="android:background">@drawable/button_default_shape</item>
+        <item name="android:fontFamily">@font/roboto_medium</item>
+    </style>
+
+    <style name="button_style_for_items">
+        <item name="android:elevation">@dimen/dimen_10dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/colorAccent</item>
+        <item name="android:layout_height">@dimen/dimen_heigth_button_item</item>
+        <item name="android:background">@drawable/button_for_item</item>
+        <item name="android:fontFamily">@font/roboto_medium</item>
+        <item name="android:textSize">@dimen/dimen_text_size_button_item</item>
+    </style>
+
+    <style name="ToolbarDefaultType">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">?attr/actionBarSize</item>
+        <item name="android:background">@android:color/white</item>
+        <item name="android:elevation">@dimen/dimen_0dp</item>
+    </style>
+
+    <style name="style_tab_layout_btn_campaign">
+        <item name="android:background">@drawable/backgroung_text_view_states_campaign</item>
+        <item name="android:gravity">center</item>
+        <item name="android:fontFamily">@font/roboto_medium</item>
+        <item name="android:paddingTop">@dimen/dimen_8dp</item>
+        <item name="android:paddingBottom">@dimen/dimen_8dp</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textColor">@color/text_color_state_inverse_campaign</item>
+        <item name="android:textSize">@dimen/dimen_14sp</item>
+    </style>
+
+</resources>
