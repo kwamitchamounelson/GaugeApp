@@ -613,4 +613,6 @@
     <string name="left_to_borrow">LEFT TO BORROW :</string>
     <string name="to_borrow_you_have_to_complete_your_profile">To borrow, you have to complete your profile</string>
     <string name="lend">Lend</string>
+    <string name="created_campaign">Created Campaign</string>
+    <string name="contribute_to_campaign">Contribute to Campaign</string>
 </resources>
