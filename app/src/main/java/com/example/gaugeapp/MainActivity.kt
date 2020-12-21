@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.gaugeapp.campaignHistory.CampaignHistoryFragment
 import com.example.gaugeapp.campaignList.CampaignLislFragment
 import com.example.gaugeapp.createdCampaign.CreatedCampaignFragment
+import com.example.gaugeapp.guaranteeing.GuaranteeingFragment
 import com.example.gaugeapp.main.CampaignMainFragment
 
 class MainActivity : AppCompatActivity() {
@@ -16,7 +17,7 @@ class MainActivity : AppCompatActivity() {
             supportFragmentManager.beginTransaction()
                 .replace(
                     R.id.container,
-                    CampaignHistoryFragment.newInstance()
+                    GuaranteeingFragment.newInstance()
                 )
                 .commitNow()
         }
