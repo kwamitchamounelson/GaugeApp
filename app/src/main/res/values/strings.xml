@@ -627,4 +627,7 @@
     <string name="payment_date">Payment date:</string>
     <string name="borrowing_reason">Borrowing Reason</string>
     <string name="guarantors">Guarantors</string>
+    <string name="amount_to_borrow">Amount To Borrow</string>
+    <string name="_1000_f">1000 F</string>
+    <string name="_15_000_f">15 000 F</string>
 </resources>

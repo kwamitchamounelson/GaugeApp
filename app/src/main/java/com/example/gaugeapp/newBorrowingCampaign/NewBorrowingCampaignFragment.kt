@@ -9,12 +9,14 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.gaugeapp.R
+import com.example.gaugeapp.amountCampaignBottomSheet.AmountCampaignBottomSheetFragment
 import com.example.gaugeapp.items.ImageProfileItem
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.Section
 import com.xwray.groupie.kotlinandroidextensions.ViewHolder
 import kotlinx.android.synthetic.main.new_borrowing_campaign_fragment.*
 import kotlinx.android.synthetic.main.new_borrowing_campaign_fragment.view.*
+import org.jetbrains.anko.toast
 
 class NewBorrowingCampaignFragment : Fragment() {
 
@@ -41,7 +43,13 @@ class NewBorrowingCampaignFragment : Fragment() {
     }
 
     private fun setOnClickListner() {
-        id_borrowing_cam_amount.setOnClickListener { }
+        id_borrowing_cam_amount.setOnClickListener {
+            val bs = AmountCampaignBottomSheetFragment(0) { selectedAmount ->
+                id_borrowing_cam_amount.text = "$selectedAmount F"
+                requireContext().toast(selectedAmount.toString())
+            }
+            bs.show(childFragmentManager, "")
+        }
 
         id_borrowing_cam_interest.setOnClickListener { }
 
