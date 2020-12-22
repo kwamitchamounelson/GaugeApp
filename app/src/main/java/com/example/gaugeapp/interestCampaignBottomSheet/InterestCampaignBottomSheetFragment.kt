@@ -1,5 +1,6 @@
 package com.example.gaugeapp.interestCampaignBottomSheet
 
+import android.content.DialogInterface
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -93,6 +94,11 @@ class InterestCampaignBottomSheetFragment(
             dismiss()
             onComplete(selectedInterest)
         }
+    }
+
+    override fun onDismiss(dialog: DialogInterface) {
+        super.onDismiss(dialog)
+        onComplete(selectedInterest)
     }
 
 }

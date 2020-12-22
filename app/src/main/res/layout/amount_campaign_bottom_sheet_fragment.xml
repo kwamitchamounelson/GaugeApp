@@ -50,8 +50,9 @@
                 android:id="@+id/id_borrow_cam_progression"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:value="0"
-                android:valueFrom="0"
+                android:stepSize="1000"
+                android:value="5000"
+                android:valueFrom="1000"
                 android:valueTo="15000" />
 
             <LinearLayout

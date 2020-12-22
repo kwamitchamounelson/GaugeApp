@@ -1,5 +1,6 @@
 package com.example.gaugeapp.amountCampaignBottomSheet
 
+import android.content.DialogInterface
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -14,17 +15,16 @@ import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.Section
 import com.xwray.groupie.kotlinandroidextensions.ViewHolder
 import kotlinx.android.synthetic.main.amount_campaign_bottom_sheet_fragment.*
-import org.jetbrains.anko.toast
 
 class AmountCampaignBottomSheetFragment(
-    private val currentAmount: Int = 0,
+    private val currentAmount: Int = 1000,
     val onComplete: (amount: Int) -> Unit
 ) :
     BottomSheetDialogFragment() {
 
     //we load items form 1000 to 15 000
     private var amountItems = (1000..15000 step 1000).map { AmountBorowCreditItem(it) }
-    private var selectedAmount: Int = 0
+    private var selectedAmount: Int = 1000
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -56,7 +56,7 @@ class AmountCampaignBottomSheetFragment(
 
         //init slider
         id_borrow_cam_progression.apply {
-            valueFrom = 0F
+            valueFrom = 1000F
             stepSize = 1000F
             valueTo = 15000F
             value = currentAmount.toFloat()
@@ -87,13 +87,14 @@ class AmountCampaignBottomSheetFragment(
         }
 
         id_amount_credit_borrow_button.setOnClickListener {
-            if (selectedAmount != 0) {
-                dismiss()
-                onComplete(selectedAmount)
-            } else {
-                requireContext().toast(R.string.please_select_an_amount)
-            }
+            dismiss()
+            onComplete(selectedAmount)
         }
+    }
+
+    override fun onDismiss(dialog: DialogInterface) {
+        super.onDismiss(dialog)
+        onComplete(selectedAmount)
     }
 
 }
