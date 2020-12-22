@@ -221,6 +221,7 @@
     <dimen name="dimen_w_tab_layout_campaign">95dp</dimen>
     <dimen name="dim_mh_campaign">20dp</dimen>
     <dimen name="dimen_19dp">19dp</dimen>
+    <dimen name="dim_38dp">38dp</dimen>
 
 </resources>
 

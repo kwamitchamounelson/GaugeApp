@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white">
@@ -17,6 +18,248 @@
             app:popupTheme="@style/AppThemeNoActionBar"
             app:title="New borrowing campaign"
             app:titleTextColor="@android:color/black" />
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/dimen_26dp"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dim_20dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/how_much_would_you_like_to_borrow"
+                        android:textColor="@color/color_gray_707070"
+                        android:textSize="@dimen/dimen_16sp" />
+
+                    <TextView
+                        android:id="@+id/id_borrowing_cam_amount"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dim_30dp"
+                        android:fontFamily="@font/roboto_medium"
+                        android:gravity="center"
+                        android:text="5 000 F"
+                        android:textColor="@color/color_black_2E2E2E"
+                        android:textSize="@dimen/dimen_30sp"
+                        app:drawableStartCompat="@drawable/ic_baseline_add_circle_outline_919191" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dim_30dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/percentage_interest_rate"
+                        android:textColor="@color/color_gray_707070"
+                        android:textSize="@dimen/dimen_16sp" />
+
+                    <TextView
+                        android:id="@+id/id_borrowing_cam_interest"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dim_30dp"
+                        android:fontFamily="@font/roboto_medium"
+                        android:gravity="center"
+                        android:text="10%"
+                        android:textColor="@color/color_black_2E2E2E"
+                        android:textSize="@dimen/dimen_30sp"
+                        app:drawableStartCompat="@drawable/ic_baseline_add_circle_outline_919191" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dim_30dp">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="start">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/interest_amount"
+                                android:textColor="@color/color_gray_707070"
+                                android:textSize="@dimen/dimen_16sp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/dim_16dp"
+                                android:fontFamily="@font/roboto_medium"
+                                android:text="500 F"
+                                android:textColor="@color/color_black_2E2E2E"
+                                android:textSize="@dimen/dimen_30sp" />
+
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="end">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/total_payback"
+                                android:textColor="@color/color_gray_707070"
+                                android:textSize="@dimen/dimen_16sp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/dim_16dp"
+                                android:fontFamily="@font/roboto_medium"
+                                android:text="5 500 F"
+                                android:textColor="@color/color_black_2E2E2E"
+                                android:textSize="@dimen/dimen_30sp" />
+
+                        </LinearLayout>
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dim_30dp"
+                    android:gravity="center_vertical"
+                    android:weightSum="4">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2.5"
+                        android:text="@string/payment_date"
+                        android:textColor="@color/color_gray_707070"
+                        android:textSize="@dimen/dimen_16sp" />
+
+                    <EditText
+                        android:id="@+id/id_borrowing_cam_payment_date"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1.5"
+                        android:background="@drawable/background_field_date_campaign"
+                        android:drawableEnd="@drawable/ic_baseline_calendar_gray_707070"
+                        android:padding="@dimen/dim_6dp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dim_30dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/borrowing_reason"
+                        android:textColor="@color/color_gray_707070"
+                        android:textSize="@dimen/dimen_16sp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dimen_12dp"
+                        android:gravity="center_vertical">
+
+                        <ImageView
+                            android:id="@+id/id_borrowing_cam_add_reason"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="@dimen/dim_40dp"
+                            android:src="@drawable/ic_baseline_add_circle_outline_919191" />
+
+                        <TextView
+                            style="@style/style_borrow_reason_type_campaign"
+                            android:layout_width="@dimen/dimen_w_tab_layout_campaign"
+                            android:layout_height="wrap_content"
+                            android:enabled="false"
+                            android:text="Health"
+                            android:textSize="@dimen/dimen_14sp" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dim_30dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/guarantors"
+                        android:textColor="@color/color_gray_707070"
+                        android:textSize="@dimen/dimen_16sp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dimen_12dp"
+                        android:gravity="center_vertical">
+
+                        <ImageView
+                            android:id="@+id/id_borrowing_cam_add_guarantor"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="@dimen/dim_40dp"
+                            android:src="@drawable/ic_baseline_add_circle_outline_919191" />
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/id_borrowing_cam_guarantor_rv"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="horizontal"
+                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                            tools:listitem="@layout/item_image_profile" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/id_done_borrowing_cam_button"
+                    style="@style/button_default_style"
+                    android:layout_width="match_parent"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginHorizontal="@dimen/dimen_10dp"
+                    android:layout_marginTop="@dimen/dim_24dp"
+                    android:layout_marginBottom="@dimen/dimen_15dp"
+                    android:text="@string/done" />
+
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
 
     </LinearLayout>
 

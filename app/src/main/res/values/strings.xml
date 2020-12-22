@@ -620,4 +620,11 @@
     <string name="options">Options</string>
     <string name="campaign_history">Campaign History</string>
     <string name="explanation_guaranteeing">Remember that your credit score is affected by late and default payment from you guaranteed borrowing campaigns</string>
+    <string name="how_much_would_you_like_to_borrow">How much would you like to borrow?</string>
+    <string name="percentage_interest_rate">Percentage Interest Rate(%)</string>
+    <string name="interest_amount">Interest Amount</string>
+    <string name="total_payback">Total Payback</string>
+    <string name="payment_date">Payment date:</string>
+    <string name="borrowing_reason">Borrowing Reason</string>
+    <string name="guarantors">Guarantors</string>
 </resources>
