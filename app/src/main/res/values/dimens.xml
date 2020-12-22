@@ -222,6 +222,8 @@
     <dimen name="dim_mh_campaign">20dp</dimen>
     <dimen name="dimen_19dp">19dp</dimen>
     <dimen name="dim_38dp">38dp</dimen>
+    <dimen name="dimen_18dp">18dp</dimen>
+    <dimen name="dim_28dp">28dp</dimen>
 
 </resources>
 

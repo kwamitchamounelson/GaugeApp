@@ -106,6 +106,7 @@
                                 android:textSize="@dimen/dimen_16sp" />
 
                             <TextView
+                                android:id="@+id/id_borrowing_cam_interest_amount"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="@dimen/dim_16dp"
@@ -137,6 +138,7 @@
                                 android:textSize="@dimen/dimen_16sp" />
 
                             <TextView
+                                android:id="@+id/id_borrowing_cam_total_pay_back"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="@dimen/dim_16dp"

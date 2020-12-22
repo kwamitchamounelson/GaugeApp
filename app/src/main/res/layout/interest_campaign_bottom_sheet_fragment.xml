@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/id_bottom_sheet_interest_rate"
+    style="@style/AppBottomSheetDialogTheme"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:behavior_hideable="false"
+    app:behavior_peekHeight="0dp"
+    app:cardBackgroundColor="@android:color/white"
+    app:cardCornerRadius="15dp"
+    app:cardElevation="8dp"
+    app:layout_behavior="com.kola.kolawallet.ui.createTransaction.helpersClass.LockedBottomSheetBehavior">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="@dimen/dim_20dp"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/dim_40dp"
+            android:text="@string/interest_rate"
+            android:textColor="@color/color_gray_707070"
+            android:textSize="@dimen/dim_16sp" />
+
+        <TextView
+            android:id="@+id/id_borrow_cam_interest_rate_selected"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/dim_40dp"
+            android:layout_marginTop="@dimen/dim_20dp"
+            android:fontFamily="@font/roboto_medium"
+            android:text="10%"
+            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/dimen_30sp" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/dim_40dp"
+            android:layout_marginTop="@dimen/dimen_18dp"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/dimen_10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/interest_amount"
+                    android:textColor="@color/color_gray_707070"
+                    android:textSize="@dimen/dim_16sp" />
+
+                <TextView
+                    android:id="@+id/id_amount_interest"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="end"
+                    android:text="1 000 F"
+                    android:textColor="@color/color_gray_707070"
+                    android:textSize="@dimen/dim_16sp" />
+            </LinearLayout>
+
+            <com.google.android.material.slider.Slider
+                android:id="@+id/id_interest_rate_progression"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dim_20dp"
+                android:stepSize="1"
+                android:value="5"
+                android:valueFrom="5"
+                android:valueTo="30" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/dimen_10dp"
+                android:layout_marginTop="@dimen/dim_16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="5%"
+                    android:textColor="@color/color_gray_707070"
+                    android:textSize="@dimen/dimen_14sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="end"
+                    android:text="30%"
+                    android:textColor="@color/color_gray_707070"
+                    android:textSize="@dimen/dimen_14sp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/id_borrow_cam_interest_rate_rv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dim_40dp"
+            android:orientation="horizontal"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/item_interest_rate" />
+
+
+        <Button
+            android:id="@+id/id_interest_rate_button"
+            style="@style/button_default_style"
+            android:layout_width="100dp"
+            android:layout_marginTop="@dimen/dim_40dp"
+            android:layout_marginBottom="@dimen/dimen_15dp"
+            android:text="@string/ok_str" />
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

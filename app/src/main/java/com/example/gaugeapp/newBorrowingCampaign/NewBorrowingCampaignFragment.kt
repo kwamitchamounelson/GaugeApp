@@ -6,19 +6,32 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.gaugeapp.R
 import com.example.gaugeapp.amountCampaignBottomSheet.AmountCampaignBottomSheetFragment
+import com.example.gaugeapp.entities.ENUM_BORROWING_REASON
+import com.example.gaugeapp.entities.GuarantorComLoan
+import com.example.gaugeapp.interestCampaignBottomSheet.InterestCampaignBottomSheetFragment
 import com.example.gaugeapp.items.ImageProfileItem
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.Section
 import com.xwray.groupie.kotlinandroidextensions.ViewHolder
 import kotlinx.android.synthetic.main.new_borrowing_campaign_fragment.*
 import kotlinx.android.synthetic.main.new_borrowing_campaign_fragment.view.*
-import org.jetbrains.anko.toast
+import java.util.*
 
 class NewBorrowingCampaignFragment : Fragment() {
+
+    private var totalPayBack = 0.0
+    private var amount = 1000
+
+    private var percentage = 5
+
+    private var borrowingReason: ENUM_BORROWING_REASON? = null
+
+    private var guarantorList = arrayListOf<GuarantorComLoan>()
+
+    private var paymentDate: Date? = null
 
     companion object {
         fun newInstance() = NewBorrowingCampaignFragment()
@@ -44,14 +57,20 @@ class NewBorrowingCampaignFragment : Fragment() {
 
     private fun setOnClickListner() {
         id_borrowing_cam_amount.setOnClickListener {
-            val bs = AmountCampaignBottomSheetFragment(0) { selectedAmount ->
-                id_borrowing_cam_amount.text = "$selectedAmount F"
-                requireContext().toast(selectedAmount.toString())
+            val bs = AmountCampaignBottomSheetFragment(amount) { selectedAmount ->
+                amount = selectedAmount
+                calculateAllAmount()
             }
             bs.show(childFragmentManager, "")
         }
 
-        id_borrowing_cam_interest.setOnClickListener { }
+        id_borrowing_cam_interest.setOnClickListener {
+            val bs = InterestCampaignBottomSheetFragment(amount, percentage) { selectedInterest ->
+                percentage = selectedInterest
+                calculateAllAmount()
+            }
+            bs.show(childFragmentManager, "")
+        }
 
         id_borrowing_cam_payment_date.setOnClickListener { }
 
@@ -61,12 +80,16 @@ class NewBorrowingCampaignFragment : Fragment() {
     }
 
     private fun updateUI() {
+        calculateAllAmount()
 
-        val image =
-            "https://firebasestorage.googleapis.com/v0/b/kola-wallet-dev.appspot.com/o/USER_PROFILS%2F7MdBbt53EIQeAyIpGXkJaaCTEjb2?alt=media&token=0d2ed20f-a261-4f0a-a17e-f0c19671ebfb"
+        loadGuarantors()
+    }
 
-        val items = (0..3).map {
-            ImageProfileItem(image)
+    private fun loadGuarantors() {
+        //val image = "https://firebasestorage.googleapis.com/v0/b/kola-wallet-dev.appspot.com/o/USER_PROFILS%2F7MdBbt53EIQeAyIpGXkJaaCTEjb2?alt=media&token=0d2ed20f-a261-4f0a-a17e-f0c19671ebfb"
+
+        val items = guarantorList.map {
+            ImageProfileItem(it.imageUrl)
         }
 
         id_borrowing_cam_guarantor_rv.apply {
@@ -76,6 +99,19 @@ class NewBorrowingCampaignFragment : Fragment() {
                 add(Section(items))
             }
         }
+    }
+
+    private fun calculateAllAmount() {
+        id_borrowing_cam_amount.text = "$amount F"
+
+        id_borrowing_cam_interest.text = "$percentage%"
+
+        val interestAmount = (amount * (percentage / 100.0))
+
+        id_borrowing_cam_interest_amount.text = "${interestAmount.toInt()} F"
+
+        totalPayBack = amount + interestAmount
+        id_borrowing_cam_total_pay_back.text = "${totalPayBack.toInt()} F"
     }
 
 }
