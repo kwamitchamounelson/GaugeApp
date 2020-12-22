@@ -224,6 +224,7 @@
     <dimen name="dim_38dp">38dp</dimen>
     <dimen name="dimen_18dp">18dp</dimen>
     <dimen name="dim_28dp">28dp</dimen>
+    <dimen name="dimen_57dp">57dp</dimen>
 
 </resources>
 

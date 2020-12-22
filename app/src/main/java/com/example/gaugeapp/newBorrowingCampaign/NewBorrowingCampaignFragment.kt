@@ -13,6 +13,7 @@ import com.example.gaugeapp.entities.ENUM_BORROWING_REASON
 import com.example.gaugeapp.entities.GuarantorComLoan
 import com.example.gaugeapp.interestCampaignBottomSheet.InterestCampaignBottomSheetFragment
 import com.example.gaugeapp.items.ImageProfileItem
+import com.example.gaugeapp.reasonCampaignBottomSheet.ReasonCampaignBottomSheetFragment
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.Section
 import com.xwray.groupie.kotlinandroidextensions.ViewHolder
@@ -27,7 +28,7 @@ class NewBorrowingCampaignFragment : Fragment() {
 
     private var percentage = 5
 
-    private var borrowingReason: ENUM_BORROWING_REASON? = null
+    private var borrowingReason: ENUM_BORROWING_REASON? = ENUM_BORROWING_REASON.HEALTH
 
     private var guarantorList = arrayListOf<GuarantorComLoan>()
 
@@ -72,11 +73,25 @@ class NewBorrowingCampaignFragment : Fragment() {
             bs.show(childFragmentManager, "")
         }
 
-        id_borrowing_cam_payment_date.setOnClickListener { }
-
-        id_borrowing_cam_add_reason.setOnClickListener { }
+        id_borrowing_cam_add_reason.setOnClickListener {
+            val bs = ReasonCampaignBottomSheetFragment(borrowingReason) { selectedReason ->
+                borrowingReason = selectedReason
+                updateReason()
+            }
+            bs.show(childFragmentManager, "")
+        }
 
         id_borrowing_cam_add_guarantor.setOnClickListener { }
+
+        id_borrowing_cam_payment_date.setOnClickListener { }
+    }
+
+    private fun updateReason() {
+        if (borrowingReason != null) {
+            id_borrowing_reason.text = borrowingReason?.reason
+        } else {
+            id_borrowing_reason.visibility = View.INVISIBLE
+        }
     }
 
     private fun updateUI() {

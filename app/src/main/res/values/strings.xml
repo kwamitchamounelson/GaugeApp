@@ -631,4 +631,9 @@
     <string name="_1000_f">1000 F</string>
     <string name="_15_000_f">15 000 F</string>
     <string name="interest_rate">Interest Rate</string>
+    <string name="health">Health</string>
+    <string name="food">Food</string>
+    <string name="school">School</string>
+    <string name="transport">Transport</string>
+    <string name="emergency">Emergency</string>
 </resources>
