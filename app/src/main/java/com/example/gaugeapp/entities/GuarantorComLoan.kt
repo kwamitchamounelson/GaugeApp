@@ -17,6 +17,8 @@ data class GuarantorComLoan(
     var imageUrl: String = "",
     var score: Double = 0.0
 ) : Serializable {
+    var phoneNumber: String = ""
+
     constructor() : this("")
 
 }

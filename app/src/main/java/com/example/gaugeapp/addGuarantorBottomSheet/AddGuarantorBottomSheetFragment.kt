@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.gaugeapp.R
+import com.example.gaugeapp.addContactBottomSheet.AddContactBottomSheetFragment
 import com.example.gaugeapp.entities.GuarantorComLoan
 import com.example.gaugeapp.items.AddGuarantorItem
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -22,6 +23,8 @@ class AddGuarantorBottomSheetFragment(
     val onComplete: (list: ArrayList<GuarantorComLoan>) -> Unit
 ) :
     BottomSheetDialogFragment() {
+
+    private var selectedGuarantors = guarantorList
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,7 +41,7 @@ class AddGuarantorBottomSheetFragment(
 
     private fun updateUI() {
 
-        val items = guarantorList.map {
+        val items = selectedGuarantors.map {
             AddGuarantorItem(it)
         }
 
@@ -53,7 +56,7 @@ class AddGuarantorBottomSheetFragment(
         if (items.isEmpty()) {
             id_add_guarantor_bs_empty_list.visibility = View.VISIBLE
             id_add_guarantor_bs_rv.visibility = View.GONE
-        }else{
+        } else {
             id_add_guarantor_bs_empty_list.visibility = View.GONE
             id_add_guarantor_bs_rv.visibility = View.VISIBLE
         }
@@ -70,28 +73,16 @@ class AddGuarantorBottomSheetFragment(
     }
 
     private fun addGuarantor() {
-        //TODO to remove
-        val image = listOf(
-            "https://firebasestorage.googleapis.com/v0/b/kola-wallet-dev.appspot.com/o/USER_PROFILS%2F7MdBbt53EIQeAyIpGXkJaaCTEjb2?alt=media&token=0d2ed20f-a261-4f0a-a17e-f0c19671ebfb",
-            "https://firebasestorage.googleapis.com/v0/b/kola-application.appspot.com/o/USER_PROFILS%2F3hV4TKs15ffQ8MeIT0lPV9Ao2vl1?alt=media&token=ccb7acb8-f7df-4ca0-bcf8-f50e29b9c475"
-        ).random()
-
-        val scoreRandom = (0..100).random().toDouble()
-
-        val name = listOf("Arthuro Oss", "Sashila Hax", "Boris Bean").random()
-
-        val guarantor = GuarantorComLoan().apply {
-            imageUrl = image
-            score = scoreRandom
-            userFullName = name
+        val bs = AddContactBottomSheetFragment(selectedGuarantors) { list ->
+            selectedGuarantors = list
+            updateUI()
         }
-        guarantorList.add(guarantor)
-        updateUI()
+        bs.show(childFragmentManager, "")
     }
 
     override fun onDismiss(dialog: DialogInterface) {
         super.onDismiss(dialog)
-        onComplete(guarantorList)
+        onComplete(selectedGuarantors)
     }
 
 }

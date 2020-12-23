@@ -640,4 +640,5 @@
     <string name="add_guarantors">Add Guarantors</string>
     <string name="waiting">Waiting</string>
     <string name="click_to_add_guarantor">Click to add guarantor</string>
+    <string name="confirm">Confirm</string>
 </resources>
