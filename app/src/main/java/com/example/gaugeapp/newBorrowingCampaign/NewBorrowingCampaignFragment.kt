@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.gaugeapp.R
+import com.example.gaugeapp.addGuarantorBottomSheet.AddGuarantorBottomSheetFragment
 import com.example.gaugeapp.amountCampaignBottomSheet.AmountCampaignBottomSheetFragment
 import com.example.gaugeapp.entities.ENUM_BORROWING_REASON
 import com.example.gaugeapp.entities.GuarantorComLoan
@@ -81,7 +82,13 @@ class NewBorrowingCampaignFragment : Fragment() {
             bs.show(childFragmentManager, "")
         }
 
-        id_borrowing_cam_add_guarantor.setOnClickListener { }
+        id_borrowing_cam_add_guarantor.setOnClickListener {
+            val bs = AddGuarantorBottomSheetFragment(guarantorList) { list ->
+                guarantorList = list
+                loadGuarantors()
+            }
+            bs.show(childFragmentManager, "")
+        }
 
         id_borrowing_cam_payment_date.setOnClickListener { }
     }

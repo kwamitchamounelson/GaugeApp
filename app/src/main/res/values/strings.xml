@@ -636,4 +636,8 @@
     <string name="school">School</string>
     <string name="transport">Transport</string>
     <string name="emergency">Emergency</string>
+    <string name="add_contact">+Add contact</string>
+    <string name="add_guarantors">Add Guarantors</string>
+    <string name="waiting">Waiting</string>
+    <string name="click_to_add_guarantor">Click to add guarantor</string>
 </resources>
