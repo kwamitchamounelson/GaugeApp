@@ -169,4 +169,13 @@
         <item name="android:textSize">@dimen/dimen_14sp</item>
     </style>
 
+
+    <style name="CustomProgressBarHorizontalAllRadiused_campaign" parent="android:Widget.ProgressBar.Horizontal">
+        <item name="android:progressDrawable">
+            @drawable/custom_progress_bar_horizontal_fully_radiused_campaign
+        </item>
+        <item name="android:minHeight">10dip</item>
+        <item name="android:maxHeight">20dip</item>
+    </style>
+
 </resources>

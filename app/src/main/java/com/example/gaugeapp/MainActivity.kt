@@ -2,6 +2,7 @@ package com.example.gaugeapp
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.example.gaugeapp.campaignDetail.CampaignDetailFragment
 import com.example.gaugeapp.campaignHistory.CampaignHistoryFragment
 import com.example.gaugeapp.campaignList.CampaignLislFragment
 import com.example.gaugeapp.createdCampaign.CreatedCampaignFragment
@@ -18,7 +19,7 @@ class MainActivity : AppCompatActivity() {
             supportFragmentManager.beginTransaction()
                 .replace(
                     R.id.container,
-                    NewBorrowingCampaignFragment.newInstance()
+                    CampaignDetailFragment.newInstance()
                 )
                 .commitNow()
         }

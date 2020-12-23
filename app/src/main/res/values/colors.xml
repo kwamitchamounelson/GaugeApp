@@ -149,5 +149,9 @@
     <color name="color_gray_B5B5B5">#B5B5B5</color>
     <color name="color_black_3D3C3D">#3D3C3D</color>
     <color name="color_gray_D6D6D6">#D6D6D6</color>
+    <color name="color_black_1C1C1C">#1C1C1C</color>
+    <color name="color_black_2D292D">#2D292D</color>
+    <color name="color_gray_919191">#919191</color>
+    <color name="color_black_414141">#414141</color>
 
 </resources>
