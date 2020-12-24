@@ -8,6 +8,7 @@ import com.example.gaugeapp.campaignList.CampaignLislFragment
 import com.example.gaugeapp.createdCampaign.CreatedCampaignFragment
 import com.example.gaugeapp.guaranteeing.GuaranteeingFragment
 import com.example.gaugeapp.guarantors.GuarantorsFragment
+import com.example.gaugeapp.lenders.LendersFragment
 import com.example.gaugeapp.main.CampaignMainFragment
 import com.example.gaugeapp.newBorrowingCampaign.NewBorrowingCampaignFragment
 
@@ -20,7 +21,7 @@ class MainActivity : AppCompatActivity() {
             supportFragmentManager.beginTransaction()
                 .replace(
                     R.id.container,
-                    GuarantorsFragment.newInstance()
+                    LendersFragment.newInstance()
                 )
                 .commitNow()
         }
