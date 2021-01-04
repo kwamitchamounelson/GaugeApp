@@ -660,4 +660,5 @@
     <string name="payback">Payback</string>
     <string name="to_receive">To receive</string>
     <string name="loan_to_receive">Loan To Receive</string>
+    <string name="total_interest">Total Interest</string>
 </resources>

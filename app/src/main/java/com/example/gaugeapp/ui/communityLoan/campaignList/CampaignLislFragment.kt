@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
 import com.example.gaugeapp.R
 import com.example.gaugeapp.ui.communityLoan.campaignList.adapter.CampaignMainViewPagerAdapter
@@ -117,6 +118,11 @@ class CampaignLislFragment : Fragment() {
                 true
             }
             R.id.campaign_history -> {
+                try {
+                    findNavController().navigate(R.id.action_campaignLislFragment_to_loanHistoryFragment)
+                }catch (e:Exception){
+                    e.printStackTrace()
+                }
                 true
             }
             R.id.campaign_search -> {

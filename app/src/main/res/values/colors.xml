@@ -155,5 +155,6 @@
     <color name="color_black_414141">#414141</color>
     <color name="color_red_FF4343">#FF4343</color>
     <color name="color_green_05BA49">#05BA49</color>
+    <color name="color_gray_989898">#989898</color>
 
 </resources>

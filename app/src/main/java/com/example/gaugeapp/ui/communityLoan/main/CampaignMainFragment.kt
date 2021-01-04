@@ -57,6 +57,10 @@ class CampaignMainFragment : Fragment() {
         id_com_loan_deb_receive.setOnClickListener {
             findNavController().navigate(R.id.action_navigation_campaign_home_to_debToReceiveFragment)
         }
+
+        id_com_loan_see_all_campaign.setOnClickListener {
+            findNavController().navigate(R.id.action_navigation_campaign_home_to_campaignLislFragment)
+        }
     }
 
     private fun updateUI() {

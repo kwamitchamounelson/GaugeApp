@@ -293,6 +293,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/id_com_loan_see_all_campaign"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="@dimen/dimen_mh_com_loan_main"
