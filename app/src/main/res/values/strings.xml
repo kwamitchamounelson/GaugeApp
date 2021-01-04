@@ -659,4 +659,5 @@
     <string name="debt_to_pay_back">Debt To Pay Back</string>
     <string name="payback">Payback</string>
     <string name="to_receive">To receive</string>
+    <string name="loan_to_receive">Loan To Receive</string>
 </resources>
