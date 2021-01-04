@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.example.gaugeapp.R
@@ -41,8 +42,20 @@ class CampaignMainFragment : Fragment() {
         viewModel = ViewModelProvider(this).get(CampaignMainViewModel::class.java)
         updateUI()
 
+        setOnclickListner()
+    }
+
+    private fun setOnclickListner() {
         id_user_profile_block.setOnClickListener {
             updateUI()
+        }
+
+        id_com_loan_deb_to_pay_back.setOnClickListener {
+            findNavController().navigate(R.id.action_navigation_campaign_home_to_debToPayBackFragment)
+        }
+
+        id_com_loan_deb_receive.setOnClickListener {
+            findNavController().navigate(R.id.action_navigation_campaign_home_to_debToReceiveFragment)
         }
     }
 

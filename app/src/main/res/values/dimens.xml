@@ -227,6 +227,9 @@
     <dimen name="dimen_57dp">57dp</dimen>
     <dimen name="dimen_44dp">44dp</dimen>
     <dimen name="dim_ms_guarantors">-10dp</dimen>
+    <dimen name="dimen_41dp">41dp</dimen>
+    <dimen name="dimen_41sp">41sp</dimen>
+    <dimen name="dimen_33dp">33dp</dimen>
 
 </resources>
 

@@ -216,6 +216,7 @@
                     android:layout_marginHorizontal="@dimen/dimen_mh_com_loan_main">
 
                     <androidx.cardview.widget.CardView
+                        android:id="@+id/id_com_loan_deb_to_pay_back"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_margin="3dp"
@@ -253,6 +254,7 @@
                     </androidx.cardview.widget.CardView>
 
                     <androidx.cardview.widget.CardView
+                        android:id="@+id/id_com_loan_deb_receive"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/dim_4dp"
@@ -273,8 +275,8 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/roboto_medium"
-                                android:text="@string/to_pay_back"
-                                android:textColor="@color/color_green_207A16"
+                                android:text="@string/to_receive"
+                                android:textColor="@color/color_green_05BA49"
                                 android:textSize="@dimen/dimen_14sp" />
 
                             <TextView

@@ -9,7 +9,14 @@
         android:id="@+id/navigation_campaign_home"
         android:name="com.example.gaugeapp.ui.communityLoan.main.CampaignMainFragment"
         android:label="CampaignMainFragment"
-        tools:layout="@layout/campaign_main_fragment" />
+        tools:layout="@layout/campaign_main_fragment" >
+        <action
+            android:id="@+id/action_navigation_campaign_home_to_debToPayBackFragment"
+            app:destination="@id/debToPayBackFragment" />
+        <action
+            android:id="@+id/action_navigation_campaign_home_to_debToReceiveFragment"
+            app:destination="@id/debToReceiveFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_exchange"
@@ -22,4 +29,14 @@
         android:name="com.example.gaugeapp.ui.chat.ChatMainFragment"
         android:label="chat_main_fragment"
         tools:layout="@layout/chat_main_fragment" />
+    <fragment
+        android:id="@+id/debToPayBackFragment"
+        android:name="com.example.gaugeapp.ui.communityLoan.debToPayBack.DebToPayBackFragment"
+        android:label="DebToPayBackFragment"
+        tools:layout="@layout/deb_to_pay_back_fragment" />
+    <fragment
+        android:id="@+id/debToReceiveFragment"
+        android:name="com.example.gaugeapp.ui.communityLoan.debToReceive.DebToReceiveFragment"
+        android:label="deb_to_receive_fragment"
+        tools:layout="@layout/deb_to_receive_fragment" />
 </navigation>

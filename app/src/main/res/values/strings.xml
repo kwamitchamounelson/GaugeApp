@@ -656,4 +656,7 @@
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
+    <string name="debt_to_pay_back">Debt To Pay Back</string>
+    <string name="payback">Payback</string>
+    <string name="to_receive">To receive</string>
 </resources>
