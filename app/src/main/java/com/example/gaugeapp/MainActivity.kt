@@ -2,28 +2,27 @@ package com.example.gaugeapp
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.example.gaugeapp.campaignDetail.CampaignDetailFragment
-import com.example.gaugeapp.campaignHistory.CampaignHistoryFragment
-import com.example.gaugeapp.campaignList.CampaignLislFragment
-import com.example.gaugeapp.createdCampaign.CreatedCampaignFragment
-import com.example.gaugeapp.guaranteeing.GuaranteeingFragment
-import com.example.gaugeapp.guarantors.GuarantorsFragment
-import com.example.gaugeapp.lenders.LendersFragment
-import com.example.gaugeapp.main.CampaignMainFragment
-import com.example.gaugeapp.newBorrowingCampaign.NewBorrowingCampaignFragment
+import androidx.navigation.findNavController
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.setupWithNavController
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        val navView: BottomNavigationView = findViewById(R.id.nav_view)
 
-        if (savedInstanceState == null) {
-            supportFragmentManager.beginTransaction()
-                .replace(
-                    R.id.container,
-                    LendersFragment.newInstance()
-                )
-                .commitNow()
-        }
+        val navController = findNavController(R.id.nav_host_fragment)
+        // Passing each menu ID as a set of Ids because each
+        // menu should be considered as top level destinations.
+        val appBarConfiguration = AppBarConfiguration(
+            setOf(
+                R.id.navigation_campaign_home, R.id.navigation_exchange, R.id.navigation_chat
+            )
+        )
+        //setupActionBarWithNavController(navController, appBarConfiguration)
+        navView.setupWithNavController(navController)
     }
 }
