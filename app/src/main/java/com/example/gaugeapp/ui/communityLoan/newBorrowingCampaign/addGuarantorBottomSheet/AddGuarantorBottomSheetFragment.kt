@@ -1,4 +1,4 @@
-package com.example.gaugeapp.ui.communityLoan.addGuarantorBottomSheet
+package com.example.gaugeapp.ui.communityLoan.newBorrowingCampaign.addGuarantorBottomSheet
 
 import android.content.DialogInterface
 import android.graphics.Color
@@ -9,7 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.gaugeapp.R
-import com.example.gaugeapp.ui.communityLoan.addContactBottomSheet.AddContactBottomSheetFragment
+import com.example.gaugeapp.ui.communityLoan.newBorrowingCampaign.addContactBottomSheet.AddContactBottomSheetFragment
 import com.example.gaugeapp.entities.GuarantorComLoan
 import com.example.gaugeapp.ui.communityLoan.items.AddGuarantorItem
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment

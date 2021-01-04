@@ -1,4 +1,4 @@
-package com.example.gaugeapp.ui.communityLoan.addContactBottomSheet
+package com.example.gaugeapp.ui.communityLoan.newBorrowingCampaign.addContactBottomSheet
 
 import android.content.DialogInterface
 import android.graphics.Color

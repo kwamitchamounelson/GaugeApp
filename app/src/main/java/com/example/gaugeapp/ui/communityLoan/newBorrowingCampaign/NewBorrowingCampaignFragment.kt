@@ -8,13 +8,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.gaugeapp.R
-import com.example.gaugeapp.ui.communityLoan.addGuarantorBottomSheet.AddGuarantorBottomSheetFragment
-import com.example.gaugeapp.ui.communityLoan.amountCampaignBottomSheet.AmountCampaignBottomSheetFragment
+import com.example.gaugeapp.ui.communityLoan.newBorrowingCampaign.addGuarantorBottomSheet.AddGuarantorBottomSheetFragment
+import com.example.gaugeapp.ui.communityLoan.newBorrowingCampaign.amountCampaignBottomSheet.AmountCampaignBottomSheetFragment
 import com.example.gaugeapp.entities.ENUM_BORROWING_REASON
 import com.example.gaugeapp.entities.GuarantorComLoan
-import com.example.gaugeapp.ui.communityLoan.interestCampaignBottomSheet.InterestCampaignBottomSheetFragment
+import com.example.gaugeapp.ui.communityLoan.newBorrowingCampaign.interestCampaignBottomSheet.InterestCampaignBottomSheetFragment
 import com.example.gaugeapp.ui.communityLoan.items.ImageProfileItem
-import com.example.gaugeapp.ui.communityLoan.reasonCampaignBottomSheet.ReasonCampaignBottomSheetFragment
+import com.example.gaugeapp.ui.communityLoan.newBorrowingCampaign.reasonCampaignBottomSheet.ReasonCampaignBottomSheetFragment
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.Section
 import com.xwray.groupie.kotlinandroidextensions.ViewHolder
