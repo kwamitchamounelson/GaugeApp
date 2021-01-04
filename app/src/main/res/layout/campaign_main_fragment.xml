@@ -48,7 +48,7 @@
                 android:layout_height="0dp"
                 android:background="@drawable/background_image_profile_com_loan"
                 android:padding="@dimen/dimen_1dp"
-                app:layout_constraintBottom_toTopOf="@id/generalBudgetOnly"
+                app:layout_constraintBottom_toTopOf="@id/id_credit_score"
                 app:layout_constraintDimensionRatio="1:1"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHeight_default="percent"
@@ -68,7 +68,7 @@
             </LinearLayout>
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/generalBudgetOnly"
+                android:id="@+id/id_credit_score"
                 android:layout_width="0dp"
                 android:layout_height="200dp"
                 android:layout_margin="2dp"

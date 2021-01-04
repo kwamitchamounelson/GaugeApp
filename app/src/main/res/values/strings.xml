@@ -606,7 +606,6 @@
     <string name="list_of_stores">List of stores</string>
     <string name="partnered_stores">Partnered stores</string>
     <string name="purchase">Purchase</string>
-    <string name="credit_score">Credit score</string>
     <string name="to_pay_back">To pay back</string>
     <string name="see_all_create">See all / Create</string>
     <string name="campaigns">Campaigns</string>
@@ -661,4 +660,14 @@
     <string name="to_receive">To receive</string>
     <string name="loan_to_receive">Loan To Receive</string>
     <string name="total_interest">Total Interest</string>
+    <string name="credit_score">Credit score</string>
+    <string name="excellent">Excellent</string>
+    <string name="poor">Poor</string>
+    <string name="good">Good</string>
+    <string name="average">Average</string>
+    <string name="payback_speed">Payback speed</string>
+    <string name="payback_speed_description">You have made 100% of your payback on time</string>
+    <string name="transactions_description">The volume of your mobile money transactions affect your score</string>
+    <string name="guaranteeing_description">The quality of loan you guarantee affect your score</string>
+    <string name="guarantors_description">The quality of your guarantors affect your score</string>
 </resources>

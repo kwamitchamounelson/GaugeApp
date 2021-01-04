@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/my_toolbar_credit_score"
+            style="@style/ToolbarDefaultType"
+            app:navigationIcon="@drawable/ic_arrow_back"
+            app:popupTheme="@style/AppThemeNoActionBar"
+            app:titleTextColor="@android:color/black">
+
+            <TextView
+                android:id="@+id/id_credit_score_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/dimen_me_title_toolbar"
+                android:fontFamily="@font/roboto_medium"
+                android:gravity="center"
+                android:text="@string/credit_score"
+                android:textColor="@color/color_black_2E2E2E"
+                android:textSize="@dimen/dimen_20sp" />
+        </androidx.appcompat.widget.Toolbar>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimen_35dp"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/dim_25dp"
+                android:orientation="vertical">
+
+                <com.github.mikephil.charting.charts.PieChart
+                    android:id="@+id/pieChart_credit_score"
+                    android:layout_width="250dp"
+                    android:layout_height="100dp"
+                    android:layout_gravity="center_horizontal" />
+
+                <TextView
+                    android:id="@+id/id_credit_score_appreciation"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="-13dp"
+                    android:text="Excellent"
+                    android:textAllCaps="true"
+                    android:textColor="@color/color_gray_131313"
+                    android:textSize="13sp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:gravity="center">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/dimen_9dp"
+                        android:fontFamily="@font/roboto_medium"
+                        android:text="Past 7 days"
+                        android:textColor="@color/color_gray_707070"
+                        android:textSize="@dimen/dimen_14sp" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center">
+
+                        <ImageView
+                            android:layout_width="@dimen/dimen_13dp"
+                            android:layout_height="@dimen/dimen_13dp"
+                            android:layout_marginTop="@dimen/dimen_1dp"
+                            android:src="@drawable/ic_baseline_arrow_downward" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto_medium"
+                            android:text="20 PTS"
+                            android:textColor="@color/color_red_FB6565"
+                            android:textSize="@dimen/dimen_12sp" />
+                    </LinearLayout>
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/id_credit_score_level_list_rv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen_50dp"
+                android:layout_marginBottom="@dimen/dimen_40dp"
+                tools:listitem="@layout/item_credit_score_criteria" />
+        </LinearLayout>
+    </LinearLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

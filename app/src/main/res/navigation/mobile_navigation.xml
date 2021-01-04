@@ -19,6 +19,9 @@
         <action
             android:id="@+id/action_navigation_campaign_home_to_campaignLislFragment"
             app:destination="@id/campaignLislFragment" />
+        <action
+            android:id="@+id/action_navigation_campaign_home_to_creditScoreFragment"
+            app:destination="@id/creditScoreFragment" />
     </fragment>
 
     <fragment
@@ -56,4 +59,9 @@
         android:name="com.example.gaugeapp.ui.communityLoan.loanHistory.LoanHistoryFragment"
         android:label="LoanHistoryFragment"
         tools:layout="@layout/loan_history_fragment" />
+    <fragment
+        android:id="@+id/creditScoreFragment"
+        android:name="com.example.gaugeapp.ui.communityLoan.creditScore.CreditScoreFragment"
+        android:label="CreditScoreFragment"
+        tools:layout="@layout/credit_score_fragment"/>
 </navigation>
