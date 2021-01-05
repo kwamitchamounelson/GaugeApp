@@ -37,52 +37,48 @@
             </LinearLayout>
         </androidx.appcompat.widget.Toolbar>
 
-        <androidx.core.widget.NestedScrollView
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/dim_25dp"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
 
             <LinearLayout
+                android:id="@+id/layout_tab_layout_your_profile"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/dim_25dp"
-                android:gravity="center_horizontal"
-                android:orientation="vertical">
+                android:layout_marginTop="@dimen/dim_30dp"
+                android:gravity="center"
+                android:orientation="horizontal">
 
-
-                <LinearLayout
-                    android:id="@+id/layout_tab_layout_your_profile"
-                    android:layout_width="match_parent"
+                <TextView
+                    android:id="@+id/btn_tab_about_you"
+                    style="@style/style_tab_layout_btn_campaign"
+                    android:layout_width="@dimen/dimen_w_tab_layout_campaign"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/dim_30dp"
-                    android:gravity="center"
-                    android:orientation="horizontal">
+                    android:layout_marginEnd="@dimen/dim_30dp"
+                    android:enabled="false"
+                    android:text="@string/about_you" />
 
-                    <TextView
-                        android:id="@+id/btn_tab_about_you"
-                        style="@style/style_tab_layout_btn_campaign"
-                        android:layout_width="@dimen/dimen_w_tab_layout_campaign"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="@dimen/dim_30dp"
-                        android:enabled="false"
-                        android:text="@string/about_you" />
+                <TextView
+                    android:id="@+id/btn_tab_id"
+                    style="@style/style_tab_layout_btn_campaign"
+                    android:layout_width="@dimen/dimen_w_tab_layout_campaign"
+                    android:layout_height="wrap_content"
+                    android:enabled="true"
+                    android:text="@string/id" />
 
-                    <TextView
-                        android:id="@+id/btn_tab_id"
-                        style="@style/style_tab_layout_btn_campaign"
-                        android:layout_width="@dimen/dimen_w_tab_layout_campaign"
-                        android:layout_height="wrap_content"
-                        android:enabled="true"
-                        android:text="@string/id" />
-
-                </LinearLayout>
-
-
-                <androidx.viewpager2.widget.ViewPager2
-                    android:id="@+id/view_pager_your_profile"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
             </LinearLayout>
-        </androidx.core.widget.NestedScrollView>
+
+
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/view_pager_your_profile"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen_15dp" />
+        </LinearLayout>
 
     </LinearLayout>
 

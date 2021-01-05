@@ -673,4 +673,8 @@
     <string name="your_profile">Your Profile</string>
     <string name="about_you">About You</string>
     <string name="id">ID</string>
+    <string name="public_information">Public Information</string>
+    <string name="private_information">Private Information</string>
+    <string name="marital_status">Marital status</string>
+    <string name="family_in_charge">Family in charge</string>
 </resources>

@@ -1,12 +1,242 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@android:color/white">
 
-    <TextView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Hello" />
+        android:layout_height="wrap_content">
 
-</FrameLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="@dimen/dimen_50dp"
+            android:orientation="vertical">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen_40dp"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@drawable/background_image_profile_campaign_detail"
+                    android:padding="@dimen/dimen_1dp">
+
+                    <ImageView
+                        android:id="@+id/id_your_profile_user_profile"
+                        android:layout_width="@dimen/dimen_76dp"
+                        android:layout_height="@dimen/dimen_76dp"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/ic_person_black_24dp" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/id_your_profile_user_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/dimen_12dp"
+                    android:fontFamily="@font/roboto_medium"
+                    android:text="John Tan"
+                    android:textColor="@color/color_black_1C1C1C"
+                    android:textSize="@dimen/dim_16sp" />
+
+                <TextView
+                    android:id="@+id/id_your_profile_user_score"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/dimen_8dp"
+                    android:fontFamily="@font/roboto_medium"
+                    android:text="80 pts"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="@dimen/dimen_26sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dimen_17dp"
+                    android:fontFamily="@font/roboto_medium"
+                    android:text="@string/public_information"
+                    android:textColor="@color/color_black_2E2E2E"
+                    android:textSize="@dimen/dim_16sp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dimen_15dp"
+                    android:text="A brief description of myself. I need to raise the I am a newly graduated university student. looking for a small sum to make ends meet. looking for a small sum to make ends meet."
+                    android:textColor="@color/color_black_2D292D"
+                    android:textSize="@dimen/dimen_14sp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dim_16dp"
+                        android:weightSum="4">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1.5"
+                            android:text="@string/date_of_birth"
+                            android:textColor="@color/color_gray_7B7B7B"
+                            android:textSize="@dimen/dimen_14sp" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="2.5"
+                            android:text="01-12-20"
+                            android:textColor="@color/color_black_2D292D"
+                            android:textSize="@dimen/dimen_14sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dimen_14dp"
+                        android:weightSum="4">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1.5"
+                            android:text="@string/job_type"
+                            android:textColor="@color/color_gray_7B7B7B"
+                            android:textSize="@dimen/dimen_14sp" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="2.5"
+                            android:text="Self Employed"
+                            android:textColor="@color/color_black_2D292D"
+                            android:textSize="@dimen/dimen_14sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dimen_14dp"
+                        android:weightSum="4">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1.5"
+                            android:text="@string/education"
+                            android:textColor="@color/color_gray_7B7B7B"
+                            android:textSize="@dimen/dimen_14sp" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="2.5"
+                            android:text="Self Thought"
+                            android:textColor="@color/color_black_2D292D"
+                            android:textSize="@dimen/dimen_14sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dimen_14dp"
+                        android:weightSum="4">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1.5"
+                            android:text="@string/gender"
+                            android:textColor="@color/color_gray_7B7B7B"
+                            android:textSize="@dimen/dimen_14sp" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="2.5"
+                            android:text="Male"
+                            android:textColor="@color/color_black_2D292D"
+                            android:textSize="@dimen/dimen_14sp" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dim_25dp"
+                    android:fontFamily="@font/roboto_medium"
+                    android:text="@string/private_information"
+                    android:textColor="@color/color_red_FF6A6A"
+                    android:textSize="@dimen/dim_16sp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dim_20dp"
+                        android:weightSum="4">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1.5"
+                            android:text="@string/marital_status"
+                            android:textColor="@color/color_gray_7B7B7B"
+                            android:textSize="@dimen/dimen_14sp" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="2.5"
+                            android:text="Single"
+                            android:textColor="@color/color_black_2D292D"
+                            android:textSize="@dimen/dimen_14sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dimen_14dp"
+                        android:weightSum="4">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1.5"
+                            android:text="@string/family_in_charge"
+                            android:textColor="@color/color_gray_7B7B7B"
+                            android:textSize="@dimen/dimen_14sp" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="2.5"
+                            android:text="Yes"
+                            android:textColor="@color/color_black_2D292D"
+                            android:textSize="@dimen/dimen_14sp" />
+                    </LinearLayout>
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
