@@ -60,6 +60,10 @@ class CommunityLoanFragment : Fragment() {
         id_credit_score.setOnClickListener {
             findNavController().navigate(R.id.action_navigation_campaign_home_to_creditScoreFragment)
         }
+
+        id_user_profile_block.setOnClickListener {
+            findNavController().navigate(R.id.action_navigation_campaign_home_to_yourProfileFragment)
+        }
     }
 
     private fun updateUI() {

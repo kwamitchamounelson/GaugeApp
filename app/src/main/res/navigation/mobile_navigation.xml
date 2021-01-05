@@ -22,6 +22,9 @@
         <action
             android:id="@+id/action_navigation_campaign_home_to_creditScoreFragment"
             app:destination="@id/creditScoreFragment" />
+        <action
+            android:id="@+id/action_navigation_campaign_home_to_yourProfileFragment"
+            app:destination="@id/yourProfileFragment" />
     </fragment>
 
     <fragment
@@ -134,4 +137,9 @@
         android:name="com.example.gaugeapp.ui.communityLoan.commentCampaign.CommentCampaignFragment"
         android:label="CommentCampaignFragment"
         tools:layout="@layout/comment_campaign_fragment"/>
+    <fragment
+        android:id="@+id/yourProfileFragment"
+        android:name="com.example.gaugeapp.ui.communityLoan.yourProfile.YourProfileFragment"
+        android:label="YourProfileFragment"
+        tools:layout="@layout/your_profile_fragment"/>
 </navigation>

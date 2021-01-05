@@ -670,4 +670,7 @@
     <string name="transactions_description">The volume of your mobile money transactions affect your score</string>
     <string name="guaranteeing_description">The quality of loan you guarantee affect your score</string>
     <string name="guarantors_description">The quality of your guarantors affect your score</string>
+    <string name="your_profile">Your Profile</string>
+    <string name="about_you">About You</string>
+    <string name="id">ID</string>
 </resources>
