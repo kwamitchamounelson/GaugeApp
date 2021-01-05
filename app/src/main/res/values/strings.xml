@@ -677,4 +677,12 @@
     <string name="private_information">Private Information</string>
     <string name="marital_status">Marital status</string>
     <string name="family_in_charge">Family in charge</string>
+    <string name="fill_in_all_the_fields">Fill in all the fields</string>
+    <string name="please_take_a_selfie">Please take a Selfie</string>
+    <string name="national_id_number">National ID Number</string>
+    <string name="id_photo">ID Photo</string>
+    <string name="a_photo_of_your_id_card_with_all_information_visible">A photo of your ID card with all information visible</string>
+    <string name="front_of_id_card">FRONT OF ID CARD</string>
+    <string name="back_of_id_card">BACK OF ID CARD</string>
+    <string name="verify_my_account">Verify my account</string>
 </resources>
