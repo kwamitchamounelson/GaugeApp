@@ -1,4 +1,4 @@
-package com.example.gaugeapp.ui.communityLoan.campaignList.all
+package com.example.gaugeapp.ui.communityLoan.campaignMain.all
 
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.gaugeapp.R
 import com.example.gaugeapp.ui.communityLoan.items.CampaignItem
@@ -45,6 +46,9 @@ class AllCampaignFragment : Fragment() {
             layoutManager = GridLayoutManager(requireContext(), 2)
             adapter = GroupAdapter<ViewHolder>().apply {
                 add(Section(items))
+                setOnItemClickListener { item, view ->
+                    findNavController().navigate(R.id.action_campaignLislFragment_to_campaignDetailFragment)
+                }
             }
         }
     }

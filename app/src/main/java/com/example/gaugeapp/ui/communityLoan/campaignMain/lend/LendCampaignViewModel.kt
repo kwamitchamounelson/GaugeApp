@@ -1,4 +1,4 @@
-package com.example.gaugeapp.ui.communityLoan.campaignList.lend
+package com.example.gaugeapp.ui.communityLoan.campaignMain.lend
 
 import androidx.lifecycle.ViewModel
 

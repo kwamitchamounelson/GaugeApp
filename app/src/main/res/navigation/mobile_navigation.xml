@@ -7,9 +7,9 @@
 
     <fragment
         android:id="@+id/navigation_campaign_home"
-        android:name="com.example.gaugeapp.ui.communityLoan.main.CampaignMainFragment"
+        android:name="com.example.gaugeapp.ui.communityLoan.main.CommunityLoanFragment"
         android:label="CampaignMainFragment"
-        tools:layout="@layout/campaign_main_fragment">
+        tools:layout="@layout/community_loan_fragment">
         <action
             android:id="@+id/action_navigation_campaign_home_to_debToPayBackFragment"
             app:destination="@id/debToPayBackFragment" />
@@ -39,20 +39,40 @@
         android:id="@+id/debToPayBackFragment"
         android:name="com.example.gaugeapp.ui.communityLoan.debToPayBack.DebToPayBackFragment"
         android:label="DebToPayBackFragment"
-        tools:layout="@layout/deb_to_pay_back_fragment" />
+        tools:layout="@layout/deb_to_pay_back_fragment">
+        <action
+            android:id="@+id/action_debToPayBackFragment_to_loanHistoryFragment"
+            app:destination="@id/loanHistoryFragment" />
+    </fragment>
     <fragment
         android:id="@+id/debToReceiveFragment"
         android:name="com.example.gaugeapp.ui.communityLoan.debToReceive.DebToReceiveFragment"
         android:label="deb_to_receive_fragment"
-        tools:layout="@layout/deb_to_receive_fragment" />
+        tools:layout="@layout/deb_to_receive_fragment">
+        <action
+            android:id="@+id/action_debToReceiveFragment_to_loanHistoryFragment"
+            app:destination="@id/loanHistoryFragment" />
+    </fragment>
     <fragment
         android:id="@+id/campaignLislFragment"
-        android:name="com.example.gaugeapp.ui.communityLoan.campaignList.CampaignLislFragment"
+        android:name="com.example.gaugeapp.ui.communityLoan.campaignMain.CampaignMainFragment"
         android:label="CampaignLislFragment"
-        tools:layout="@layout/campaign_lisl_fragment">
+        tools:layout="@layout/campaign_fragment">
         <action
-            android:id="@+id/action_campaignLislFragment_to_loanHistoryFragment"
-            app:destination="@id/loanHistoryFragment" />
+            android:id="@+id/action_campaignLislFragment_to_campaignDetailFragment"
+            app:destination="@id/campaignDetailFragment" />
+        <action
+            android:id="@+id/action_campaignLislFragment_to_campaignHistoryFragment"
+            app:destination="@id/campaignHistoryFragment" />
+        <action
+            android:id="@+id/action_campaignLislFragment_to_guaranteeingFragment"
+            app:destination="@id/guaranteeingFragment" />
+        <action
+            android:id="@+id/action_campaignLislFragment_to_newBorrowingCampaignFragment"
+            app:destination="@id/newBorrowingCampaignFragment" />
+        <action
+            android:id="@+id/action_campaignLislFragment_to_createdCampaignFragment"
+            app:destination="@id/createdCampaignFragment" />
     </fragment>
     <fragment
         android:id="@+id/loanHistoryFragment"
@@ -63,5 +83,55 @@
         android:id="@+id/creditScoreFragment"
         android:name="com.example.gaugeapp.ui.communityLoan.creditScore.CreditScoreFragment"
         android:label="CreditScoreFragment"
-        tools:layout="@layout/credit_score_fragment"/>
+        tools:layout="@layout/credit_score_fragment" />
+    <fragment
+        android:id="@+id/campaignDetailFragment"
+        android:name="com.example.gaugeapp.ui.communityLoan.campaignDetail.CampaignDetailFragment"
+        android:label="CampaignDetailFragment"
+        tools:layout="@layout/campaign_detail_fragment">
+        <action
+            android:id="@+id/action_campaignDetailFragment_to_guarantorsFragment"
+            app:destination="@id/guarantorsFragment" />
+        <action
+            android:id="@+id/action_campaignDetailFragment_to_lendersFragment"
+            app:destination="@id/lendersFragment" />
+        <action
+            android:id="@+id/action_campaignDetailFragment_to_commentCampaignFragment"
+            app:destination="@id/commentCampaignFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/campaignHistoryFragment"
+        android:name="com.example.gaugeapp.ui.communityLoan.campaignHistory.CampaignHistoryFragment"
+        android:label="CampaignHistoryFragment"
+        tools:layout="@layout/campaign_history_fragment" />
+    <fragment
+        android:id="@+id/guaranteeingFragment"
+        android:name="com.example.gaugeapp.ui.communityLoan.guaranteeing.GuaranteeingFragment"
+        android:label="GuaranteeingFragment"
+        tools:layout="@layout/guaranteeing_fragment" />
+    <fragment
+        android:id="@+id/newBorrowingCampaignFragment"
+        android:name="com.example.gaugeapp.ui.communityLoan.newBorrowingCampaign.NewBorrowingCampaignFragment"
+        android:label="NewBorrowingCampaignFragment"
+        tools:layout="@layout/new_borrowing_campaign_fragment" />
+    <fragment
+        android:id="@+id/createdCampaignFragment"
+        android:name="com.example.gaugeapp.ui.communityLoan.createdCampaign.CreatedCampaignFragment"
+        android:label="CreatedCampaignFragment"
+        tools:layout="@layout/created_campaign_fragment" />
+    <fragment
+        android:id="@+id/guarantorsFragment"
+        android:name="com.example.gaugeapp.ui.communityLoan.guarantors.GuarantorsFragment"
+        android:label="GuarantorsFragment"
+        tools:layout="@layout/guarantors_fragment" />
+    <fragment
+        android:id="@+id/lendersFragment"
+        android:name="com.example.gaugeapp.ui.communityLoan.lenders.LendersFragment"
+        android:label="LendersFragment"
+        tools:layout="@layout/lenders_fragment" />
+    <fragment
+        android:id="@+id/commentCampaignFragment"
+        android:name="com.example.gaugeapp.ui.communityLoan.commentCampaign.CommentCampaignFragment"
+        android:label="CommentCampaignFragment"
+        tools:layout="@layout/comment_campaign_fragment"/>
 </navigation>

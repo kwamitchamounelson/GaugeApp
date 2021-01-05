@@ -1,10 +1,10 @@
-package com.example.gaugeapp.ui.communityLoan.campaignList.adapter
+package com.example.gaugeapp.ui.communityLoan.campaignMain.adapter
 
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.example.gaugeapp.ui.communityLoan.campaignList.all.AllCampaignFragment
-import com.example.gaugeapp.ui.communityLoan.campaignList.contact.ContactCampaignFragment
-import com.example.gaugeapp.ui.communityLoan.campaignList.lend.LendCampaignFragment
+import com.example.gaugeapp.ui.communityLoan.campaignMain.all.AllCampaignFragment
+import com.example.gaugeapp.ui.communityLoan.campaignMain.contact.ContactCampaignFragment
+import com.example.gaugeapp.ui.communityLoan.campaignMain.lend.LendCampaignFragment
 
 class CampaignMainViewPagerAdapter(val fragment: Fragment) : FragmentStateAdapter(fragment) {
     override fun getItemCount(): Int = 3

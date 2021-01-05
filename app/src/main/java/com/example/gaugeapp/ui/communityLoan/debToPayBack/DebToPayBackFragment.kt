@@ -1,12 +1,11 @@
 package com.example.gaugeapp.ui.communityLoan.debToPayBack
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.gaugeapp.R
 import com.example.gaugeapp.ui.communityLoan.items.DebToPayBackItem
@@ -50,6 +49,34 @@ class DebToPayBackFragment : Fragment() {
             adapter = GroupAdapter<ViewHolder>().apply {
                 add(Section(items))
             }
+        }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu_loan_statut, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+
+        return when (item.itemId) {
+            android.R.id.home -> {
+                try {
+                    findNavController().navigateUp()
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+                return true
+            }
+            R.id.loan_history -> {
+                try {
+                    findNavController().navigate(R.id.action_debToPayBackFragment_to_loanHistoryFragment)
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
         }
     }
 

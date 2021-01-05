@@ -1,4 +1,4 @@
-package com.example.gaugeapp.ui.communityLoan.campaignList
+package com.example.gaugeapp.ui.communityLoan.campaignMain
 
 import android.os.Bundle
 import android.view.*
@@ -7,18 +7,18 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
 import com.example.gaugeapp.R
-import com.example.gaugeapp.ui.communityLoan.campaignList.adapter.CampaignMainViewPagerAdapter
-import kotlinx.android.synthetic.main.campaign_lisl_fragment.*
-import kotlinx.android.synthetic.main.campaign_lisl_fragment.view.*
+import com.example.gaugeapp.ui.communityLoan.campaignMain.adapter.CampaignMainViewPagerAdapter
+import kotlinx.android.synthetic.main.campaign_fragment.*
+import kotlinx.android.synthetic.main.campaign_fragment.view.*
 
-class CampaignLislFragment : Fragment() {
+class CampaignMainFragment : Fragment() {
 
     companion object {
         fun newInstance() =
-            CampaignLislFragment()
+            CampaignMainFragment()
     }
 
-    private lateinit var viewModel: CampaignLislViewModel
+    private lateinit var viewModel: CampaignMainViewModel
 
     private lateinit var viewPagerAdapter: CampaignMainViewPagerAdapter
     private lateinit var viewPager: ViewPager2
@@ -27,7 +27,7 @@ class CampaignLislFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val root = inflater.inflate(R.layout.campaign_lisl_fragment, container, false)
+        val root = inflater.inflate(R.layout.campaign_fragment, container, false)
         (requireActivity() as AppCompatActivity).setSupportActionBar(root.my_toolbar_campaign_main)
         setHasOptionsMenu(true)
         viewPager = root.view_pager_campaign_main
@@ -76,6 +76,10 @@ class CampaignLislFragment : Fragment() {
             viewPager.setCurrentItem(2, true)
             selectLend()
         }
+
+        id_new_borrowing.setOnClickListener {
+            findNavController().navigate(R.id.action_campaignLislFragment_to_newBorrowingCampaignFragment)
+        }
     }
 
     private fun selectAll() {
@@ -112,6 +116,11 @@ class CampaignLislFragment : Fragment() {
                 true
             }
             R.id.filter_campaign_by_guaranteeing -> {
+                try {
+                    findNavController().navigate(R.id.action_campaignLislFragment_to_guaranteeingFragment)
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
                 true
             }
             R.id.filter_campaign_by_highest_first -> {
@@ -119,8 +128,8 @@ class CampaignLislFragment : Fragment() {
             }
             R.id.campaign_history -> {
                 try {
-                    findNavController().navigate(R.id.action_campaignLislFragment_to_loanHistoryFragment)
-                }catch (e:Exception){
+                    findNavController().navigate(R.id.action_campaignLislFragment_to_campaignHistoryFragment)
+                } catch (e: Exception) {
                     e.printStackTrace()
                 }
                 true

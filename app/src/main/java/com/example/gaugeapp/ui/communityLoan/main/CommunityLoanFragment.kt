@@ -15,26 +15,26 @@ import com.example.gaugeapp.ui.communityLoan.utils.CommunityLoanUtil
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.Section
 import com.xwray.groupie.kotlinandroidextensions.ViewHolder
-import kotlinx.android.synthetic.main.campaign_main_fragment.*
+import kotlinx.android.synthetic.main.community_loan_fragment.*
 
-class CampaignMainFragment : Fragment() {
+class CommunityLoanFragment : Fragment() {
 
     companion object {
-        fun newInstance() = CampaignMainFragment()
+        fun newInstance() = CommunityLoanFragment()
     }
 
-    private lateinit var viewModel: CampaignMainViewModel
+    private lateinit var viewModel: CommunityLoanViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.campaign_main_fragment, container, false)
+        return inflater.inflate(R.layout.community_loan_fragment, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(CampaignMainViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(CommunityLoanViewModel::class.java)
         updateUI()
 
         setOnclickListner()

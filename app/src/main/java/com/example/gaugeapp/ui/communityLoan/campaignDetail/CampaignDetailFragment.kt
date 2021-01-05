@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.example.gaugeapp.R
 import kotlinx.android.synthetic.main.campaign_detail_fragment.*
@@ -29,6 +30,21 @@ class CampaignDetailFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this).get(CampaignDetailViewModel::class.java)
         updateUI()
+        setOnClickListner()
+    }
+
+    private fun setOnClickListner() {
+        id_see_guarantors.setOnClickListener {
+            findNavController().navigate(R.id.action_campaignDetailFragment_to_guarantorsFragment)
+        }
+
+        id_see_lenders.setOnClickListener {
+            findNavController().navigate(R.id.action_campaignDetailFragment_to_lendersFragment)
+        }
+
+        id_see_comment.setOnClickListener {
+            findNavController().navigate(R.id.action_campaignDetailFragment_to_commentCampaignFragment)
+        }
     }
 
     private fun updateUI() {

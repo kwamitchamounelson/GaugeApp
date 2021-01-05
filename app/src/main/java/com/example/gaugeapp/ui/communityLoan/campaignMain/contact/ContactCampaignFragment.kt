@@ -1,10 +1,11 @@
-package com.example.gaugeapp.ui.communityLoan.campaignList.contact
+package com.example.gaugeapp.ui.communityLoan.campaignMain.contact
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.gaugeapp.R
 import com.example.gaugeapp.ui.communityLoan.items.CampaignItem
@@ -31,6 +32,14 @@ class ContactCampaignFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         updateUI()
+
+        setOnCLickListner()
+    }
+
+    private fun setOnCLickListner() {
+        id_created_campaign_see_all.setOnClickListener {
+            findNavController().navigate(R.id.action_campaignLislFragment_to_createdCampaignFragment)
+        }
     }
 
     private fun updateUI() {

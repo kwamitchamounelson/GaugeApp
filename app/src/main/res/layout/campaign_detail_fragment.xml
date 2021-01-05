@@ -8,6 +8,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginBottom="@dimen/dimen_50dp"
         android:orientation="vertical">
 
         <androidx.appcompat.widget.Toolbar
@@ -357,6 +358,7 @@
                     android:orientation="vertical">
 
                     <LinearLayout
+                        android:id="@+id/id_see_guarantors"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical">
@@ -425,6 +427,7 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/id_see_lenders"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/dimen_26dp"
@@ -494,6 +497,7 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/id_see_comment"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/dimen_26dp"
