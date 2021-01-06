@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
 import com.example.gaugeapp.R
 import com.example.gaugeapp.ui.communityLoan.yourProfile.adapter.YourProfileViewPagerAdapter
@@ -93,7 +94,7 @@ class YourProfileFragment : Fragment() {
             }
             R.id.edit_profile -> {
                 try {
-                    //findNavController().navigate(R.id.action_campaignLislFragment_to_guaranteeingFragment)
+                    findNavController().navigate(R.id.action_yourProfileFragment_to_editProfileFragment)
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }

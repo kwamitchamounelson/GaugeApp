@@ -685,4 +685,10 @@
     <string name="front_of_id_card">FRONT OF ID CARD</string>
     <string name="back_of_id_card">BACK OF ID CARD</string>
     <string name="verify_my_account">Verify my account</string>
+    <string name="edit_profile">Edit Profile</string>
+    <string name="short_bio_180">Short Bio (180)</string>
+    <string name="male">Male</string>
+    <string name="female">Female</string>
+    <string name="marital_status_private">Marital status (private)</string>
+    <string name="educational_level">Educational Level</string>
 </resources>

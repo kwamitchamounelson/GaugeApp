@@ -136,10 +136,19 @@
         android:id="@+id/commentCampaignFragment"
         android:name="com.example.gaugeapp.ui.communityLoan.commentCampaign.CommentCampaignFragment"
         android:label="CommentCampaignFragment"
-        tools:layout="@layout/comment_campaign_fragment"/>
+        tools:layout="@layout/comment_campaign_fragment" />
     <fragment
         android:id="@+id/yourProfileFragment"
         android:name="com.example.gaugeapp.ui.communityLoan.yourProfile.YourProfileFragment"
         android:label="YourProfileFragment"
-        tools:layout="@layout/your_profile_fragment"/>
+        tools:layout="@layout/your_profile_fragment">
+        <action
+            android:id="@+id/action_yourProfileFragment_to_editProfileFragment"
+            app:destination="@id/editProfileFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/editProfileFragment"
+        android:name="com.example.gaugeapp.ui.communityLoan.editProfile.EditProfileFragment"
+        android:label="EditProfileFragment"
+        tools:layout="@layout/edit_profile_fragment" />
 </navigation>
