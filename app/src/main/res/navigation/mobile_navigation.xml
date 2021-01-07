@@ -145,10 +145,26 @@
         <action
             android:id="@+id/action_yourProfileFragment_to_editProfileFragment"
             app:destination="@id/editProfileFragment" />
+        <action
+            android:id="@+id/action_yourProfileFragment_to_cameraIdCardFragment"
+            app:destination="@id/cameraIdCardFragment" />
+        <action
+            android:id="@+id/action_yourProfileFragment_to_cameraSelfieFragment"
+            app:destination="@id/cameraSelfieFragment" />
     </fragment>
     <fragment
         android:id="@+id/editProfileFragment"
         android:name="com.example.gaugeapp.ui.communityLoan.editProfile.EditProfileFragment"
         android:label="EditProfileFragment"
         tools:layout="@layout/edit_profile_fragment" />
+    <fragment
+        android:id="@+id/cameraIdCardFragment"
+        android:name="com.example.gaugeapp.ui.communityLoan.camera.cameraIdCard.CameraIdCardFragment"
+        android:label="CameraIdCardFragment"
+        tools:layout="@layout/camera_id_card_fragment" />
+    <fragment
+        android:id="@+id/cameraSelfieFragment"
+        android:name="com.example.gaugeapp.ui.communityLoan.camera.cameraISelfie.CameraSelfieFragment"
+        android:label="CameraSelfieFragment"
+        tools:layout="@layout/camera_selfie_fragment" />
 </navigation>

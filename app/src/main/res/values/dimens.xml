@@ -230,6 +230,7 @@
     <dimen name="dimen_41dp">41dp</dimen>
     <dimen name="dimen_41sp">41sp</dimen>
     <dimen name="dimen_33dp">33dp</dimen>
+    <dimen name="dimen_92dp">92dp</dimen>
 
 </resources>
 

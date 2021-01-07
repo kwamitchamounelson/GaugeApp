@@ -163,6 +163,7 @@
                 android:textSize="@dimen/dimen_14sp" />
 
             <LinearLayout
+                android:id="@+id/id_your_profile_id_card_front_parent_block"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dimen_164dp"
                 android:layout_marginTop="@dimen/dim_45dp"
@@ -217,6 +218,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/id_your_profile_id_card_back_parent_block"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dimen_164dp"
                 android:layout_marginTop="@dimen/dim_30dp"
