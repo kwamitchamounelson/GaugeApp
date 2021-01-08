@@ -1,12 +1,13 @@
 package com.example.gaugeapp.ui.exchange.requesting
 
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.example.gaugeapp.R
+import kotlinx.android.synthetic.main.requesting_exchange_fragment.*
 
 class RequestingExchageFragment : Fragment() {
 
@@ -25,8 +26,13 @@ class RequestingExchageFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(RequestingExchageViewModel::class.java)
-        // TODO: Use the ViewModel
+        setOnclick()
+    }
+
+    private fun setOnclick() {
+        id_ratings.setOnClickListener {
+            findNavController().navigate(R.id.action_navigation_exchange_to_ratingsFragment)
+        }
     }
 
 }

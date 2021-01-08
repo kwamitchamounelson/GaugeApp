@@ -31,7 +31,11 @@
         android:id="@+id/navigation_exchange"
         android:name="com.example.gaugeapp.ui.exchange.requesting.RequestingExchageFragment"
         android:label="requesting_exchage_fragment"
-        tools:layout="@layout/requesting_exchange_fragment" />
+        tools:layout="@layout/requesting_exchange_fragment">
+        <action
+            android:id="@+id/action_navigation_exchange_to_ratingsFragment"
+            app:destination="@id/ratingsFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_chat"
@@ -167,4 +171,9 @@
         android:name="com.example.gaugeapp.ui.communityLoan.camera.cameraISelfie.CameraSelfieFragment"
         android:label="CameraSelfieFragment"
         tools:layout="@layout/camera_selfie_fragment" />
+    <fragment
+        android:id="@+id/ratingsFragment"
+        android:name="com.example.gaugeapp.ui.exchange.ratings.RatingsFragment"
+        android:label="RatingsFragment"
+        tools:layout="@layout/ratings_fragment" />
 </navigation>

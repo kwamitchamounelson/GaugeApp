@@ -5,9 +5,18 @@
     android:layout_height="match_parent"
     tools:context=".ui.exchange.requesting.RequestingExchageFragment">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Hello" />
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/dim_20dp"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/id_ratings"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/ratings" />
+
+    </LinearLayout>
 
 </FrameLayout>
