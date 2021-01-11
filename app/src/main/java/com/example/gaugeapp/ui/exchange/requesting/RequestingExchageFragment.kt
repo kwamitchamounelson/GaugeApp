@@ -40,6 +40,10 @@ class RequestingExchageFragment : Fragment() {
             findNavController().navigate(R.id.action_navigation_exchange_to_agenceFragment)
         }
 
+        id_registration.setOnClickListener {
+            findNavController().navigate(R.id.action_navigation_exchange_to_registrationFragment)
+        }
+
         id_review_agency.setOnClickListener {
             val bs = ReviewAgencyBottomSheetFragment()
             bs.show(childFragmentManager, "")

@@ -712,4 +712,8 @@
     <string name="a">A</string>
     <string name="changing">Changing :</string>
     <string name="coins">Coins</string>
+    <string name="registration">REGISTRATION</string>
+    <string name="services">Services</string>
+    <string name="services_you_offer">Services you offer</string>
+    <string name="international_transfer">INTERNATIONAL TRANSFER</string>
 </resources>
