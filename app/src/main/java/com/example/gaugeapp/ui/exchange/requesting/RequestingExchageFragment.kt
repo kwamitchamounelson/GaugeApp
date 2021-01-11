@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.gaugeapp.R
 import com.example.gaugeapp.ui.exchange.reviewAgencyBottomSheet.ReviewAgencyBottomSheetFragment
+import com.example.gaugeapp.ui.exchange.reviewAgentBottomSheet.ReviewAgentBottomSheetFragment
 import kotlinx.android.synthetic.main.requesting_exchange_fragment.*
 
 class RequestingExchageFragment : Fragment() {
@@ -45,7 +46,8 @@ class RequestingExchageFragment : Fragment() {
         }
 
         id_review_agent.setOnClickListener {
-
+            val bs = ReviewAgentBottomSheetFragment()
+            bs.show(childFragmentManager, "")
         }
     }
 

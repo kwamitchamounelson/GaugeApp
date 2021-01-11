@@ -253,7 +253,6 @@
     <string name="warning_frauder_message">This number is suspected to be from a Frauder</string>
     <string name="with_withdraw_fees">With withdraw fees</string>
     <string name="time_out_is_your_sim_card_in_this_phone">Time out, Is your SIM card in this phone? if yes check your internet connection. You can try again.</string>
-    <string name="change">Change</string>
     <string name="remove">Remove</string>
     <string name="close">close</string>
     <string name="choose_a_category">CHOOSE CATEGORY</string>
@@ -706,4 +705,11 @@
     <string name="type_your_comments">Type your comments</string>
     <string name="later">Later</string>
     <string name="submit_str">Submit</string>
+    <string name="review_agent">Review Agent</string>
+    <string name="change">Change</string>
+    <string name="received">Received</string>
+    <string name="not_received">Not Received</string>
+    <string name="a">A</string>
+    <string name="changing">Changing :</string>
+    <string name="coins">Coins</string>
 </resources>
