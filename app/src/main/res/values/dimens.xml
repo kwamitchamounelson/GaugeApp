@@ -233,6 +233,7 @@
     <dimen name="dimen_92dp">92dp</dimen>
     <dimen name="dimen_67dp">67dp</dimen>
     <dimen name="dim_37dp">37dp</dimen>
+    <dimen name="dimen_55dp">55dp</dimen>
 
 </resources>
 

@@ -17,6 +17,12 @@
             android:layout_height="wrap_content"
             android:text="@string/ratings" />
 
+        <Button
+            android:id="@+id/id_agency"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/agence" />
+
     </LinearLayout>
 
 </FrameLayout>

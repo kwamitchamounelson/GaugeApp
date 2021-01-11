@@ -33,6 +33,10 @@ class RequestingExchageFragment : Fragment() {
         id_ratings.setOnClickListener {
             findNavController().navigate(R.id.action_navigation_exchange_to_ratingsFragment)
         }
+
+        id_agency.setOnClickListener {
+            findNavController().navigate(R.id.action_navigation_exchange_to_agenceFragment)
+        }
     }
 
 }

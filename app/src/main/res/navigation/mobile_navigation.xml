@@ -35,6 +35,9 @@
         <action
             android:id="@+id/action_navigation_exchange_to_ratingsFragment"
             app:destination="@id/ratingsFragment" />
+        <action
+            android:id="@+id/action_navigation_exchange_to_agenceFragment"
+            app:destination="@id/agenceFragment" />
     </fragment>
 
     <fragment
@@ -176,4 +179,9 @@
         android:name="com.example.gaugeapp.ui.exchange.ratings.RatingsFragment"
         android:label="RatingsFragment"
         tools:layout="@layout/ratings_fragment" />
+    <fragment
+        android:id="@+id/agenceFragment"
+        android:name="com.example.gaugeapp.ui.exchange.agency.AgencyFragment"
+        android:label="agence_fragment"
+        tools:layout="@layout/agency_fragment" />
 </navigation>
