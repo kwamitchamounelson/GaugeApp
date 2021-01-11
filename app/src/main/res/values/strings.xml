@@ -697,4 +697,13 @@
     <string name="nearby_agencies">Nearby Agencies :</string>
     <string name="quota">Quota</string>
     <string name="review">REVIEW</string>
+    <string name="review_agency">Review Agency</string>
+    <string name="rate">Rate</string>
+    <string name="quality_of_service">Quality of service</string>
+    <string name="speed">Speed</string>
+    <string name="reliability">Reliability</string>
+    <string name="proximity">Proximity</string>
+    <string name="type_your_comments">Type your comments</string>
+    <string name="later">Later</string>
+    <string name="submit_str">Submit</string>
 </resources>

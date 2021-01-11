@@ -15,13 +15,29 @@
             android:id="@+id/id_ratings"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/ratings" />
+            android:text="@string/ratings"
+            android:textColor="@android:color/white" />
 
         <Button
             android:id="@+id/id_agency"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/agence" />
+            android:text="@string/agence"
+            android:textColor="@android:color/white" />
+
+        <Button
+            android:id="@+id/id_review_agency"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="review agency"
+            android:textColor="@android:color/white" />
+
+        <Button
+            android:id="@+id/id_review_agent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="review agent"
+            android:textColor="@android:color/white" />
 
     </LinearLayout>
 
