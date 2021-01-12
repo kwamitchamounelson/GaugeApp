@@ -51,9 +51,6 @@ import com.example.gaugeapp.data.enums.ENUMCATEGORYEXPENSE
 import com.example.gaugeapp.data.enums.ENUMOPERATEUR
 import com.example.gaugeapp.utils.extentions.getLimiteDateByPreference
 import com.example.gaugeapp.utils.extentions.removeZeroAtEnd
-import com.kola.smsmodule.entities.CustumSMS
-import com.kola.smsmodule.entities.CustumSMSObjet
-import com.kola.smsmodule.enums.ENUM_TYPE_TRANSACTION
 import com.whiteelephant.monthpicker.MonthPickerDialog
 import id.zelory.compressor.Compressor
 import kotlinx.android.synthetic.main.date_picker_dialog_view.view.*
@@ -624,34 +621,9 @@ fun getRealPathFromUri(
     }
 }
 
-fun generateSmsId(
-    custumSMsTmp: CustumSMSObjet
-): String {
-    return (custumSMsTmp.dateReceive.hashCode().toString() + custumSMsTmp.hashCode().toString())
-}
 
 fun isEmailValid(textEmail: CharSequence): Boolean {
     return android.util.Patterns.EMAIL_ADDRESS.matcher(textEmail).matches()
-}
-
-fun getTotalIncome(list: List<CustumSMS>): HashMap<String, Double> {
-    var result = HashMap<String, Double>()
-    Log.e("liste des transaction", "size" + list.size)
-    var totalIncomes = 0.0
-    var TotalOutcomes = 0.0
-    list.forEach {
-        if (it.transaction!!.transactionService!!.curentService.type == ENUM_TYPE_TRANSACTION.Inbound) {
-            totalIncomes += it.transaction!!.montantTransaction
-        }
-        if (it.transaction!!.transactionService!!.curentService.type == ENUM_TYPE_TRANSACTION.Outbound) {
-            TotalOutcomes += it.transaction!!.montantTransaction
-        }
-    }
-    result.put("income", totalIncomes)
-    result.put("outcome", TotalOutcomes)
-    result.put("total", TotalOutcomes + totalIncomes)
-
-    return result
 }
 
 fun getCasflowTotal(list: List<Cashflow>): HashMap<String, Double> {
@@ -861,36 +833,6 @@ fun Uri.getName(context: Context): String {
     val fileName = returnCursor.getString(nameIndex)
     returnCursor.close()
     return fileName
-}
-
-fun getUserPhoneNumber(mutableList: List<CustumSMS>): String {
-    var message1 = mutableList.get(0)
-    var message2 = CustumSMS()
-
-
-    var i = 0
-
-    while (i < mutableList.size - 1) {
-        message1 = mutableList.get(i)
-        mutableList.forEach {
-            if ((message1.transaction!!.senderPhoneNumber.equals(it.transaction!!.senderPhoneNumber) and (!message1.transaction!!.recipientPhoneNumber.equals(
-                    it.transaction!!.senderPhoneNumber
-                ))) or (!message1.transaction!!.senderPhoneNumber.equals(it.transaction!!.senderPhoneNumber) and (message1.transaction!!.recipientPhoneNumber.equals(
-                    it.transaction!!.senderPhoneNumber
-                )))
-            )
-                message2 = it
-
-        }
-        break
-        i++
-    }
-    if (message1.transaction!!.senderPhoneNumber.equals(message2.transaction!!.senderPhoneNumber)) {
-        return message1.transaction!!.senderPhoneNumber
-    } else {
-        return message1.transaction!!.recipientPhoneNumber
-    }
-
 }
 
 fun tutorialForView(

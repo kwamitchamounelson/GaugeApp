@@ -13,9 +13,6 @@ import com.example.gaugeapp.commonRepositories.FireStoreCollDocRef
 import com.example.gaugeapp.commonRepositories.roomRep.AppDatabase
 import com.example.gaugeapp.di.RepositoryProviderEntryPoint
 import com.example.gaugeapp.utils.extentions.getDataFlow
-import com.example.gaugeapp.utils.remoteConfig.SMSRemoteConfigUtils
-import com.example.gaugeapp.utils.remoteConfig.USSDRemoteConfigUtils
-import com.example.gaugeapp.utils.remoteConfig.USSDStepsRemoteConfigUtils
 import com.example.gaugeapp.utils.userPrefUtils.UserSharedPref
 import dagger.hilt.android.EntryPointAccessors
 import dagger.hilt.android.HiltAndroidApp
@@ -114,10 +111,6 @@ class KolaWhalletApplication : Application(),
             ex.printStackTrace()
             FirebaseCrashlytics.getInstance().recordException(ex)
         }
-
-        SMSRemoteConfigUtils.fetchRemoteConfigFromServer()
-        USSDRemoteConfigUtils.fetchRemoteUSSDConfigFromServer()
-        USSDStepsRemoteConfigUtils.fetchRemoteConfigFromServer()
 
         World.init(applicationContext)
     }

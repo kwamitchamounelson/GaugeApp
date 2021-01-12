@@ -14,8 +14,6 @@
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/kola-entities-features" />
-            <option value="$PROJECT_DIR$/smsmodule" />
-            <option value="$PROJECT_DIR$/ussdlibrary" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

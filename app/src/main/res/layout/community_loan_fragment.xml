@@ -8,7 +8,6 @@
     android:theme="@style/AppThemeNoActionBar">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/home_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@android:color/white">
@@ -158,7 +157,6 @@
 
 
             <LinearLayout
-                android:id="@+id/privacy_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/dimen_16dp"
@@ -173,7 +171,6 @@
                     android:background="@drawable/background_circle_white">
 
                     <ImageView
-                        android:id="@+id/privacy_button_image"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"

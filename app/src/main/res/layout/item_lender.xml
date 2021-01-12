@@ -26,7 +26,6 @@
             tools:ignore="NestedWeights">
 
             <TextView
-                android:id="@+id/id_lender_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto_medium"
@@ -35,7 +34,6 @@
                 android:textSize="@dimen/dim_16sp" />
 
             <TextView
-                android:id="@+id/id_lender_score"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dimen_8dp"

@@ -69,7 +69,6 @@
                 app:layout_constraintVertical_bias="0.81" />
 
             <TextView
-                android:id="@+id/permission_accessibility_step2_desc1"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@string/step_1_accessibility"
@@ -98,7 +97,6 @@
                 app:layout_constraintVertical_bias="0.81" />
 
             <TextView
-                android:id="@+id/permission_accessibility_step2_desc2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@string/step_2_accessibility"

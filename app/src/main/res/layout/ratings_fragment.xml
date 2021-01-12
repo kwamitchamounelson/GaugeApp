@@ -13,7 +13,6 @@
         android:orientation="vertical">
 
         <androidx.appcompat.widget.Toolbar
-            android:id="@+id/my_toolbar_ratings"
             style="@style/ToolbarDefaultType"
             app:navigationIcon="@drawable/ic_arrow_back"
             app:popupTheme="@style/AppThemeNoActionBar"
@@ -180,7 +179,6 @@
             </LinearLayout>
 
             <View
-                android:id="@+id/divider2"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginTop="@dimen/dimen_10dp"

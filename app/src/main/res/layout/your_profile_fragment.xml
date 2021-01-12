@@ -24,7 +24,6 @@
                 android:gravity="center">
 
                 <TextView
-                    android:id="@+id/id_toolbar_title_your_profile"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto_medium"
@@ -44,7 +43,6 @@
 
 
             <LinearLayout
-                android:id="@+id/layout_tab_layout_your_profile"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dim_30dp"

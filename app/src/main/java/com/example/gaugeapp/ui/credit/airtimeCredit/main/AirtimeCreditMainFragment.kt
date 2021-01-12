@@ -12,10 +12,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.gaugeapp.R
 import com.example.gaugeapp.entities.AirTimeCreditLine
 import com.example.gaugeapp.ui.credit.airtimeCredit.borrowAirtimeBottomSheet.BorrowAirtimeBottomSheetFragment
-import com.example.gaugeapp.ui.credit.items.AirtimeCreditItem
-import com.example.gaugeapp.ui.credit.items.PendingItem
 import com.example.gaugeapp.utils.DataState
 import com.example.gaugeapp.utils.formatNumberWithSpaceBetweenThousand
+import com.example.gaugeapp.ui.credit.items.AirtimeCreditItem
+import com.example.gaugeapp.ui.credit.items.PendingItem
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.Section
 import com.xwray.groupie.kotlinandroidextensions.ViewHolder

@@ -253,7 +253,6 @@
                 </LinearLayout>
 
                 <Button
-                    android:id="@+id/id_done_borrowing_cam_button"
                     style="@style/button_default_style"
                     android:layout_width="match_parent"
                     android:layout_gravity="center_horizontal"

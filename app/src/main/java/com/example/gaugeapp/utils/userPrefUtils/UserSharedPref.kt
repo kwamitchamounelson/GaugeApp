@@ -7,7 +7,6 @@ import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.kola.kola_entities_features.entities.WrongTransNotifyer
 import com.example.gaugeapp.KolaWhalletApplication
-import com.example.gaugeapp.data.entities.TransactionInformation
 import com.example.gaugeapp.utils.BALANCE_ALL
 import com.example.gaugeapp.utils.BOTH_OPERATOR_NAME
 import com.example.gaugeapp.utils.PhoneNumberUtils
@@ -910,43 +909,6 @@ class UserSharedPref(val context: Context) {
 
 
     private val TRANSACTION_BUDGETIZED = "TRANSACTION_BUDGETIZED"
-
-    /** Cette lorsqu'une transaction est analysée, on enregistre cette information
-     * Elle va nous permettre lors de l'analyse du SMS de savoir la transaction a été
-     * faite via l'application et budgetiser ou non
-     * @param transactionInfo: object contenant les informations sélectionner pour faire le contrôle
-     * **/
-    fun saveTransactionBudgetized(transactionInfo: TransactionInformation?) {
-        val gson = GsonBuilder().create()
-        val serializedData = gson.toJson(transactionInfo)
-        prefs.edit().putString(TRANSACTION_BUDGETIZED, serializedData).apply()
-    }
-
-    /**
-     * on appelle cette fonction pour savoir si la transaction a été faite
-     * via l'application et budgetiser ou non.
-     * @return TransactionInformation?
-     * 1- TransactionInformation == null s'il n'y a aucun flag qui notifie que la transaction a été faite et budgetire via
-     * l'application
-     * 2- TransactionInformation != null retourne les informations qui vont permettre de reconnaitre que la
-     * transaction est faite via l'application
-     * **/
-    fun getTransactionBudgetized(): TransactionInformation? {
-        val serializedData = prefs.getString(TRANSACTION_BUDGETIZED, "")
-
-        if ((serializedData?.isNotEmpty()) == true) {
-            val gson = GsonBuilder().create()
-            val transactionBudgetized = try {
-                gson.fromJson(serializedData, TransactionInformation::class.java)
-            } catch (ex: Exception) {
-                ex.printStackTrace()
-                null
-            }
-            return transactionBudgetized
-        }
-
-        return null
-    }
 
     fun resetTransactionBudgetized() {
         prefs.edit().putString(TRANSACTION_BUDGETIZED, "").apply()

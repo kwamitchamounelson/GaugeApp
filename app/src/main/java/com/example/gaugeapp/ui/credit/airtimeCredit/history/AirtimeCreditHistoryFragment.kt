@@ -13,9 +13,9 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.gaugeapp.R
 import com.example.gaugeapp.entities.AirTimeCreditLine
-import com.example.gaugeapp.ui.credit.items.AirtimeCreditHistoryItem
 import com.example.gaugeapp.utils.DataState
 import com.example.gaugeapp.utils.formatNumberWithSpaceBetweenThousand
+import com.example.gaugeapp.ui.credit.items.AirtimeCreditHistoryItem
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.Section
 import com.xwray.groupie.kotlinandroidextensions.ViewHolder

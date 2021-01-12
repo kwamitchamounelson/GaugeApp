@@ -8,8 +8,8 @@ import android.view.View
 import android.view.ViewGroup
 import com.bumptech.glide.Glide
 import com.example.gaugeapp.R
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.example.gaugeapp.entities.Store
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_purchase_shopping_botton_sheet.*
 

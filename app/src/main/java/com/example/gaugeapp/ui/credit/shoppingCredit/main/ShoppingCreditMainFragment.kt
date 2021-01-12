@@ -10,17 +10,17 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.gaugeapp.R
-import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.OnMapReadyCallback
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.MarkerOptions
-import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.example.gaugeapp.entities.ShoppingCreditLineWithShoppingCreditsList
 import com.example.gaugeapp.ui.credit.items.ShoppingCreditItem
 import com.example.gaugeapp.utils.DataState
 import com.example.gaugeapp.utils.formatNumberWithSpaceBetweenThousand
 import com.example.gaugeapp.utils.permissionsutils.FragmentPermissions
 import com.example.gaugeapp.utils.permissionsutils.askAnyPermission
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.Section
 import com.xwray.groupie.kotlinandroidextensions.ViewHolder
@@ -234,9 +234,7 @@ class ShoppingCreditMainFragment : FragmentPermissions(), OnMapReadyCallback {
         return when (item.itemId) {
             android.R.id.home -> {
                 try {
-                    /*val intent = Intent(requireContext(), MainActivity::class.java)
-                    startActivity(intent)
-                    requireActivity().finish()*/
+                    findNavController().navigateUp()
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }

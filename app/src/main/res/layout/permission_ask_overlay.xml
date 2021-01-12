@@ -56,7 +56,6 @@
                 app:layout_constraintTop_toBottomOf="@+id/permission_overlay_step2_explanation" />
 
             <ImageView
-                android:id="@+id/permission_overlay_step2_schema"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_marginStart="24dp"

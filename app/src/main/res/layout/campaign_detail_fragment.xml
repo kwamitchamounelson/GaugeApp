@@ -49,7 +49,6 @@
                     </LinearLayout>
 
                     <TextView
-                        android:id="@+id/id_campaign_detail_user_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
@@ -60,7 +59,6 @@
                         android:textSize="@dimen/dim_16sp" />
 
                     <TextView
-                        android:id="@+id/id_campaign_detail_user_score"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
@@ -267,7 +265,6 @@
                     </LinearLayout>
 
                     <ProgressBar
-                        android:id="@+id/progressBar"
                         style="@style/CustomProgressBarHorizontalAllRadiused_campaign"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/dimen_10dp"

@@ -13,14 +13,12 @@
         android:orientation="vertical">
 
         <androidx.appcompat.widget.Toolbar
-            android:id="@+id/my_toolbar_credit_score"
             style="@style/ToolbarDefaultType"
             app:navigationIcon="@drawable/ic_arrow_back"
             app:popupTheme="@style/AppThemeNoActionBar"
             app:titleTextColor="@android:color/black">
 
             <TextView
-                android:id="@+id/id_credit_score_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/dimen_me_title_toolbar"

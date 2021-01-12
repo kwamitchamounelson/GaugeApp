@@ -9,7 +9,6 @@
         app:showAsAction="ifRoom" />
 
     <item
-        android:id="@+id/filter_campaign"
         android:icon="@drawable/ic_filter_list_black"
         android:title="@string/filter"
         app:showAsAction="ifRoom">

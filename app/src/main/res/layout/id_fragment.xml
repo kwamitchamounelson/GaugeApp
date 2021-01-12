@@ -173,7 +173,6 @@
                 android:paddingHorizontal="@dimen/dimen_15dp">
 
                 <LinearLayout
-                    android:id="@+id/id_your_profile_id_card_front_block"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginVertical="@dimen/dimen_1dp"
@@ -228,7 +227,6 @@
                 android:paddingHorizontal="@dimen/dimen_15dp">
 
                 <LinearLayout
-                    android:id="@+id/id_your_profile_id_card_back_block"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginVertical="@dimen/dimen_1dp"
@@ -273,7 +271,6 @@
             </LinearLayout>
 
             <Button
-                android:id="@+id/id_verify_my_account_button"
                 style="@style/button_default_style"
                 android:layout_width="match_parent"
                 android:layout_gravity="center_horizontal"

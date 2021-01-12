@@ -93,8 +93,8 @@ dependencies {
     kapt 'androidx.hilt:hilt-compiler:1.0.0-alpha02'
 
     implementation project(path: ':kola-entities-features')
-    implementation project(path: ':smsmodule')
-    implementation project(path: ':ussdlibrary')
+    //implementation project(path: ':smsmodule')
+    //implementation project(path: ':ussdlibrary')
     // section in recycleView
     implementation 'io.github.luizgrp.sectionedrecyclerviewadapter:sectionedrecyclerviewadapter:1.0.4'
     //animations

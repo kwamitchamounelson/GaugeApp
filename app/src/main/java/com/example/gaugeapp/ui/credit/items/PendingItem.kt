@@ -1,7 +1,6 @@
 package com.example.gaugeapp.ui.credit.items
 
 import com.example.gaugeapp.R
-
 import com.xwray.groupie.kotlinandroidextensions.Item
 import com.xwray.groupie.kotlinandroidextensions.ViewHolder
 import kotlinx.android.synthetic.main.item_credit_pending_indicator.view.*

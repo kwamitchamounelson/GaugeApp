@@ -2,7 +2,6 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/id_bottom_sheet_select_add_contact"
     style="@style/AppBottomSheetDialogTheme"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -24,7 +23,6 @@
             app:titleTextColor="@android:color/black">
 
             <TextView
-                android:id="@+id/id_toolbar_title_add_contact"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/dimen_me_title_toolbar"
@@ -43,7 +41,6 @@
             android:orientation="vertical">
 
             <SearchView
-                android:id="@+id/id_add_contact_search"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dimen_h_select_con_fied"
                 android:layout_marginTop="@dimen/dimen_50dp"
@@ -77,7 +74,6 @@
             </LinearLayout>
 
             <View
-                android:id="@+id/divider_contact"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginTop="@dimen/dimen_14dp"

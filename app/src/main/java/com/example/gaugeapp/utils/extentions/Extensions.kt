@@ -2,17 +2,11 @@ package com.example.gaugeapp.utils.extentions
 
 import android.annotation.SuppressLint
 import android.app.Activity
-import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.DialogInterface
-import android.content.Intent
-import android.content.pm.PackageManager
 import android.database.Cursor
 import android.graphics.Bitmap
 import android.graphics.Canvas
-import android.graphics.Color
-import android.graphics.Paint
-import android.graphics.pdf.PdfDocument
 import android.net.Uri
 import android.os.Build
 import android.os.Environment
@@ -26,38 +20,27 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.TextView
 import androidx.annotation.RequiresApi
-import androidx.core.app.ActivityCompat
-import androidx.core.content.FileProvider
 import androidx.core.graphics.withTranslation
 import androidx.fragment.app.FragmentActivity
 import com.beeline09.daterangepicker.date.DateRangePickerFragment
+import com.example.gaugeapp.KolaWhalletApplication.Companion.userPref
 import com.example.gaugeapp.R
+import com.example.gaugeapp.commonRepositories.FireStoreAuthUtil
+import com.example.gaugeapp.commonRepositories.FireStoreCollDocRef
+import com.example.gaugeapp.commonRepositories.commonFireStoreRefKeyWord
+import com.example.gaugeapp.commonRepositories.commonFireStoreRefKeyWord.DETECTED_NAMES
 import com.example.gaugeapp.data.entities.Cashflow
+import com.example.gaugeapp.data.enums.ENUMOPERATEUR
+import com.example.gaugeapp.utils.*
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.snackbar.Snackbar
 import com.kola.kola_entities_features.entities.PhoneDims
 import com.kola.kola_entities_features.enums.ENUMEXPENSECATEGORYTYPE
-import com.example.gaugeapp.KolaWhalletApplication.Companion.userPref
-import com.example.gaugeapp.commonRepositories.FireStoreAuthUtil
-import com.example.gaugeapp.commonRepositories.FireStoreCollDocRef
-import com.example.gaugeapp.commonRepositories.commonFireStoreRefKeyWord
-import com.example.gaugeapp.commonRepositories.commonFireStoreRefKeyWord.DETECTED_NAMES
-import com.example.gaugeapp.commonRepositories.roomRep.roomEntities.SmsTable
-import com.example.gaugeapp.data.enums.ENUMFEESTRANSACTION
-import com.example.gaugeapp.data.enums.ENUMOPERATEUR
-import com.example.gaugeapp.utils.*
-
-import com.kola.smsmodule.entities.CustumSMS
-import com.kola.smsmodule.enums.ENUM_SERVICE_ANALYSIS
-import com.kola.smsmodule.enums.ENUM_SERVICE_OPERATEUR
 import io.github.luizgrp.sectionedrecyclerviewadapter.Section
 import io.github.luizgrp.sectionedrecyclerviewadapter.SectionedRecyclerViewAdapter
-import org.jetbrains.anko.toast
 import java.io.File
 import java.io.FileOutputStream
-import java.io.IOException
-import java.lang.NumberFormatException
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.math.round
@@ -332,17 +315,6 @@ fun Double.removeZeroAtEnd(): String {
     }
 }
 
-fun Double.getTransactionFees(serviceType: ENUM_SERVICE_ANALYSIS): Double {
-    var fees = 0.0
-    ENUMFEESTRANSACTION.values().filter { enumFree ->
-        enumFree.feesTransaction.operateur == serviceType
-    }.forEach {
-        if (this >= it.feesTransaction.min && this <= it.feesTransaction.max) {
-            return ((this * it.feesTransaction.percentage) + it.feesTransaction.feesValues).round(2)
-        }
-    }
-    return fees
-}
 
 /**
  * this function extends the SectionedRecyclerViewAdapter class.
@@ -503,330 +475,6 @@ fun String.cleanPhoneNumber(): String {
         .removePrefix("237")
 }
 
-fun Activity.generatePdfOfTransactionList(list: ArrayList<CustumSMS>?, title: String? = null) {
-    if (ActivityCompat.checkSelfPermission(
-            this.applicationContext,
-            android.Manifest.permission.WRITE_EXTERNAL_STORAGE
-        ) != PackageManager.PERMISSION_GRANTED ||
-        ActivityCompat.checkSelfPermission(
-            this.applicationContext,
-            android.Manifest.permission.READ_EXTERNAL_STORAGE
-        ) != PackageManager.PERMISSION_GRANTED
-    ) {
-        ActivityCompat.requestPermissions(
-            this,
-            arrayOf(
-                android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                android.Manifest.permission.WRITE_EXTERNAL_STORAGE
-            ),
-            1
-        )
-    } else {
-        buidPdf(list, title)
-        /*val job = Job()
-        val coroutineContext = job + Dispatchers.IO
-        CoroutineScope(coroutineContext).launch {
-            Dispatchers.IO
-            buidPdf(list, title)
-        }*/
-    }
-}
-
-private fun Context.buidPdf(list: ArrayList<CustumSMS>?, title: String? = null) {
-    list?.let { newList ->
-        val transactionList = arrayListOf<CustumSMS>()
-
-        transactionList.apply {
-            try {
-                addAll(newList.subList(0, 20))
-            } catch (e: Exception) {
-                e.printStackTrace()
-                addAll(newList)
-            }
-        }
-
-        Log.d("PDF_GENERATE", transactionList.size.toString())
-
-
-        val context = this
-        val document = PdfDocument()
-        // crate a page description
-        val pageInfo: PdfDocument.PageInfo =
-            PdfDocument.PageInfo.Builder(2100, 2970, 1).create()
-        // start a page
-        val page: PdfDocument.Page = document.startPage(pageInfo)
-        val canvas = page.canvas
-        val paint = Paint()
-
-        val margin = 200.0
-        val marginTop = 500.0
-        val marginRight = 1900.0
-        val y = marginTop + 200.0
-
-        createPdfCore(
-            paint,
-            canvas,
-            margin,
-            marginTop,
-            marginRight,
-            y,
-            context,
-            transactionList,
-            document,
-            page,
-            pageInfo
-        )
-
-        // close the document
-        document.close()
-    }
-}
-
-
-private fun createPdfCore(
-    paint: Paint,
-    canvas: Canvas,
-    margin: Double,
-    marginTop: Double,
-    marginRight: Double,
-    y: Double,
-    context: Context,
-    transactionList: ArrayList<CustumSMS>,
-    document: PdfDocument,
-    page: PdfDocument.Page,
-    pageInfo: PdfDocument.PageInfo
-) {
-
-    //display the name of the application
-
-    val xName = 600.0
-    val yName = 450.0
-
-    paint.setColor(Color.BLACK)
-    val nameSize = 80.0
-    paint.textSize = nameSize.toFloat()
-
-    canvas.drawText(
-        context.getString(R.string.transaction_history),
-        xName.toFloat(),
-        yName.toFloat(),
-        paint
-    )
-
-    var canvas1 = canvas
-    var y1 = y
-    var page1 = page
-    paint.setColor(Color.GRAY)
-
-    val xdate = 200.0
-    val xOperator = 450.0
-    val xCategory = 1000.0
-    val xAmount = 1200.0
-    val xSender = 1450.0
-    val xReceiver = 1700.0
-
-    //display the title of the table
-    canvas1.drawRect(
-        (xdate - 10.0).toFloat(),
-        (marginTop + 100.0).toFloat(),
-        marginRight.toFloat(),
-        (y1 + 20).toFloat(),
-        paint
-    )
-
-    val titlesize = 40.0
-    paint.setColor(Color.WHITE)
-    paint.textSize = titlesize.toFloat()
-
-
-    //definition des colones
-    canvas1.drawText(
-        context.getString(R.string.date),
-        xdate.toFloat(),
-        y1.toFloat(),
-        paint
-    )
-    canvas1.drawText(
-        context.getString(R.string.operator),
-        xOperator.toFloat(),
-        y1.toFloat(),
-        paint
-    )
-
-    canvas1.drawText(
-        context.getString(R.string.category),
-        xCategory.toFloat(),
-        y1.toFloat(),
-        paint
-    )
-
-    canvas1.drawText(
-        context.getString(R.string.amount),
-        xAmount.toFloat(),
-        y1.toFloat(),
-        paint
-    )
-
-    canvas1.drawText(
-        context.getString(R.string.sender),
-        xSender.toFloat(),
-        y1.toFloat(),
-        paint
-    )
-    canvas1.drawText(
-        context.getString(R.string.receiver),
-        xReceiver.toFloat(),
-        y1.toFloat(),
-        paint
-    )
-
-    val textsize = 30.0
-    paint.setColor(Color.BLACK)
-    paint.textSize = textsize.toFloat()
-
-    y1 += 100.0
-
-    //display all the informations
-    if (transactionList.isNotEmpty()) {
-        transactionList.forEach {
-
-            //date
-            canvas1.drawText(
-                convertDateToSpecificStringFormat(
-                    it.transaction?.date!!,
-                    "dd MMM yyyy"
-                ),
-                xdate.toFloat(),
-                y1.toFloat(),
-                paint
-            )
-
-            //operator
-            canvas1.drawText(
-                it.transaction?.transactionService?.curentService?.serviceOperateur?.curentServiceOperator!!.aireTimeService,
-                xOperator.toFloat(),
-                y1.toFloat(),
-                paint
-            )
-
-            //category
-            canvas1.drawText(
-                it.transaction?.transactionService?.curentService!!.name,
-                xCategory.toFloat(),
-                y1.toFloat(),
-                paint
-            )
-
-            //amount
-            canvas1.drawText(
-                it.transaction?.montantTransaction!!.removeZeroAtEnd(),
-                xAmount.toFloat(),
-                y1.toFloat(),
-                paint
-            )
-
-            //sender
-            canvas1.drawText(
-                it.transaction?.senderName!!,
-                xSender.toFloat(),
-                y1.toFloat(),
-                paint
-            )
-
-            //receiver
-            canvas1.drawText(
-                it.transaction?.recipientName!!,
-                xReceiver.toFloat(),
-                y1.toFloat(),
-                paint
-            )
-
-            y1 += 20.0
-            canvas1.drawLine(
-                (xdate - 10.0).toFloat(),
-                y1.toFloat(),
-                (marginRight - 10.0).toFloat(),
-                y1.toFloat(),
-                paint
-            )
-            y1 += 50.0
-
-            // if the data are too much for just one page we have to add pages dynamically
-
-            if (y1 >= 2900) {
-                document.finishPage(page1)
-
-                page1 = document.startPage(pageInfo)
-                canvas1 = page1.canvas
-
-                y1 = 200.0
-            }
-        }
-    }
-
-    y1 += 100.0
-
-    val xPied = 200.0
-
-    paint.setColor(Color.BLACK)
-    val piedSize = 30.0
-    paint.textSize = piedSize.toFloat()
-
-    canvas.drawText(context.getString(R.string.made_by), xPied.toFloat(), y1.toFloat(), paint)
-
-    y1 += 45.0
-    canvas.drawText(
-        "${context.getString(R.string.at)} ${Date()}",
-        xPied.toFloat(),
-        y1.toFloat(),
-        paint
-    )
-
-    // finish the page
-    document.finishPage(page1)
-
-    // write the document content
-    val directory_path =
-        Environment.getExternalStorageDirectory()
-            .getPath() + "/${commonFireStoreRefKeyWord.KOLA_WALLET}/pdf/"
-    val file = File(directory_path)
-    if (!file.exists()) {
-        file.mkdirs()
-    }
-    val targetPdf = directory_path + "Transactions_${Date()}.pdf"
-    val filePath = File(targetPdf)
-    try {
-        document.writeTo(FileOutputStream(filePath))
-        Log.d("TAG", "done")
-        context.toast(context.getString(R.string.pdf_created))
-
-        //open the file when is success made
-        val uriPath = Uri.fromFile(filePath)
-        val intent = Intent(Intent.ACTION_VIEW)
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP and Intent.FLAG_ACTIVITY_NEW_TASK)
-
-        val apkURI = FileProvider.getUriForFile(
-            context,
-            context.applicationContext.packageName + ".provider",
-            filePath
-        )
-        intent.setDataAndType(apkURI, "application/pdf")
-        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-        context.startActivity(intent)
-    } catch (e: IOException) {
-        context.toast(context.getString(R.string.error_message_gen) + e.message)
-        e.printStackTrace()
-        Log.e("main", "error $e")
-    } catch (e: ActivityNotFoundException) {
-        context.toast(context.getString(R.string.error_message_gen) + e.message)
-        e.printStackTrace()
-        Log.e("main", "error file $e")
-    } catch (e: java.lang.Exception) {
-        context.toast(context.getString(R.string.error_message_gen))
-        e.printStackTrace()
-        Log.e("main", "error $e")
-    }
-}
 
 // Afin d'afficher uniquement la premier et la dernière chaine de caractère du nom
 fun String?.splitFirstAndSecondName(): String {
@@ -1127,39 +775,6 @@ fun BottomSheetBehavior<*>.hideBottomSheet() {
     }
 }
 
-fun ArrayList<CustumSMS>.verifyIfItIsTheSameUser(onComplete: (phoneNumber: String?, detectedName: String, imageUrl: String) -> Unit) {
-    if (this.isEmpty()) {
-        onComplete(null, "", "")
-    } else {
-        var firstPhoneNumber =
-            PhoneNumberUtils.remove237ToPhoneNumber(this[0].transaction!!.recipientPhoneNumber)
-        var mylist = this.filter { custumSMS ->
-            PhoneNumberUtils.remove237ToPhoneNumber(custumSMS.transaction!!.recipientPhoneNumber) == firstPhoneNumber
-                    ||
-                    PhoneNumberUtils.remove237ToPhoneNumber(custumSMS.transaction!!.senderPhoneNumber) == firstPhoneNumber
-        }
-        if (firstPhoneNumber.isNotBlank() && mylist.size == this.size) {
-            firstPhoneNumber.fecthDetectedNameAndImageUrlInCash { userDetectedName, userImageUrl ->
-                onComplete(firstPhoneNumber, userDetectedName, userImageUrl)
-            }
-        } else {
-            firstPhoneNumber =
-                PhoneNumberUtils.remove237ToPhoneNumber(this[0].transaction!!.senderPhoneNumber)
-            mylist = this.filter { custumSMS ->
-                PhoneNumberUtils.remove237ToPhoneNumber(custumSMS.transaction!!.recipientPhoneNumber) == firstPhoneNumber
-                        ||
-                        PhoneNumberUtils.remove237ToPhoneNumber(custumSMS.transaction!!.senderPhoneNumber) == firstPhoneNumber
-            }
-            if (firstPhoneNumber.isNotBlank() && mylist.size == this.size) {
-                firstPhoneNumber.fecthDetectedNameAndImageUrlInCash { userDetectedName, userImageUrl ->
-                    onComplete(firstPhoneNumber, userDetectedName, userImageUrl)
-                }
-            } else {
-                onComplete(null, "", "")
-            }
-        }
-    }
-}
 
 fun String.formatPhoneNumberWithSpace(): String {
     return formatPhoneNumberWithSpace(
@@ -1185,37 +800,6 @@ fun String.fecthDetectedNameAndImageUrlInCash(onComplete: (userDetectedName: Str
     }
 }
 
-
-fun String?.getOperatorOfPhoneNumber(): ENUM_SERVICE_OPERATEUR? {
-    return if (this != null) {
-        when {
-            PhoneNumberUtils.isOrangeOperator(this) -> {
-                ENUM_SERVICE_OPERATEUR.SERVICE_ORANGE_MONEY
-            }
-            PhoneNumberUtils.isMTNOoperator(this) -> {
-                ENUM_SERVICE_OPERATEUR.SERVICE_MTN_MONEY
-            }
-            else -> {
-                null
-            }
-        }
-    } else {
-        null
-    }
-}
-
-//to convert custumSms to SmsTable
-fun CustumSMS.convertToSmsTable(): SmsTable {
-    val smsString = TransactionGsonConverter.convertCustumSmsToGson(this)
-    return SmsTable(
-        this.custumSMSObjet?.messageId!!,
-        (this.custumSMSObjet?.dateReceive)?.time ?: Calendar.getInstance().timeInMillis,
-        this.serviceOperateur!!.name,
-        this.transaction?.transactionService?.name!!,
-        false,
-        smsString
-    )
-}
 
 fun Bitmap.convertToImage(context: Context, directory: String, fileName: String): Uri? {
 

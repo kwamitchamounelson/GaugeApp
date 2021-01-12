@@ -13,7 +13,6 @@
         android:orientation="vertical">
 
         <androidx.appcompat.widget.Toolbar
-            android:id="@+id/my_toolbar_agence"
             style="@style/ToolbarDefaultType"
             app:navigationIcon="@drawable/ic_arrow_back"
             app:popupTheme="@style/AppThemeNoActionBar"

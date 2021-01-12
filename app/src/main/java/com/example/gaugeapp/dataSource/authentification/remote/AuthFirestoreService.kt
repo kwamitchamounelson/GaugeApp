@@ -17,7 +17,6 @@ import com.example.gaugeapp.data.enums.ENUMOPERATEUR
 import com.example.gaugeapp.utils.*
 import com.example.gaugeapp.utils.extentions.getDataFlow
 import com.example.gaugeapp.utils.extentions.saveUserImageProfileInCash
-import com.kola.smsmodule.util.SmsPhoneNumberUtils
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.channels.awaitClose
@@ -258,7 +257,7 @@ class AuthFirestoreService @Inject constructor(
         val phoneNumberList = updatedUser.mobileMoneyNumbers
         var secondPheNumber = ""
         phoneNumberList.forEach {
-            if (SmsPhoneNumberUtils.remove237ToPhoneNumber(it.phoneNumber) != SmsPhoneNumberUtils.remove237ToPhoneNumber(
+            if (PhoneNumberUtils.remove237ToPhoneNumber(it.phoneNumber) != PhoneNumberUtils.remove237ToPhoneNumber(
                     (updatedUser.authPhoneNumber)
                 )
             ) {
@@ -267,8 +266,8 @@ class AuthFirestoreService @Inject constructor(
         }
 
         val phoneList = arrayListOf(
-            SmsPhoneNumberUtils.remove237ToPhoneNumber(updatedUser.authPhoneNumber),
-            SmsPhoneNumberUtils.remove237ToPhoneNumber(secondPheNumber)
+            PhoneNumberUtils.remove237ToPhoneNumber(updatedUser.authPhoneNumber),
+            PhoneNumberUtils.remove237ToPhoneNumber(secondPheNumber)
         )
         updatedUser.phoneNumbers = phoneList.distinct().filter { it.isNotEmpty() }
 

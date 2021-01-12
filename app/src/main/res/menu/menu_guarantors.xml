@@ -3,7 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/edit_guarantor"
         android:icon="@drawable/ic_edit_black"
         android:title="@string/edit_str"
         app:showAsAction="ifRoom" />

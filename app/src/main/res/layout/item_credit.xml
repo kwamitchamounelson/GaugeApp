@@ -60,7 +60,11 @@
         android:layout_weight="1"
         android:gravity="end">
 
-
+        <Button
+            android:id="@+id/id_credit_repay_button"
+            style="@style/button_style_for_items"
+            android:layout_width="wrap_content"
+            android:text="@string/repay" />
     </LinearLayout>
 
 </LinearLayout>

@@ -28,7 +28,6 @@
             tools:ignore="NestedWeights">
 
             <TextView
-                android:id="@+id/id_loan_history_user_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto_medium"
@@ -42,7 +41,6 @@
                 android:layout_marginTop="@dimen/dimen_13dp">
 
                 <TextView
-                    android:id="@+id/id_loan_history_amount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/dim_30dp"
@@ -52,7 +50,6 @@
                     android:textSize="@dimen/dim_16sp" />
 
                 <TextView
-                    android:id="@+id/id_loan_history_percentage"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto_medium"
@@ -72,7 +69,6 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/id_loan_history_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/roboto_medium"
@@ -81,7 +77,6 @@
             android:textSize="@dimen/dim_16sp" />
 
         <TextView
-            android:id="@+id/id_loan_history_status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dimen_13dp"

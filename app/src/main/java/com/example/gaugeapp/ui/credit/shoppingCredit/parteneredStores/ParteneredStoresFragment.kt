@@ -14,8 +14,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.gaugeapp.R
 import com.example.gaugeapp.entities.Store
 import com.example.gaugeapp.ui.credit.items.StoreShoppingItem
-import com.example.gaugeapp.ui.credit.shoppingCredit.purchaseShoppingBottonSheet.PurchaseShoppingBottonSheetFragment
 import com.example.gaugeapp.utils.DataState
+import com.example.gaugeapp.ui.credit.shoppingCredit.purchaseShoppingBottonSheet.PurchaseShoppingBottonSheetFragment
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.Section
 import com.xwray.groupie.kotlinandroidextensions.ViewHolder
