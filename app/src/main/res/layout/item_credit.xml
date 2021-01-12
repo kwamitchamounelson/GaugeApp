@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/dim_25dp"
+    android:orientation="horizontal"
+    android:weightSum="4">
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/id_credit_amoun_to_pay_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="110 F"
+            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/dimen_16sp" />
+
+        <TextView
+            android:id="@+id/id_credit_real_amount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="100"
+            android:textColor="@color/color_credit_real_amount"
+            android:textSize="@dimen/dimen_14sp" />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="2"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/id_credit_due_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Mar 11 feb"
+            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/dimen_16sp" />
+
+        <TextView
+            android:id="@+id/id_credit_store_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Casino"
+            android:textColor="@color/color_credit_real_amount"
+            android:textSize="@dimen/dimen_14sp"
+            android:visibility="gone" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="end">
+
+
+    </LinearLayout>
+
+</LinearLayout>

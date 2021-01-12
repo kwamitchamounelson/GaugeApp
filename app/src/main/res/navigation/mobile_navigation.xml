@@ -44,10 +44,17 @@
     </fragment>
 
     <fragment
-        android:id="@+id/navigation_chat"
-        android:name="com.example.gaugeapp.ui.chat.ChatMainFragment"
+        android:id="@+id/navigation_credit"
+        android:name="com.example.gaugeapp.ui.credit.CreditMainFragment"
         android:label="chat_main_fragment"
-        tools:layout="@layout/chat_main_fragment" />
+        tools:layout="@layout/credit_main_fragment" >
+        <action
+            android:id="@+id/action_navigation_credit_to_airtimeCreditMainFragment"
+            app:destination="@id/airtimeCreditMainFragment" />
+        <action
+            android:id="@+id/action_navigation_credit_to_shoppingCreditMainFragment"
+            app:destination="@id/shoppingCreditMainFragment" />
+    </fragment>
     <fragment
         android:id="@+id/debToPayBackFragment"
         android:name="com.example.gaugeapp.ui.communityLoan.debToPayBack.DebToPayBackFragment"
@@ -192,4 +199,40 @@
         android:name="com.example.gaugeapp.ui.exchange.registration.RegistrationFragment"
         android:label="RegistrationFragment"
         tools:layout="@layout/registration_fragment" />
+    <fragment
+        android:id="@+id/airtimeCreditMainFragment"
+        android:name="com.example.gaugeapp.ui.credit.airtimeCredit.main.AirtimeCreditMainFragment"
+        android:label="airtime_credit_main_fragment"
+        tools:layout="@layout/airtime_credit_main_fragment" >
+        <action
+            android:id="@+id/action_airtimeCreditMainFragment_to_airtimeCreditHistoryFragment"
+            app:destination="@id/airtimeCreditHistoryFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/shoppingCreditMainFragment"
+        android:name="com.example.gaugeapp.ui.credit.shoppingCredit.main.ShoppingCreditMainFragment"
+        android:label="shopping_credit_main_fragment"
+        tools:layout="@layout/shopping_credit_main_fragment" >
+        <action
+            android:id="@+id/action_shoppingCreditMainFragment_to_shoppingCreditHistoryFragment"
+            app:destination="@id/shoppingCreditHistoryFragment" />
+        <action
+            android:id="@+id/action_shoppingCreditMainFragment_to_parteneredStoresFragment"
+            app:destination="@id/parteneredStoresFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/airtimeCreditHistoryFragment"
+        android:name="com.example.gaugeapp.ui.credit.airtimeCredit.history.AirtimeCreditHistoryFragment"
+        android:label="airtime_credit_history_fragment"
+        tools:layout="@layout/airtime_credit_history_fragment" />
+    <fragment
+        android:id="@+id/shoppingCreditHistoryFragment"
+        android:name="com.example.gaugeapp.ui.credit.shoppingCredit.history.ShoppingCreditHistoryFragment"
+        android:label="shopping_credit_history_fragment"
+        tools:layout="@layout/shopping_credit_history_fragment" />
+    <fragment
+        android:id="@+id/parteneredStoresFragment"
+        android:name="com.example.gaugeapp.ui.credit.shoppingCredit.parteneredStores.ParteneredStoresFragment"
+        android:label="partenered_stores_fragment"
+        tools:layout="@layout/partenered_stores_fragment" />
 </navigation>

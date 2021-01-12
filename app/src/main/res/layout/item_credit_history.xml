@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/dim_20dp"
+    android:orientation="horizontal">
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/dim_me_history_credit"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/id_credit_history_amount_to_pay_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="110 F"
+            android:textColor="@color/color_data_credit_history"
+            android:textSize="@dimen/dimen_16sp" />
+
+        <TextView
+            android:id="@+id/id_credit_history_real_amount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="100"
+            android:textColor="@color/color_credit_real_amount"
+            android:textSize="@dimen/dimen_14sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/id_credit_history_paid_on_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Mar 11 Feb"
+            android:textColor="@color/color_data_credit_history"
+            android:textSize="@dimen/dimen_16sp" />
+
+        <TextView
+            android:id="@+id/id_credit_history_real_due_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Mar 11 Feb"
+            android:textColor="@color/color_credit_real_amount"
+            android:textSize="@dimen/dimen_14sp" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/id_credit_history_pay_back_status"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="end"
+        android:text="@string/on_time"
+        android:textColor="@color/color_data_credit_history"
+        android:textSize="@dimen/dimen_16sp" />
+</LinearLayout>

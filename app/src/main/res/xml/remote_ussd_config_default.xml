@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<defaultsMap>
+    <entry>
+        <key>GET_NAME_MTN_ENG_END_PATTERN</key>
+        <value>\s*1\)</value>
+    </entry>
+
+    <entry>
+        <key>GET_NAME_FEES_PATTERN</key>
+        <value>\.?\s*(FRAIS|FEES)</value>
+    </entry>
+
+    <entry>
+        <key>PHONE_NUMBER_REGEX</key>
+        <value>(237)?6(9|7|5|8)[0-9]{7}\s*</value>
+    </entry>
+
+    <entry>
+        <key>PREPROCESSING_EXTRACT_NAME_PATTERN</key>
+        <value>(\bA\b|\(|\)|FCFA)</value>
+    </entry>
+
+    <entry>
+        <key>IS_TRANSFERT_MESSAGE_MTN_ENG_PATTERN</key>
+        <value>Confirm money transfer of|Confirm transfer of</value>
+    </entry>
+
+    <entry>
+        <key>IS_TRANSFERT_MESSAGE_MTN_FRA_PATTERN</key>
+        <value>Confirmez le transfert de|confirmer le transfert de</value>
+    </entry>
+
+    <entry>
+        <key>IS_TRANSFERT_MESSAGE_ORANGE_FRA_PATTERN</key>
+        <value>Transfert de</value>
+    </entry>
+
+    <entry>
+        <key>IS_TRANSFERT_MESSAGE_ORANGE_ENG_PATTERN</key>
+        <value>Money Transfer of</value>
+    </entry>
+</defaultsMap>

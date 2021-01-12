@@ -1,2 +1,5 @@
+include ':kola-entities-features'
+include ':ussdlibrary'
+include ':smsmodule'
 include ':app'
 rootProject.name = "GaugeApp"

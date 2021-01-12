@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<defaultsMap>
+
+    <entry>
+        <key>MTN_CHECK_BALANCE_STEP_2</key>
+        <value>1</value>
+    </entry>
+
+    <entry>
+        <key>MTN_CHECK_BALANCE_STEP_1</key>
+        <value>7</value>
+    </entry>
+
+    <entry>
+        <key>MTN_TRANSFER_TO_ORANGE_ACCOUNT_STEP_4</key>
+        <value>Orange Money;Orange Money</value>
+    </entry>
+
+    <entry>
+        <key>MTN_TRANSFER_TO_ORANGE_ACCOUNT_STEP_3</key>
+        <value>Cameroon;Cameroun</value>
+    </entry>
+
+    <entry>
+        <key>MTN_TRANSFER_TO_ORANGE_ACCOUNT_STEP_2</key>
+        <value>To other Networks;Vers autres operateurs</value>
+    </entry>
+
+    <entry>
+        <key>MTN_TRANSFER_TO_ORANGE_ACCOUNT_STEP_1</key>
+        <value>Money Transfer;Transfert d argent</value>
+    </entry>
+
+    <entry>
+        <key>MTN_TRANSFER_TO_MTN_ACCOUNT_STEP_2</key>
+        <value>To MTN Number;Vers numeros MTN</value>
+    </entry>
+
+    <entry>
+        <key>MTN_TRANSFER_TO_MTN_ACCOUNT_STEP_1</key>
+        <value>Money Transfer;Transfert d argent</value>
+    </entry>
+
+    <entry>
+        <key>MTN_AIRTIME_TO_MTN_NUMBER_STEP_3</key>
+        <value>For another number;Pour un autre numero</value>
+    </entry>
+
+    <entry>
+        <key>MTN_AIRTIME_TO_MTN_NUMBER_STEP_2</key>
+        <value>MTN Airtimet;Credit MTN</value>
+    </entry>
+
+    <entry>
+        <key>MTN_AIRTIME_TO_MTN_NUMBER_STEP_1</key>
+        <value>Buy MTN Products;Payer un produit MTN</value>
+    </entry>
+
+    <entry>
+        <key>MTN_AIRTIME_IN_MY_ACCOUNT_STEP_3</key>
+        <value>For my number;Pour mon numero</value>
+    </entry>
+
+    <entry>
+        <key>MTN_AIRTIME_IN_MY_ACCOUNT_STEP_2</key>
+        <value>MTN Airtime;Credit MTN</value>
+    </entry>
+
+    <entry>
+        <key>MTN_AIRTIME_IN_MY_ACCOUNT_STEP_1</key>
+        <value>Buy MTN Products;Payer un produit MTN</value>
+    </entry>
+
+    <entry>
+        <key>ORANGE_TRANSFER_TO_MTN_ACCOUNT_STEP_4</key>
+        <value>Mtn Cameroon;Mtn Cameroun</value>
+    </entry>
+
+    <entry>
+        <key>ORANGE_TRANSFER_TO_MTN_ACCOUNT_STEP_3</key>
+        <value>In Cameroon;Au Cameroun</value>
+    </entry>
+
+    <entry>
+        <key>ORANGE_TRANSFER_TO_MTN_ACCOUNT_STEP_2</key>
+        <value>Transfer to another operator;Vers autres opérateurs</value>
+    </entry>
+
+    <entry>
+        <key>ORANGE_TRANSFER_TO_MTN_ACCOUNT_STEP_1</key>
+        <value>Money Transfer;Transfert d Argent</value>
+    </entry>
+
+    <entry>
+        <key>ORANGE_TRANSFER_TO_ORANGE_ACCOUNT_STEP_2</key>
+        <value>Transfer to Orange Number;Vers client Orange</value>
+    </entry>
+
+    <entry>
+        <key>ORANGE_TRANSFER_TO_ORANGE_ACCOUNT_STEP_1</key>
+        <value>Money Transfer;Transfert d Argent</value>
+    </entry>
+
+    <entry>
+        <key>ORANGE_AIRTIME_TO_ORANGE_NUMBER_STEP_3</key>
+        <value>Recharge another account;Recharger un autre numero Orange</value>
+    </entry>
+
+    <entry>
+        <key>ORANGE_AIRTIME_TO_ORANGE_NUMBER_STEP_2</key>
+        <value>Telephone credit;Crédit téléphonique</value>
+    </entry>
+
+    <entry>
+        <key>ORANGE_AIRTIME_TO_ORANGE_NUMBER_STEP_1</key>
+        <value>Buy airtime credit/Internet;Achat de crédit/Internet</value>
+    </entry>
+
+    <entry>
+        <key>ORANGE_AIRTIME_IN_MY_ACCOUNT_STEP_3</key>
+        <value>Recharger mon numero;Recharge my account</value>
+    </entry>
+
+    <entry>
+        <key>ORANGE_AIRTIME_IN_MY_ACCOUNT_STEP_2</key>
+        <value>Telephone credit;Crédit téléphonique</value>
+    </entry>
+
+    <entry>
+        <key>ORANGE_AIRTIME_IN_MY_ACCOUNT_STEP_1</key>
+        <value>Buy airtime credit/Internet;Achat de crédit/Internet</value>
+    </entry>
+
+    <entry>
+        <key>ORANGE_CHECK_BALANCE_STEP_1</key>
+        <value>6</value>
+    </entry>
+
+    <entry>
+        <key>ORANGE_CHECK_BALANCE_STEP_2</key>
+        <value>2</value>
+    </entry>
+</defaultsMap>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    tools:context=".ui.credit.shoppingCredit.parteneredStores.ParteneredStoresFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/my_toolbar_store_shopping"
+            style="@style/ToolbarDefaultType"
+            app:navigationIcon="@drawable/ic_arrow_back"
+            app:popupTheme="@style/AppThemeNoActionBar"
+            app:titleTextColor="@android:color/black">
+
+            <TextView
+                android:id="@+id/id_toolbar_title_store_shopping"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/dimen_me_title_toolbar"
+                android:fontFamily="@font/roboto_medium"
+                android:gravity="center"
+                android:text="@string/partnered_stores"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/dimen_20sp" />
+        </androidx.appcompat.widget.Toolbar>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="@dimen/dim_20dp"
+            android:orientation="vertical">
+
+            <SearchView
+                android:id="@+id/id_store_shopping_search"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimen_h_select_con_fied"
+                android:layout_marginTop="@dimen/dim_40dp"
+                android:background="@drawable/background_search_partener_store"
+                android:gravity="center_vertical"
+                app:defaultQueryHint="Search shop"
+                app:measureWithLargestChild="true">
+
+            </SearchView>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/id_store_shopping_rv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dimen_35dp"
+                tools:listitem="@layout/item_store_shopping" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

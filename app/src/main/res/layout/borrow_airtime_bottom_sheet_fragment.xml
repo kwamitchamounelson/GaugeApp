@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/id_bottom_sheet_amount_credit"
+    style="@style/AppBottomSheetDialogTheme"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:behavior_hideable="false"
+    app:behavior_peekHeight="0dp"
+    app:cardBackgroundColor="@android:color/white"
+    app:cardCornerRadius="15dp"
+    app:cardElevation="8dp"
+    app:layout_behavior="com.kola.kolawallet.ui.createTransaction.helpersClass.LockedBottomSheetBehavior">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/dim_20dp"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/loan_details"
+            android:textColor="@color/color_loan_detail"
+            android:textSize="@dimen/dimen_20sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dim_24dp"
+            android:background="@drawable/background_loan_details_bottom_sheet"
+            android:padding="@dimen/dimen_20dp">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_medium"
+                    android:text="@string/amount"
+                    android:textColor="@color/color_label_amount_bottom_sheet"
+                    android:textSize="@dimen/dimen_16sp" />
+
+                <TextView
+                    android:id="@+id/id_credit_bottom_sheet_amount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dimen_10dp"
+                    android:fontFamily="@font/roboto_medium"
+                    android:text="100"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/dimen_22sp" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="@color/color_border_amount_credit_bs" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_medium"
+                    android:text="@string/frees"
+                    android:textColor="@color/color_label_amount_bottom_sheet"
+                    android:textSize="@dimen/dimen_16sp" />
+
+                <TextView
+                    android:id="@+id/id_credit_bottom_sheet_fees"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dimen_10dp"
+                    android:fontFamily="@font/roboto_medium"
+                    android:text="10"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/dimen_22sp" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="@color/color_border_amount_credit_bs" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_medium"
+                    android:text="@string/total"
+                    android:textColor="@color/color_label_amount_bottom_sheet"
+                    android:textSize="@dimen/dimen_16sp" />
+
+                <TextView
+                    android:id="@+id/id_credit_bottom_sheet_total"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dimen_10dp"
+                    android:fontFamily="@font/roboto_medium"
+                    android:text="110"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/dimen_22sp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/id_credit_bottom_sheet_amount_list_rv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:orientation="horizontal"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:itemCount="5"
+            tools:listitem="@layout/item_amount_borrow_credit" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/dimen_5dp"
+            android:layout_marginTop="@dimen/dimen_70dp"
+            android:gravity="center_vertical"
+            android:weightSum="4">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.7"
+                android:fontFamily="@font/roboto_medium"
+                android:text="@string/to_2"
+                android:textColor="@color/colorPrimary"
+                android:textSize="18sp" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="3.3">
+
+                <TextView
+                    android:id="@+id/id_user_mtn_number"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/dimen_15dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/background_my_number_mtn_desable"
+                    android:gravity="center"
+                    android:paddingHorizontal="@dimen/dime_ph_my_contact"
+                    android:paddingVertical="@dimen/dimen_pv_my_contact"
+                    android:text="697665544"
+                    android:textColor="@color/colorPrimary" />
+
+                <TextView
+                    android:id="@+id/id_user_orange_number"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/background_my_number_orange_desable"
+                    android:gravity="center"
+                    android:paddingHorizontal="@dimen/dime_ph_my_contact"
+                    android:paddingVertical="@dimen/dimen_pv_my_contact"
+                    android:text="697665544"
+                    android:textColor="@color/colorPrimary" />
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/id_amount_credit_borrow_button"
+            style="@style/button_default_style"
+            android:layout_width="200dp"
+            android:layout_marginTop="@dimen/dim_40dp"
+            android:layout_marginBottom="@dimen/dimen_15dp"
+            android:text="@string/borrow" />
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

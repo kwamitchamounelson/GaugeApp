@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="utf-8"?>
+<defaultsMap>
+
+    <entry>
+        <key>PREPROCESSING_ID_TRANSACTION_ORANGE_PATTERN</key>
+        <value>[A-Za-z]+\d+\.[A-Za-z]+\d+\.[A-Za-z]+\d+</value>
+    </entry>
+
+    <entry>
+        <key>PREPROCESSING_DATE_PATTERN</key>
+        <value>\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}</value>
+    </entry>
+
+    <entry>
+        <key>GET_CATEGORY_ORANGE_CASHIN_PATTERN</key>
+        <value>\bDEPOT\b|\bCASHIN\b|\bDEPOTS\b</value>
+    </entry>
+
+    <entry>
+        <key>GET_CATEGORY_ORANGE_RECEIVE_PATTERN</key>
+        <value>\bRECU\b|\bRECEIVE\b|\bRECEIVED\b</value>
+    </entry>
+
+    <entry>
+        <key>GET_CATEGORY_ORANGE_BALANCE_PATTERN</key>
+        <value>\bBALANCE\b|\bSOLDE\b</value>
+    </entry>
+
+    <entry>
+        <key>GET_CATEGORY_ORANGE_CASHOUT_PATTERN</key>
+        <value>\bCASHOUT\b|\bRETRAIT\b</value>
+    </entry>
+
+    <entry>
+        <key>GET_CATEGORY_ORANGE_PAYMENTS_PATTERN</key>
+        <value>(AFRIKPAY|MONETBIL|DOHONE|DIOOL|SUCCESSFUL PAYEMENT)</value>
+    </entry>
+
+    <entry>
+        <key>GET_TRANSACTION_ID_ORANGE_ID_TRANSACTION_PATTERN</key>
+        <value>[A-Za-z]*\d*\.[A-Za-z]*\d*\.[A-Za-z]*\d*</value>
+    </entry>
+
+    <entry>
+        <key>GET_TRANSACTION_ID_MTN_TRANSACTION_ID_PATTERN</key>
+        <value>(TRANSACTION ID|ID TRANSACTION):\s+\d+(\.\d+)?</value>
+    </entry>
+
+    <entry>
+        <key>PREPROCESSING_REFERENCE_REMOVER_PATTERN</key>
+        <value>REFERENCE.*(BALANCE|SOLDE)</value>
+    </entry>
+
+    <entry>
+        <key>PREPROCESSING_USSD_CODE_PATTERN</key>
+        <value>[\*#]\d+(\*\d+)*#</value>
+    </entry>
+
+    <entry>
+        <key>PREPROCESSING_SPECIAL_CARACTERS_PATTERN</key>
+        <value>[^\w \,\.]</value>
+    </entry>
+
+    <entry>
+        <key>GET_CATEGORY_ORANGE_INTEROPERABILITY_TRANSFERT_PATTERN</key>
+        <value>\bTRANSFER\b|\bTRANSFERT\b|\bTRANSFERE\b|\bTRANSFERRED\b|\bTRANSFERED\b</value>
+    </entry>
+
+    <entry>
+        <key>GET_CATEGORY_ORANGE_INTERNET_PATTERN</key>
+        <value>\bFORFAIT INTERNET\b|\bINTERNET BUNDLE\b</value>
+    </entry>
+
+    <entry>
+        <key>REMOVE_BONUS_BONUS_PATTERN</key>
+        <value>(\bBONUS\b|SOLDE BONUS|BALANCE BONUS)</value>
+    </entry>
+
+    <entry>
+        <key>IS_FAILED_MESSAGE_KEY_WORDS_FAILED_MESSAGE</key>
+        <value>\bFAILED\b|\bECHEC\b|PAS ETE ACCEPTE|PAS ETE CONFIRME|NOT BEEN ACCEPTED|UNSUCCESSFULL|UNSUCCESSFUL|ANNULE|CANCEL|INSUFFISANT|INSUFFICIENT|ECHOUE|(VOUCHER.*HAS EXPIRED)|A EXPIRE
+        </value>
+    </entry>
+
+    <entry>
+        <key>GET_CATEGORY_MTN_TRANSFER_PATTERN</key>
+        <value>\bTRANSFER\b|\bTRANSFERT\b</value>
+    </entry>
+
+    <entry>
+        <key>GET_CATEGORY_MTN_CASHOUT_PATTERN</key>
+        <value>\bWITHDRAW\b|\bRETRAIT\b|\bWITHDRAWN\b</value>
+    </entry>
+
+    <entry>
+        <key>GET_CATEGORY_MTN_THIRD_PARTY_PAYMENT_PATTERN</key>
+        <value>(AFRIKPAY|MONETBIL|DOHONE|DIOOL)</value>
+    </entry>
+
+    <entry>
+        <key>GET_CATEGORY_MTN_CASHIN_PATTERN</key>
+        <value>\bSENDER\b|\bEXPEDITEUR\b</value>
+    </entry>
+
+    <entry>
+        <key>GET_CATEGORY_MTN_RECEIVE_PATTERN</key>
+        <value>\bRECEIVED\b|\bRECEIVE\b|\bRECU\b|\bREÇU\b</value>
+    </entry>
+
+    <entry>
+        <key>GET_CATEGORY_MTN_INTERNET_PATTERN</key>
+        <value>MTNC BUNDLES</value>
+    </entry>
+
+    <entry>
+        <key>GET_CATEGORY_MTN_AIRTIME_PATTERN</key>
+        <value>\bAIRTIME\b|\bCREDIT\b</value>
+    </entry>
+
+    <entry>
+        <key>GET_CATEGORY_MTN_BALANCE_PATTERN</key>
+        <value>\bBALANCE\b|\bSOLDE\b</value>
+    </entry>
+
+    <entry>
+        <key>IS_RECEIVE_INTEROPERABILITY_MTN_RECEIVED_PATTERN</key>
+        <value>\bRECEIVE\b|\bRECEIVED\b|\bRECU\b|\bREÇU\b</value>
+    </entry>
+
+    <entry>
+        <key>IS_RECEIVE_INTEROPERABILITY_MTN_MOMO_PATTERN</key>
+        <value>\bMOMO\b|MTN MOMO|INTEROPERABILI|GIMAC</value>
+    </entry>
+
+    <entry>
+        <key>IS_INTEROPERABILITY_TRANSFER_MTN_TRANSFER_OR_PAYMENT</key>
+        <value>\bTRANSFER\b|\bPAYMENT\b|\bPAIEMENT\b</value>
+    </entry>
+
+    <entry>
+        <key>IS_INTEROPERABILITY_TRANSFERT_MTN_NON_MOMO_PATTERN</key>
+        <value>NON MOMO|NON MTN MOMO|INTEROPERABILI|GIMAC</value>
+    </entry>
+
+    <entry>
+        <key>IS_RECEIVE_INTEROPERABILITY_ORANGE_RECEIVE_PATTERN</key>
+        <value>\bRECU\b|\bRECEIVE\b|\bRECEIVED\b</value>
+    </entry>
+
+    <entry>
+        <key>GET_TRANSACTION_AMOUNT_ORANGE_AMOUNT_MESSAGE</key>
+        <value>(TRANSFER|\bMONTANT\b|\bAMOUNT\b|\bRECU\b|\bRECEIVE\b|\bRECEIVED\b|\bREÇU\b)\D*\d+(\.\d+)?
+        </value>
+    </entry>
+
+    <entry>
+        <key>GET_COMMISSION_COMMISSION_MESSAGE_PATTERN</key>
+        <value>
+            (\bCOMMISSION\b|\bCOMMISSIONS\b|\bCOMISSION\b|\bCOMMISION\b|\bCOMISION\b)\D*\d+(\.\d+)?
+        </value>
+    </entry>
+
+    <entry>
+        <key>NUMERICAL_VALUES_PATTERN</key>
+        <value>\d+(\.\d+)?</value>
+    </entry>
+
+    <entry>
+        <key>GET_FEES_FEES_MESSAGE_PATTERN</key>
+        <value>
+            (\bFEE\b|\bFEES\b|\bFRAIS\b|\bFRAI\b|\bCHARGES\b|\bCHARGE\b|\bCOST\b|\bCOUTE\b)\D*\d+(\.\d+)?
+        </value>
+    </entry>
+
+    <entry>
+        <key>GET_BALANCE_BALANCE_MESSAGE_PATTERN</key>
+        <value>(\bBALANCE\b|\bBALANCE IS\b|\bAVAILABLE BALANCE\b|\bCURRENT BALANCE\b|\bTHE BALANCE O YOUR ACCOUNT IS\b|\bSOLDE\b|\bSOLDE EST DE\b|\bSOLDE EST\b|\bSOLDE RESTANT\b|\bSOLDE RESTANT EST DE\b|\bSOLDE RESTANT EST\b|\bSOLDE DISPONIBLE\b|\bSOLDE COURANT\b|\bSOLDE DE VOTRE COMPTE EST DE\b)\s\d+(\.\d+)?
+        </value>
+    </entry>
+
+    <entry>
+        <key>GET_CATEGORY_ORANGE_REMOVE_RECEIVE_DATA_PATTERN</key>
+        <value>CONSULTEZ VOTRE SOLDE EN COMPOSANT|CHECK YOUR ACCOUNT BALANCE|CHECK THE BALANCE OF YOUR ACCOUNT|CHECK YOUR BALANCE
+        </value>
+    </entry>
+
+    <entry>
+        <key>GET_TRANSACTION_AMOUNT_MTN_TRANSACTION_AMOUNT_PATTERN</key>
+        <value>\d+(\.\d+)?\s*(FCFA|F|CFA|XAF)|(FCFA|F|CFA|XAF)\s*\d+(\.\d+)?</value>
+    </entry>
+
+    <entry>
+        <key>KEY_GET_EXTRACT_INFORMATIONS_FROM_SMS_VALUE_TO_EXCLUD_PATTERN</key>
+        <value>MTNC AIRTIME|VOUS ALLEZ FAIRE UN RETRAIT|YOU WILL DO A CASH OUT|(HTTP://BIT\.LY/CGU_OM)
+        </value>
+    </entry>
+
+    <entry>
+        <key>GET_CATEGORY_ORANGE_BILLS_PAIEMENTS_PATTERN</key>
+        <value>ENEO|CAMWATER|TAXES|SOLAR ENERGY</value>
+    </entry>
+
+    <entry>
+        <key>GET_CATEGORY_MTN_BILLS_PAIEMENTS_PATTERN</key>
+        <value>ENEO|CANAL+|MTN BILLS|MOBILE TAX|INSURANCE|CNPS|CIMENCAM PROMO</value>
+    </entry>
+
+</defaultsMap>

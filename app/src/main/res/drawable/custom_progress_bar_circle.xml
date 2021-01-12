@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Define the background properties like color etc -->
+    <item android:id="@android:id/background">
+        <shape
+            android:shape="ring"
+            android:innerRadiusRatio="2.5"
+            android:thickness="@dimen/dimen_24dp"
+            android:useLevel="true">
+
+            <solid android:color="@color/colorLightGray" />
+        </shape>
+    </item>
+
+    <!-- Define the progress properties like start color, end color etc -->
+    <item android:id="@android:id/progress">
+        <shape
+            android:shape="ring"
+            android:innerRadiusRatio="2.5"
+            android:thickness="@dimen/dimen_24dp"
+            android:useLevel="true">
+
+            <solid android:color="@color/colorAccent" />
+        </shape>
+    </item>
+</layer-list>

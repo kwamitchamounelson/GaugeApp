@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?><!-- START xml_defaults -->
+<defaultsMap>
+    <entry>
+        <key>CHAT_NOTIFICATIONS_MESSAGES</key>
+        <value>New information about kola</value>
+    </entry>
+    <entry>
+        <key>KEY_CHAT_NEW_NOTIFICATIONS_MSS_IS_THERE</key>
+        <value>true</value>
+    </entry>
+    <entry>
+        <key>LATEST_VERSION_NAME</key>
+        <value>1.0.0-rc</value>
+    </entry>
+    <entry>
+        <key>LATEST_VERSION_CODE</key>
+        <value>210010000</value>
+    </entry>
+    <entry>
+        <key>UPDATE_SENZITIVITY</key>
+        <value>false</value>
+    </entry>
+    <entry>
+        <key>LATEST_RELEASE_URL</key>
+        <value>https://play.google.com/store/apps/details?id=com.kola.kolaapplication</value>
+    </entry>
+    <entry>
+        <key>IS_MUST_LAUNCH_USSD_STEP_BY_STEP</key>
+        <value>false</value>
+    </entry>
+    <entry>
+        <key>IS_IGNORED_USERS_ANALYSED_SMSs</key>
+        <value>false</value>
+    </entry>
+    <entry>
+        <key>REANALYZED_REPORTED_TRANSACTION_VERSION_CODE</key>
+        <value>1</value>
+    </entry>
+
+    <entry>
+        <key>SHARE_DESCRIPTION</key>
+        <value>You are invited to discover a training on the management of your personal finances in our appication. please click for more</value>
+    </entry>
+
+    <entry>
+        <key>ILLUSTRATION_URL</key>
+        <value>
+            https://firebasestorage.googleapis.com/v0/b/kola-application.appspot.com/o/personal_fin_illustration.png?alt=media&amp;token=6da43da5-9ca1-4654-a22b-00aa8bae7344
+        </value>
+    </entry>
+</defaultsMap><!-- END xml_defaults -->

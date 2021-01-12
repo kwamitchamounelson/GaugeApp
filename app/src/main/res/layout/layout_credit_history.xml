@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/my_toolbar_credit"
+        style="@style/ToolbarDefaultType"
+        app:navigationIcon="@drawable/ic_arrow_back"
+        app:popupTheme="@style/AppThemeNoActionBar"
+        app:titleTextColor="@android:color/black">
+
+        <TextView
+            android:id="@+id/id_credit_toolbar_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/dimen_me_title_toolbar"
+            android:fontFamily="@font/roboto_medium"
+            android:gravity="center"
+            android:text="@string/credit_history"
+            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/dimen_size_title_toolbar" />
+    </androidx.appcompat.widget.Toolbar>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/dim_20dp"
+        android:layout_marginTop="@dimen/dimen_35dp"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_medium"
+                android:text="@string/total"
+                android:textColor="@color/color_text_gray_credit"
+                android:textSize="@dimen/dimen_14sp" />
+
+            <TextView
+                android:id="@+id/id_credit_history_total_amount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dim_6dp"
+                android:fontFamily="@font/roboto_medium"
+                android:text="30 000 F"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/dimen_26dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimen_35dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/dim_me_history_credit"
+                android:layout_weight="1"
+                android:text="@string/debt"
+                android:textColor="@color/color_text_gray_credit"
+                android:textSize="@dimen/dimen_20sp" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/paid_on"
+                android:textColor="@color/color_text_gray_credit"
+                android:textSize="@dimen/dimen_20sp" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="end"
+                android:text="@string/status"
+                android:textColor="@color/color_text_gray_credit"
+                android:textSize="@dimen/dimen_20sp" />
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/id_credit_history_list_rv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimen_17dp"
+            tools:listitem="@layout/item_credit_history" />
+    </LinearLayout>
+</LinearLayout>

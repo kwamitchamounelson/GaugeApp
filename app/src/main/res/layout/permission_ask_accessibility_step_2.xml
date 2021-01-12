@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/transparent_true"
+    android:padding="@dimen/dimen_16dp">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:cardBackgroundColor="@color/white"
+        app:cardCornerRadius="10dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/permission_accessibility_step2_icon"
+                android:layout_width="@dimen/dimen_48dp"
+                android:layout_height="@dimen/dimen_48dp"
+                android:layout_marginTop="24dp"
+                android:src="@drawable/ic_accessibility_icon"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/permission_accessibility_step2_explanation"
+                android:layout_width="@dimen/dimen_0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dimen_32dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="@dimen/dimen_32dp"
+                android:text="@string/accessibility_explanations"
+                android:textAlignment="center"
+                android:textSize="@dimen/dimen_14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/permission_accessibility_step2_icon" />
+
+            <ImageView
+                android:id="@+id/permission_accessibility_step2_schema"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginEnd="24dp"
+                android:scaleType="centerInside"
+                android:src="@drawable/permissions_accessibility"
+                app:layout_constraintDimensionRatio="1:1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/permission_accessibility_step2_explanation" />
+
+            <TextView
+                android:id="@+id/permission_accessibility_step2_step1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/step_1"
+                android:textColor="@color/permission_dark_green_accessibility"
+                android:textSize="@dimen/dimen_14sp"
+                app:layout_constraintBottom_toBottomOf="@+id/permission_accessibility_step2_schema"
+                app:layout_constraintEnd_toEndOf="@+id/permission_accessibility_step2_schema"
+                app:layout_constraintHorizontal_bias="0.16"
+                app:layout_constraintStart_toStartOf="@+id/permission_accessibility_step2_schema"
+                app:layout_constraintTop_toBottomOf="@+id/permission_accessibility_step2_explanation"
+                app:layout_constraintVertical_bias="0.81" />
+
+            <TextView
+                android:id="@+id/permission_accessibility_step2_desc1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/step_1_accessibility"
+                android:textAlignment="center"
+                android:textSize="@dimen/dimen_14sp"
+                app:layout_constraintBottom_toBottomOf="@+id/permission_accessibility_step2_schema"
+                app:layout_constraintEnd_toEndOf="@+id/permission_accessibility_step2_schema"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@+id/permission_accessibility_step2_schema"
+                app:layout_constraintTop_toBottomOf="@+id/permission_accessibility_step2_step1"
+                app:layout_constraintWidth_default="percent"
+                app:layout_constraintWidth_percent="0.4" />
+
+            <TextView
+                android:id="@+id/permission_accessibility_step2_step2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/step_2"
+                android:textColor="@color/permission_dark_green_accessibility"
+                android:textSize="@dimen/dimen_14sp"
+                app:layout_constraintBottom_toBottomOf="@+id/permission_accessibility_step2_schema"
+                app:layout_constraintEnd_toEndOf="@+id/permission_accessibility_step2_schema"
+                app:layout_constraintHorizontal_bias="0.82"
+                app:layout_constraintStart_toStartOf="@+id/permission_accessibility_step2_schema"
+                app:layout_constraintTop_toBottomOf="@+id/permission_accessibility_step2_explanation"
+                app:layout_constraintVertical_bias="0.81" />
+
+            <TextView
+                android:id="@+id/permission_accessibility_step2_desc2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/step_2_accessibility"
+                android:textAlignment="center"
+                android:textSize="@dimen/dimen_14sp"
+                app:layout_constraintBottom_toBottomOf="@+id/permission_accessibility_step2_schema"
+                app:layout_constraintEnd_toEndOf="@+id/permission_accessibility_step2_schema"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="@+id/permission_accessibility_step2_schema"
+                app:layout_constraintTop_toBottomOf="@+id/permission_accessibility_step2_step2"
+                app:layout_constraintWidth_default="percent"
+                app:layout_constraintWidth_percent="0.4" />
+
+            <Button
+                android:id="@+id/permission_accessibility_step2_btn_proceed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="@dimen/dim_24dp"
+                android:backgroundTint="@color/colorPrimary"
+                android:paddingStart="@dimen/dimen_48dp"
+                android:paddingEnd="@dimen/dimen_48dp"
+                android:text="@string/proceed"
+                android:textColor="@color/colorAccent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/permission_accessibility_step2_schema" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+</androidx.core.widget.NestedScrollView>
