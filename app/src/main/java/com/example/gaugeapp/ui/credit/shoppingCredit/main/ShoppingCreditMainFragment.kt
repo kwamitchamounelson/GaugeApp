@@ -20,6 +20,7 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.Section
@@ -52,6 +53,8 @@ class ShoppingCreditMainFragment : FragmentPermissions(), OnMapReadyCallback {
 
     private lateinit var mMap: GoogleMap
 
+    lateinit var navBar: BottomNavigationView
+
 
     /**
      * State event credit
@@ -76,6 +79,13 @@ class ShoppingCreditMainFragment : FragmentPermissions(), OnMapReadyCallback {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+
+        try {
+            navBar = requireActivity().findViewById(R.id.nav_view)
+            navBar.visibility = View.GONE
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
 
         bottomSheetBehavior = BottomSheetBehavior.from(id_map_shopping_bottomsheet)
         //we make invisible the views specific to airtime credit
@@ -264,10 +274,15 @@ class ShoppingCreditMainFragment : FragmentPermissions(), OnMapReadyCallback {
         }
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
+    override fun onDestroy() {
+        super.onDestroy()
         stateEventCredit = 0
+        try {
+            navBar = requireActivity().findViewById(R.id.nav_view)
+            navBar.visibility = View.VISIBLE
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
-
 
 }

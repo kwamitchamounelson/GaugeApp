@@ -4,7 +4,6 @@
     android:id="@+id/id_map_shopping_bottomsheet"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:map="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/background_map_b_sheet_shopping"
     app:behavior_hideable="false"
     app:behavior_peekHeight="@dimen/dimen_60dp"
@@ -54,6 +53,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="end"
             android:layout_margin="4dp"
+            app:cardBackgroundColor="@android:color/white"
             app:cardCornerRadius="@dimen/dimen_30dp"
             app:cardElevation="@dimen/dim_8dp">
 
@@ -95,6 +95,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/dimen_3dp"
+            app:cardBackgroundColor="@android:color/white"
             app:cardCornerRadius="@dimen/dim_8dp">
 
             <LinearLayout
