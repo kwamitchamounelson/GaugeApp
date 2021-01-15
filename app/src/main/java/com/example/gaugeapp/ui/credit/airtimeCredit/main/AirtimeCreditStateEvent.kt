@@ -1,6 +1,7 @@
 package com.example.gaugeapp.ui.credit.airtimeCredit.main
 
-import com.example.gaugeapp.entities.AirtimeCredit
+import com.example.gaugeapp.data.entities.AirtimeCreditRequest
+import com.example.gaugeapp.entities.AirTimeCreditLine
 
 /**
  * Airtime credit state event
@@ -9,10 +10,9 @@ import com.example.gaugeapp.entities.AirtimeCredit
  */
 sealed class AirtimeCreditStateEvent {
     object GetCurrentAirtimeCreditLineOfTheUser : AirtimeCreditStateEvent()
-    class InitAirtimeCreditLine(val airtimeCredit: AirtimeCredit) : AirtimeCreditStateEvent()
-    class BorrowAirtimeCredit(
-        val creditLineId: String,
-        val amount: Double,
-        val phoneNumber: String
-    ) : AirtimeCreditStateEvent()
+    class GetLastAirtimeCreditRequest(val currentCreditLineId: String) : AirtimeCreditStateEvent()
+    object InitAirtimeCreditLine : AirtimeCreditStateEvent()
+    class RequestBorrowAirtimeCredit(val airtimeCreditRequest: AirtimeCreditRequest) : AirtimeCreditStateEvent()
+    class ValidateAirtimeCreditRequest(val currentAirtimeCreditLine: AirTimeCreditLine, val currentAirtimeCreditRequest: AirtimeCreditRequest) : AirtimeCreditStateEvent()
+    class DisableAirtimeCreditRequest(val currentAirtimeCreditRequest: AirtimeCreditRequest) : AirtimeCreditStateEvent()
 }

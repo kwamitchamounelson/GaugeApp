@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.example.gaugeapp.commonRepositories.FireStoreAuthUtil
+import com.example.gaugeapp.data.entities.AirtimeCreditRequest
 import com.example.gaugeapp.entities.AirTimeCreditLine
 import com.example.gaugeapp.repositories.creditRepositories.AirtimeCreditRepository
 import com.example.gaugeapp.ui.base.BaseViewModel
@@ -35,23 +36,26 @@ class AirtimeCreditMainViewModel @ViewModelInject constructor(
     /**
      * current User id
      */
-    //val userId = FireStoreAuthUtil.getUserUID()
-    val userId = "FireStoreAuthUtil.getUserUID()"
+    val userId = FireStoreAuthUtil.getUserUID()
 
     /**
      * Current airtime credit line list observer
      *
      * to display current credit line and here credits
      */
-    val currentAirtimeCreditLinetObserver = MutableLiveData<DataState<AirTimeCreditLine>>()
+    val currentAirtimeCreditLinetObserver = MutableLiveData<DataState<AirTimeCreditLine?>>()
+
+
+    val airtimeCreditRequestObserver = MutableLiveData<DataState<AirtimeCreditRequest?>>()
 
     /**
      * State event credit observer
      *
      * To manage the state of the user
-     * 0 by default if the user is in good standing and is not in the process of making a request
-     * 1 if a loan request is pending
-     * 2 if he is overdue
+     * 0 By default if the user is in good standing and is not in the process of making a request
+     * 1 Case current request is PENDING
+     * 2 If the user is overdue
+     * 3 Case current request is REJECTED
      *
      */
     val stateEventCreditObserver = MutableLiveData<Int>().apply {
@@ -61,29 +65,47 @@ class AirtimeCreditMainViewModel @ViewModelInject constructor(
     /**
      * Set state event
      *
+     *
      * @param airtimeCreditStateEvent
      */
     fun setStateEvent(airtimeCreditStateEvent: AirtimeCreditStateEvent) {
         val job = viewModelScope.launch {
             when (airtimeCreditStateEvent) {
                 is AirtimeCreditStateEvent.GetCurrentAirtimeCreditLineOfTheUser -> {
-                    repository.getCurrentCreditLineOfTheUser(userId).onEach {
+                    repository.getCurrentCreditLineOfTheUser().onEach {
                         currentAirtimeCreditLinetObserver.value = it
                     }.launchIn(viewModelScope)
                 }
-                is AirtimeCreditStateEvent.BorrowAirtimeCredit -> {
-                    repository.borrowAirTimeCredit(
-                        userId,
-                        airtimeCreditStateEvent.creditLineId,
-                        airtimeCreditStateEvent.amount,
-                        airtimeCreditStateEvent.phoneNumber
-                    ).onEach {
-                        //TODO success borrow
-                    }.launchIn(viewModelScope)
+                is AirtimeCreditStateEvent.RequestBorrowAirtimeCredit -> {
+                    repository.requestBorrowAirTimeCredit(airtimeCreditStateEvent.airtimeCreditRequest)
+                        .onEach {
+                            airtimeCreditRequestObserver.value = it
+                        }.launchIn(viewModelScope)
                 }
                 is AirtimeCreditStateEvent.InitAirtimeCreditLine -> {
-                    repository.createCreditLine(airtimeCreditStateEvent.airtimeCredit).onEach {
-                        //TODO create new Airtime Credit line
+                    repository.createCreditLine().onEach {
+                        currentAirtimeCreditLinetObserver.value = it
+                    }.launchIn(viewModelScope)
+                }
+                is AirtimeCreditStateEvent.GetLastAirtimeCreditRequest -> {
+                    repository.getLastRequest(airtimeCreditStateEvent.currentCreditLineId)
+                        .onEach {
+                            airtimeCreditRequestObserver.value = it
+                        }.launchIn(viewModelScope)
+                }
+                is AirtimeCreditStateEvent.ValidateAirtimeCreditRequest -> {
+                    repository.validateAirtimeCreditRequest(
+                        airtimeCreditStateEvent.currentAirtimeCreditLine,
+                        airtimeCreditStateEvent.currentAirtimeCreditRequest
+                    ).onEach {
+                        currentAirtimeCreditLinetObserver.value = it
+                    }.launchIn(viewModelScope)
+                }
+                is AirtimeCreditStateEvent.DisableAirtimeCreditRequest -> {
+                    repository.disableAirtimeCreditRequest(
+                        airtimeCreditStateEvent.currentAirtimeCreditRequest
+                    ).onEach {
+                        airtimeCreditRequestObserver.value = it
                     }.launchIn(viewModelScope)
                 }
             }

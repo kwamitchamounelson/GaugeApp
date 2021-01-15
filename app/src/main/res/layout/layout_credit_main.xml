@@ -86,7 +86,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/diment_mt_credit_left"
                     android:fontFamily="@font/roboto_medium"
-                    android:text="100 F"
+                    android:text="0 F"
                     android:textColor="@color/colorPrimary"
                     android:textSize="@dimen/dimen_amount_left_credit" />
             </LinearLayout>
@@ -120,7 +120,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/diment_mt_credit_left"
                     android:fontFamily="@font/roboto_medium"
-                    android:text="100 F"
+                    android:text="0 F"
                     android:textColor="@color/color_red_credit_due"
                     android:textSize="@dimen/dimen_amount_left_credit" />
             </LinearLayout>
@@ -189,34 +189,60 @@
             android:textColor="@color/color_red_credit_due"
             android:textSize="@dimen/dimen_14sp" />
 
+
+        <TextView
+            android:id="@+id/credit_list_empty"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/color_text_gray_credit"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/dimen_60dp"
+            android:text="@string/empty"
+            android:visibility="gone" />
+
+        <ProgressBar
+            android:id="@+id/credit_progress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/dimen_40dp"
+            android:visibility="gone" />
+
         <LinearLayout
+            android:id="@+id/id_credit_list_data_block"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dim_30dp"
-            android:weightSum="4">
+            android:orientation="vertical">
 
-            <TextView
-                android:layout_width="0dp"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/debt"
-                android:textColor="@color/color_text_gray_credit"
-                android:textSize="@dimen/dimen_20sp" />
+                android:layout_marginTop="@dimen/dim_30dp"
+                android:weightSum="4">
 
-            <TextView
-                android:layout_width="0dp"
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/debt"
+                    android:textColor="@color/color_text_gray_credit"
+                    android:textSize="@dimen/dimen_20sp" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:text="@string/due_date"
+                    android:textColor="@color/color_text_gray_credit"
+                    android:textSize="@dimen/dimen_20sp" />
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/credit_list_rv"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:text="@string/due_date"
-                android:textColor="@color/color_text_gray_credit"
-                android:textSize="@dimen/dimen_20sp" />
+                android:layout_marginTop="@dimen/dim_20dp"
+                tools:listitem="@layout/item_credit" />
         </LinearLayout>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/credit_list_rv"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dim_20dp"
-            tools:listitem="@layout/item_credit" />
     </LinearLayout>
 </LinearLayout>

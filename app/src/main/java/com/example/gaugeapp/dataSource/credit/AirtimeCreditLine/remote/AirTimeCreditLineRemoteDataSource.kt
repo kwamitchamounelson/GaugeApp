@@ -38,5 +38,5 @@ interface AirTimeCreditLineRemoteDataSource {
      *
      * @return
      */
-    fun getCurrentAirtimeCreditLine(): Flow<DataState<List<AirTimeCreditLine>>>
+    fun getCurrentAirtimeCreditLine(): Flow<DataState<AirTimeCreditLine?>>
 }

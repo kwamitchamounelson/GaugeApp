@@ -262,4 +262,7 @@
     <string name="services_you_offer">Services you offer</string>
     <string name="international_transfer">INTERNATIONAL TRANSFER</string>
     <string name="repay">Repay</string>
+    <string name="empty">Empty</string>
+    <string name="connection_error_please_try_again">Connection error, please try again</string>
+    <string name="your_last_request_has_been_rejected">Your last request has been rejected</string>
 </resources>

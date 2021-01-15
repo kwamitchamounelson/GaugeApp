@@ -1,72 +1,52 @@
 package com.example.gaugeapp.repositories.creditRepositories
 
+import com.example.gaugeapp.commonRepositories.FireStoreAuthUtil
+import com.example.gaugeapp.data.entities.AirtimeCreditRequest
+import com.example.gaugeapp.data.enums.ENUM_REQUEST_STATUS
 import com.example.gaugeapp.dataSource.credit.AirtimeCreditLine.local.AirtimeCreditLineLocalDataSource
 import com.example.gaugeapp.dataSource.credit.AirtimeCreditLine.remote.AirTimeCreditLineRemoteDataSource
+import com.example.gaugeapp.dataSource.credit.airtimeCreditRequest.remote.AirTimeCreditRequestRemoteDataSource
 import com.example.gaugeapp.entities.AirTimeCreditLine
 import com.example.gaugeapp.entities.AirtimeCredit
+import com.example.gaugeapp.ui.credit.ConstantCredit
 import com.example.gaugeapp.utils.DataState
 import com.example.gaugeapp.utils.getOneDayInMillis
+import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import java.util.*
 import javax.inject.Inject
+import kotlin.collections.ArrayList
 
+@InternalCoroutinesApi
 class AirtimeCreditRepository @Inject constructor(
     private val airtimeCreditLineLocalDataSource: AirtimeCreditLineLocalDataSource,
-    private val airTimeCreditLineRemoteDataSource: AirTimeCreditLineRemoteDataSource
+    private val airtimeCreditLineRemoteDataSource: AirTimeCreditLineRemoteDataSource,
+    private val airtimeCreditRequestRemoteDataSource: AirTimeCreditRequestRemoteDataSource
 ) {
-    fun getCurrentCreditLineOfTheUser(useruid: String): Flow<DataState<AirTimeCreditLine>> {
-        //Mock data
-        return flow {
-            val creditLineId = "ooeuubdbbvdbd"
 
-            val creditList = arrayListOf<AirtimeCredit>().apply {
-                (1..4).forEach {
-                    add(
-                        AirtimeCredit().apply {
-                            id = "$it"
-                            idCreditLine = creditLineId
-                            amount = 100.0
-                        }
-                    )
-                }
-            }
-
-            val nowDateMillis = Calendar.getInstance().timeInMillis
-            val withinAweek = Date((getOneDayInMillis() * 7) + nowDateMillis)
-            val yesterday = Date((nowDateMillis - getOneDayInMillis()))
-            val dueDateRandom = listOf(withinAweek, yesterday).random()
-
-            val mockData = AirTimeCreditLine().apply {
-                id = creditLineId
-                userId = useruid
-                airtimeCreditList = creditList
-                dueDate = dueDateRandom
-            }
-            emit(DataState.Success(mockData))
-        }
+    fun getCurrentCreditLineOfTheUser(): Flow<DataState<AirTimeCreditLine?>> {
+        return airtimeCreditLineRemoteDataSource.getCurrentAirtimeCreditLine()
     }
 
-    fun borrowAirTimeCredit(
-        userId: String,
-        creditLineId: String,
-        amount: Double,
-        phoneNumber: String
-    ): Flow<DataState<Boolean>> {
-        //Mock data
-        return flow {
-            emit(DataState.Success(true))
-        }
+    fun requestBorrowAirTimeCredit(airtimeCreditRequest: AirtimeCreditRequest): Flow<DataState<AirtimeCreditRequest>> {
+        return airtimeCreditRequestRemoteDataSource.createAirtimeCreditRequest(airtimeCreditRequest)
     }
 
-    fun createCreditLine(airtimeCredit: AirtimeCredit): Flow<DataState<AirTimeCreditLine>> {
-        //Mock data
+    fun createCreditLine(): Flow<DataState<AirTimeCreditLine>> {
+        val nowDateMillis = Calendar.getInstance().timeInMillis
         val airTimeCreditLine = AirTimeCreditLine().apply {
-            airtimeCreditList = listOf(airtimeCredit)
+            userId = FireStoreAuthUtil.getUserUID()
+            maxAmountToLoan = ConstantCredit.MAX_AMOUNT_TO_LOAN
+            dueDate = Date((getOneDayInMillis() * ConstantCredit.MAX_DUE_DAY_COUNT) + nowDateMillis)
+            airtimeCreditList = listOf()
+            payBackPercent = ConstantCredit.INTEREST_RATE
+            minAmountToLoan = ConstantCredit.MIN_AMOUNT_TO_LOAN
+            createAt = Date(nowDateMillis)
+            syncDate = Date(nowDateMillis)
+            solved = false
         }
-        return flow {
-            emit(DataState.Success(airTimeCreditLine))
-        }
+        return airtimeCreditLineRemoteDataSource.createAirtimeCreditLine(airTimeCreditLine)
     }
 
     fun getAllSolvedCreditLineOfTheUser(userUid: String): Flow<DataState<List<AirTimeCreditLine>>> {
@@ -108,6 +88,61 @@ class AirtimeCreditRepository @Inject constructor(
 
             emit(DataState.Success(list))
         }
+    }
+
+    fun getLastRequest(currentCreditLineId: String): Flow<DataState<AirtimeCreditRequest?>> {
+        return airtimeCreditRequestRemoteDataSource.getLastAirtimeCreditRequest(currentCreditLineId)
+    }
+
+    fun validateAirtimeCreditRequest(
+        currentAirtimeCreditLine: AirTimeCreditLine,
+        currentAirtimeCreditRequest: AirtimeCreditRequest
+    ): Flow<DataState<AirTimeCreditLine?>> {
+
+        val nowDate = Calendar.getInstance().time
+        val dueDateFromNow =
+            Date((getOneDayInMillis() * ConstantCredit.MAX_DUE_DAY_COUNT) + nowDate.time)
+
+
+        //we disable current airtime credit request
+        disableAirtimeCreditRequest(currentAirtimeCreditRequest)
+
+        //we add a loan to the current credit line
+        val currentLoanList = arrayListOf<AirtimeCredit>().apply {
+            addAll(currentAirtimeCreditLine.airtimeCreditList)
+        }
+        val newAirtimeCredit = AirtimeCredit().apply {
+            id = nowDate.time.toString()
+            idCreditLine = currentAirtimeCreditLine.id
+            amount = currentAirtimeCreditRequest.amount
+            solved = false
+            dateOfLoan = nowDate
+            repaymentDate = currentAirtimeCreditLine.dueDate
+        }
+        currentAirtimeCreditLine.apply {
+            if (currentLoanList.isEmpty()) {
+                dueDate = dueDateFromNow
+                createAt = nowDate
+                syncDate = nowDate
+                newAirtimeCredit.repaymentDate = dueDateFromNow
+            }
+            currentLoanList.add(newAirtimeCredit)
+
+            airtimeCreditList = currentLoanList
+        }
+
+        return airtimeCreditLineRemoteDataSource.UpdateAirtimeCreditLine(currentAirtimeCreditLine)
+    }
+
+    fun disableAirtimeCreditRequest(currentAirtimeCreditRequest: AirtimeCreditRequest): Flow<DataState<AirtimeCreditRequest?>> {
+        val nowDate = Calendar.getInstance().time
+        currentAirtimeCreditRequest.apply {
+            lastUpdatedDate = nowDate
+            enable = false
+        }
+        return airtimeCreditRequestRemoteDataSource.updateAirtimeCreditRequest(
+            currentAirtimeCreditRequest
+        )
     }
 
 

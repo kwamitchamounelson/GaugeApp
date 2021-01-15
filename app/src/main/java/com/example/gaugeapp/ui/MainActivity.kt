@@ -1,10 +1,12 @@
 package com.example.gaugeapp.ui
 
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
+import com.example.gaugeapp.KolaWhalletApplication
 import com.example.gaugeapp.R
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
@@ -18,6 +20,12 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         val navView: BottomNavigationView = findViewById(R.id.nav_view)
+
+        KolaWhalletApplication.loadCurentUser {
+            KolaWhalletApplication.currentUser = it
+            KolaWhalletApplication.currentUser2.postValue(it)
+            Log.e("user taken from the se", it.toString())
+        }
 
         val navController = findNavController(R.id.nav_host_fragment)
         // Passing each menu ID as a set of Ids because each

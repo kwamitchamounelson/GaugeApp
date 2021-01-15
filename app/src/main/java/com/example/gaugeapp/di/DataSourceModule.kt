@@ -28,6 +28,9 @@ import com.example.gaugeapp.dataSource.credit.AirtimeCreditLine.local.AirtimesCr
 import com.example.gaugeapp.dataSource.credit.AirtimeCreditLine.remote.AirTimeCreditLineRemoteDataSource
 import com.example.gaugeapp.dataSource.credit.AirtimeCreditLine.remote.AirTimeCreditLineRemoteDataSourceImpl
 import com.example.gaugeapp.dataSource.credit.AirtimeCreditLine.remote.AirtimeCreditLineService
+import com.example.gaugeapp.dataSource.credit.airtimeCreditRequest.remote.AirTimeCreditRequestRemoteDataSource
+import com.example.gaugeapp.dataSource.credit.airtimeCreditRequest.remote.AirTimeCreditRequestRemoteDataSourceImpl
+import com.example.gaugeapp.dataSource.credit.airtimeCreditRequest.remote.AirtimeCreditRequestService
 import com.example.gaugeapp.dataSource.credit.shoppingCredit.local.IShoppingCreditLocalDataSource
 import com.example.gaugeapp.dataSource.credit.shoppingCredit.local.ShoppingCreditDao
 import com.example.gaugeapp.dataSource.credit.shoppingCredit.local.ShoppingCreditLocalDataSourceImpl
@@ -320,6 +323,18 @@ object DataSourceModule {
         return CampaignComLoanLocalDataSourceImpl(mapper, dao)
     }
 
+
+
+    //---------------------------------------------------------------------------------------------------------------------
+    //-------------------------------------------AIRTIME CREDIT REQUEST DATA SOURCE PROVIDING-----------------------------------------
+    //---------------------------------------------------------------------------------------------------------------------
+
+
+    @Singleton
+    @Provides
+    fun provideAirtimeCreditRequestRemoteDataSource(service: AirtimeCreditRequestService): AirTimeCreditRequestRemoteDataSource {
+        return AirTimeCreditRequestRemoteDataSourceImpl(service)
+    }
 
 
 }
