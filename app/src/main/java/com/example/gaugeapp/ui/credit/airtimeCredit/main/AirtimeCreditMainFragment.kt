@@ -41,6 +41,8 @@ class AirtimeCreditMainFragment : Fragment() {
             AirtimeCreditMainFragment()
     }
 
+    private var creditDue: Double = 0.0
+    private var creditLeft: Double = 0.0
     private var currentAirtimeCreditLine: AirTimeCreditLine? = null
     private var currentAirtimeCreditRequest: AirtimeCreditRequest? = null
     private val viewModel by viewModels<AirtimeCreditMainViewModel>()
@@ -93,25 +95,31 @@ class AirtimeCreditMainFragment : Fragment() {
                 if (stateEventCredit == 0) {
                     val bottomSheet =
                         BorrowAirtimeBottomSheetFragment { amount, phoneNumber ->
-                            requireContext().toast("$amount,  To $phoneNumber")
-                            viewModel.stateEventCreditObserver.value = 1
                             if (currentAirtimeCreditLine != null) {
-                                //we launch de request to borrow airtime
-                                val nowDate = Calendar.getInstance().time
-                                val airtimeCreditRequest = AirtimeCreditRequest(
-                                    "",
-                                    currentAirtimeCreditLine!!.id,
-                                    amount.toDouble(),
-                                    phoneNumber,
-                                    viewModel.userId,
-                                    nowDate,
-                                    ENUM_REQUEST_STATUS.PENDING,
-                                    nowDate,
-                                    true
-                                )
-                                viewModel.setStateEvent(
-                                    AirtimeCreditStateEvent.RequestBorrowAirtimeCredit(airtimeCreditRequest)
-                                )
+                                if (creditLeft >= amount) {
+                                    requireContext().toast("$amount,  To $phoneNumber")
+                                    viewModel.stateEventCreditObserver.value = 1
+                                    //we launch de request to borrow airtime
+                                    val nowDate = Calendar.getInstance().time
+                                    val airtimeCreditRequest = AirtimeCreditRequest(
+                                        "",
+                                        currentAirtimeCreditLine!!.id,
+                                        amount.toDouble(),
+                                        phoneNumber,
+                                        viewModel.userId,
+                                        nowDate,
+                                        ENUM_REQUEST_STATUS.PENDING,
+                                        nowDate,
+                                        true
+                                    )
+                                    viewModel.setStateEvent(
+                                        AirtimeCreditStateEvent.RequestBorrowAirtimeCredit(
+                                            airtimeCreditRequest
+                                        )
+                                    )
+                                } else {
+                                    requireContext().toast(R.string.your_remaining_credit_is_insufficient)
+                                }
                             } else {
                                 //current credit line is null, we try to get it on the server
                                 requireContext().toast(R.string.connection_error_please_try_again)
@@ -136,7 +144,7 @@ class AirtimeCreditMainFragment : Fragment() {
                     currentAirtimeCreditRequest = dataState.data
                     printLogD(TAG, "currentAirtimeCreditRequest => ${dataState.data.toString()}")
                     //to do pending animation
-                    if (dataState.data != null && dataState.data.enable) {
+                    if (dataState.data != null && dataState.data.requestEnable) {
                         when (dataState.data.status) {
                             ENUM_REQUEST_STATUS.PENDING -> {
                                 if (viewModel.stateEventCreditObserver.value != 1) {
@@ -150,8 +158,9 @@ class AirtimeCreditMainFragment : Fragment() {
                             }
                             ENUM_REQUEST_STATUS.VALIDATED -> {
                                 //we add airtime credit to corresponding to this request to the current credit line and we disable de request
+                                viewModel.stateEventCreditObserver.value = 0
                                 viewModel.setStateEvent(
-                                    AirtimeCreditStateEvent.ValidateAirtimeCreditRequest(
+                                    AirtimeCreditStateEvent.CloseValidatedAirtimeCreditRequest(
                                         currentAirtimeCreditLine!!,
                                         currentAirtimeCreditRequest!!
                                     )
@@ -171,7 +180,6 @@ class AirtimeCreditMainFragment : Fragment() {
                 is DataState.Failure -> {
                     requireContext().toast(R.string.connection_error_please_try_again)
                     dataState.throwable?.printStackTrace()
-                    updateUI(currentAirtimeCreditLine)
                 }
             }
         })
@@ -320,12 +328,12 @@ class AirtimeCreditMainFragment : Fragment() {
         if (airTimeCreditLine != null) {
             if (airTimeCreditLine.id.isNotBlank()) {
                 //credit left
-                val creditLeft = viewModel.calculateCreditLeft(airTimeCreditLine)
+                creditLeft = viewModel.calculateCreditLeft(airTimeCreditLine)
                 id_credit_left.text =
                     creditLeft.formatNumberWithSpaceBetweenThousand() + " F"
 
                 //credit due
-                val creditDue = viewModel.calculateCreditDue(airTimeCreditLine)
+                creditDue = viewModel.calculateCreditDue(airTimeCreditLine)
                 id_credit_due.text =
                     creditDue.formatNumberWithSpaceBetweenThousand() + " F"
 

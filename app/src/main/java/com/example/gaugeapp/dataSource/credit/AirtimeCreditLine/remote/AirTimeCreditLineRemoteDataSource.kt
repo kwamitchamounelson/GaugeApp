@@ -16,7 +16,7 @@ interface AirTimeCreditLineRemoteDataSource {
      *
      * @param airtimeCreditLine
      */
-    fun createAirtimeCreditLine(airtimeCreditLine: AirTimeCreditLine): Flow<DataState<AirTimeCreditLine>>
+    fun createAirtimeCreditLine(airtimeCreditLine: AirTimeCreditLine)
 
     /**
      * Update airtime credit line
@@ -24,7 +24,7 @@ interface AirTimeCreditLineRemoteDataSource {
      * @param airtimeCreditLine
      * @return
      */
-    fun UpdateAirtimeCreditLine(airtimeCreditLine: AirTimeCreditLine): Flow<DataState<AirTimeCreditLine>>
+    fun updateAirtimeCreditLine(airtimeCreditLine: AirTimeCreditLine)
 
     /**
      * Get all airtime credit line
@@ -39,4 +39,12 @@ interface AirTimeCreditLineRemoteDataSource {
      * @return
      */
     fun getCurrentAirtimeCreditLine(): Flow<DataState<AirTimeCreditLine?>>
+
+
+    /**
+     * Get current airtime credit line real time
+     *
+     * @return
+     */
+    fun getCurrentAirtimeCreditLineRealTime(): Flow<DataState<AirTimeCreditLine?>>
 }

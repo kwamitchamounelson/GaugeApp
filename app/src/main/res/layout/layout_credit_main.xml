@@ -86,7 +86,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/diment_mt_credit_left"
                     android:fontFamily="@font/roboto_medium"
-                    android:text="0 F"
                     android:textColor="@color/colorPrimary"
                     android:textSize="@dimen/dimen_amount_left_credit" />
             </LinearLayout>
@@ -120,7 +119,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/diment_mt_credit_left"
                     android:fontFamily="@font/roboto_medium"
-                    android:text="0 F"
                     android:textColor="@color/color_red_credit_due"
                     android:textSize="@dimen/dimen_amount_left_credit" />
             </LinearLayout>

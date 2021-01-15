@@ -12,7 +12,7 @@ data class AirtimeCreditRequest(
     var creationDate: Date,
     var status: ENUM_REQUEST_STATUS,
     var lastUpdatedDate: Date,
-    var enable: Boolean
+    var requestEnable: Boolean
 ) {
     constructor() : this("", "", 0.0, "", "", Date(), ENUM_REQUEST_STATUS.PENDING, Date(), false)
 

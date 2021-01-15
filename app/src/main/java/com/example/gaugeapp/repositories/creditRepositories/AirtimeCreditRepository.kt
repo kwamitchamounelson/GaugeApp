@@ -2,7 +2,6 @@ package com.example.gaugeapp.repositories.creditRepositories
 
 import com.example.gaugeapp.commonRepositories.FireStoreAuthUtil
 import com.example.gaugeapp.data.entities.AirtimeCreditRequest
-import com.example.gaugeapp.data.enums.ENUM_REQUEST_STATUS
 import com.example.gaugeapp.dataSource.credit.AirtimeCreditLine.local.AirtimeCreditLineLocalDataSource
 import com.example.gaugeapp.dataSource.credit.AirtimeCreditLine.remote.AirTimeCreditLineRemoteDataSource
 import com.example.gaugeapp.dataSource.credit.airtimeCreditRequest.remote.AirTimeCreditRequestRemoteDataSource
@@ -16,7 +15,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import java.util.*
 import javax.inject.Inject
-import kotlin.collections.ArrayList
 
 @InternalCoroutinesApi
 class AirtimeCreditRepository @Inject constructor(
@@ -26,14 +24,14 @@ class AirtimeCreditRepository @Inject constructor(
 ) {
 
     fun getCurrentCreditLineOfTheUser(): Flow<DataState<AirTimeCreditLine?>> {
-        return airtimeCreditLineRemoteDataSource.getCurrentAirtimeCreditLine()
+        return airtimeCreditLineRemoteDataSource.getCurrentAirtimeCreditLineRealTime()
     }
 
-    fun requestBorrowAirTimeCredit(airtimeCreditRequest: AirtimeCreditRequest): Flow<DataState<AirtimeCreditRequest>> {
-        return airtimeCreditRequestRemoteDataSource.createAirtimeCreditRequest(airtimeCreditRequest)
+    fun requestBorrowAirTimeCredit(airtimeCreditRequest: AirtimeCreditRequest){
+         airtimeCreditRequestRemoteDataSource.createAirtimeCreditRequest(airtimeCreditRequest)
     }
 
-    fun createCreditLine(): Flow<DataState<AirTimeCreditLine>> {
+    fun createCreditLine(){
         val nowDateMillis = Calendar.getInstance().timeInMillis
         val airTimeCreditLine = AirTimeCreditLine().apply {
             userId = FireStoreAuthUtil.getUserUID()
@@ -46,7 +44,7 @@ class AirtimeCreditRepository @Inject constructor(
             syncDate = Date(nowDateMillis)
             solved = false
         }
-        return airtimeCreditLineRemoteDataSource.createAirtimeCreditLine(airTimeCreditLine)
+        airtimeCreditLineRemoteDataSource.createAirtimeCreditLine(airTimeCreditLine)
     }
 
     fun getAllSolvedCreditLineOfTheUser(userUid: String): Flow<DataState<List<AirTimeCreditLine>>> {
@@ -90,14 +88,16 @@ class AirtimeCreditRepository @Inject constructor(
         }
     }
 
-    fun getLastRequest(currentCreditLineId: String): Flow<DataState<AirtimeCreditRequest?>> {
-        return airtimeCreditRequestRemoteDataSource.getLastAirtimeCreditRequest(currentCreditLineId)
+    fun getLastRequestReal(currentCreditLineId: String): Flow<DataState<AirtimeCreditRequest?>> {
+        return airtimeCreditRequestRemoteDataSource.getLastAirtimeCreditRequestRealTime(
+            currentCreditLineId
+        )
     }
 
-    fun validateAirtimeCreditRequest(
+    fun closeValidatedAirtimeCreditRequest(
         currentAirtimeCreditLine: AirTimeCreditLine,
         currentAirtimeCreditRequest: AirtimeCreditRequest
-    ): Flow<DataState<AirTimeCreditLine?>> {
+    ) {
 
         val nowDate = Calendar.getInstance().time
         val dueDateFromNow =
@@ -131,18 +131,16 @@ class AirtimeCreditRepository @Inject constructor(
             airtimeCreditList = currentLoanList
         }
 
-        return airtimeCreditLineRemoteDataSource.UpdateAirtimeCreditLine(currentAirtimeCreditLine)
+        airtimeCreditLineRemoteDataSource.updateAirtimeCreditLine(currentAirtimeCreditLine)
     }
 
-    fun disableAirtimeCreditRequest(currentAirtimeCreditRequest: AirtimeCreditRequest): Flow<DataState<AirtimeCreditRequest?>> {
+    fun disableAirtimeCreditRequest(currentAirtimeCreditRequest: AirtimeCreditRequest) {
         val nowDate = Calendar.getInstance().time
         currentAirtimeCreditRequest.apply {
             lastUpdatedDate = nowDate
-            enable = false
+            requestEnable = false
         }
-        return airtimeCreditRequestRemoteDataSource.updateAirtimeCreditRequest(
-            currentAirtimeCreditRequest
-        )
+        airtimeCreditRequestRemoteDataSource.updateAirtimeCreditRequest(currentAirtimeCreditRequest)
     }
 
 

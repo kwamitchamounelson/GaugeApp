@@ -2,7 +2,9 @@ package com.example.gaugeapp.dataSource.credit.AirtimeCreditLine.remote
 
 import com.example.gaugeapp.dataSource.common.BaseRemoteDataSource
 import com.example.gaugeapp.entities.AirTimeCreditLine
+import com.example.gaugeapp.utils.DataState
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 /**
@@ -24,7 +26,7 @@ class AirTimeCreditLineRemoteDataSourceImpl @Inject constructor(
      * @param airtimeCreditLine
      */
     override fun createAirtimeCreditLine(airtimeCreditLine: AirTimeCreditLine) =
-        getResult { service.createAirtimeCreditLine(airtimeCreditLine) }
+        service.createAirtimeCreditLine(airtimeCreditLine)
 
 
     /**
@@ -33,8 +35,8 @@ class AirTimeCreditLineRemoteDataSourceImpl @Inject constructor(
      * @param airtimeCreditLine
      * @return
      */
-    override fun UpdateAirtimeCreditLine(airtimeCreditLine: AirTimeCreditLine) =
-        getResult { service.UpdateAirtimeCreditLine(airtimeCreditLine) }
+    override fun updateAirtimeCreditLine(airtimeCreditLine: AirTimeCreditLine) =
+        service.updateAirtimeCreditLine(airtimeCreditLine)
 
 
     /**
@@ -53,4 +55,12 @@ class AirTimeCreditLineRemoteDataSourceImpl @Inject constructor(
      */
     override fun getCurrentAirtimeCreditLine() =
         getResult { service.getCurrentAirtimeCreditLine() }
+
+    /**
+     * Get current airtime credit line real time
+     *
+     * @return
+     */
+    override fun getCurrentAirtimeCreditLineRealTime() =
+        getResult { service.getCurrentAirtimeCreditLineRealTime() }
 }

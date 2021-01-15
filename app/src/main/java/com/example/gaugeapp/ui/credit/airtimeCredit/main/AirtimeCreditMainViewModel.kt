@@ -78,35 +78,24 @@ class AirtimeCreditMainViewModel @ViewModelInject constructor(
                 }
                 is AirtimeCreditStateEvent.RequestBorrowAirtimeCredit -> {
                     repository.requestBorrowAirTimeCredit(airtimeCreditStateEvent.airtimeCreditRequest)
-                        .onEach {
-                            airtimeCreditRequestObserver.value = it
-                        }.launchIn(viewModelScope)
                 }
                 is AirtimeCreditStateEvent.InitAirtimeCreditLine -> {
-                    repository.createCreditLine().onEach {
-                        currentAirtimeCreditLinetObserver.value = it
-                    }.launchIn(viewModelScope)
+                    repository.createCreditLine()
                 }
                 is AirtimeCreditStateEvent.GetLastAirtimeCreditRequest -> {
-                    repository.getLastRequest(airtimeCreditStateEvent.currentCreditLineId)
+                    repository.getLastRequestReal(airtimeCreditStateEvent.currentCreditLineId)
                         .onEach {
                             airtimeCreditRequestObserver.value = it
                         }.launchIn(viewModelScope)
                 }
-                is AirtimeCreditStateEvent.ValidateAirtimeCreditRequest -> {
-                    repository.validateAirtimeCreditRequest(
+                is AirtimeCreditStateEvent.CloseValidatedAirtimeCreditRequest -> {
+                    repository.closeValidatedAirtimeCreditRequest(
                         airtimeCreditStateEvent.currentAirtimeCreditLine,
                         airtimeCreditStateEvent.currentAirtimeCreditRequest
-                    ).onEach {
-                        currentAirtimeCreditLinetObserver.value = it
-                    }.launchIn(viewModelScope)
+                    )
                 }
                 is AirtimeCreditStateEvent.DisableAirtimeCreditRequest -> {
-                    repository.disableAirtimeCreditRequest(
-                        airtimeCreditStateEvent.currentAirtimeCreditRequest
-                    ).onEach {
-                        airtimeCreditRequestObserver.value = it
-                    }.launchIn(viewModelScope)
+                    repository.disableAirtimeCreditRequest(airtimeCreditStateEvent.currentAirtimeCreditRequest)
                 }
             }
         }

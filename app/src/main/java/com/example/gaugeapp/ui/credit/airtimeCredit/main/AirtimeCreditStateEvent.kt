@@ -13,6 +13,6 @@ sealed class AirtimeCreditStateEvent {
     class GetLastAirtimeCreditRequest(val currentCreditLineId: String) : AirtimeCreditStateEvent()
     object InitAirtimeCreditLine : AirtimeCreditStateEvent()
     class RequestBorrowAirtimeCredit(val airtimeCreditRequest: AirtimeCreditRequest) : AirtimeCreditStateEvent()
-    class ValidateAirtimeCreditRequest(val currentAirtimeCreditLine: AirTimeCreditLine, val currentAirtimeCreditRequest: AirtimeCreditRequest) : AirtimeCreditStateEvent()
+    class CloseValidatedAirtimeCreditRequest(val currentAirtimeCreditLine: AirTimeCreditLine, val currentAirtimeCreditRequest: AirtimeCreditRequest) : AirtimeCreditStateEvent()
     class DisableAirtimeCreditRequest(val currentAirtimeCreditRequest: AirtimeCreditRequest) : AirtimeCreditStateEvent()
 }

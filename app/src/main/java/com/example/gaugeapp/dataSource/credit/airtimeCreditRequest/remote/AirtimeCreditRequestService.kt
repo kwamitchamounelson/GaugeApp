@@ -5,10 +5,13 @@ import com.example.gaugeapp.commonRepositories.commonFireStoreRefKeyWord
 import com.example.gaugeapp.data.entities.AirtimeCreditRequest
 import com.example.gaugeapp.dataSource.FirebaseCUDService
 import com.example.gaugeapp.utils.FirebaseResponseType
+import com.example.gaugeapp.utils.printLogD
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
+import com.google.firebase.firestore.SetOptions
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
@@ -32,9 +35,38 @@ class AirtimeCreditRequestService @Inject constructor(
      * @param airtimeCreditRequest
      * @return
      */
-    fun createAirtimeCreditRequest(airtimeCreditRequest: AirtimeCreditRequest): Flow<FirebaseResponseType<AirtimeCreditRequest>> {
+    fun createAirtimeCreditRequest(airtimeCreditRequest: AirtimeCreditRequest) {
         val collection = getCollectionReference(airtimeCreditRequest.airtimeCreditLineId)
-        return saveData(airtimeCreditRequest, collection)
+        collection
+            .document()
+            .set(airtimeCreditRequest, SetOptions.merge())
+            .addOnSuccessListener {
+                printLogD(TAG, "Success createAirtimeCreditRequest")
+            }
+            .addOnFailureListener { exception ->
+                exception.printStackTrace()
+                printLogD(TAG, exception.toString())
+            }
+    }
+
+
+    /**
+     * Update airtime credit request
+     *
+     * @param airtimeCreditRequest
+     * @return
+     */
+    fun updateAirtimeCreditRequest(airtimeCreditRequest: AirtimeCreditRequest) {
+        val collection = getCollectionReference(airtimeCreditRequest.airtimeCreditLineId)
+        collection.document(airtimeCreditRequest.id)
+            .set(airtimeCreditRequest, SetOptions.merge())
+            .addOnSuccessListener {
+                printLogD(TAG, "Success updateAirtimeCreditRequest")
+            }
+            .addOnFailureListener { exception ->
+                exception.printStackTrace()
+                printLogD(TAG, exception.toString())
+            }
     }
 
     /**
@@ -79,10 +111,44 @@ class AirtimeCreditRequestService @Inject constructor(
             }
         }
 
-    fun updateCreditRequest(airtimeCreditRequest: AirtimeCreditRequest): Flow<FirebaseResponseType<AirtimeCreditRequest>> {
-        val collection = getCollectionReference(airtimeCreditRequest.airtimeCreditLineId)
-        return updateData(airtimeCreditRequest.id, airtimeCreditRequest, collection)
-    }
+
+    fun getLastAirtimeCreditRequestRealTime(currentCreditLineId: String): Flow<FirebaseResponseType<AirtimeCreditRequest?>> =
+        callbackFlow {
+
+            try {
+                getCollectionReference(currentCreditLineId)
+                    .orderBy(AirtimeCreditRequest::creationDate.name, Query.Direction.DESCENDING)
+                    .limit(1)
+                    .addSnapshotListener { value, error ->
+                        try {
+                            if (error != null) {
+                                offer(FirebaseResponseType.FirebaseErrorResponse(error))
+                                return@addSnapshotListener
+                            }
+                            val data = value?.map { queryDocumentSnapshot ->
+                                val entity =
+                                    queryDocumentSnapshot.toObject(AirtimeCreditRequest::class.java)
+                                entity.apply {
+                                    id = queryDocumentSnapshot.id
+                                }
+                            }
+                            val response = if (data!!.isEmpty()) {
+                                null
+                            } else {
+                                data.first()
+                            }
+                            offer(FirebaseResponseType.FirebaseSuccessResponse(response))
+                        } catch (ex: Exception) {
+                            printLogD(TAG, ex.toString())
+                        }
+                    }
+            } catch (ex: Exception) {
+                printLogD(TAG, ex.toString())
+                offer(FirebaseResponseType.FirebaseErrorResponse(ex))
+            }
+
+            cancelFlow(this)
+        }
 
 
 }

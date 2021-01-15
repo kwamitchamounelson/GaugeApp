@@ -16,7 +16,7 @@ interface AirTimeCreditRequestRemoteDataSource {
      * @param airtimeCreditRequest
      * @return
      */
-    fun createAirtimeCreditRequest(airtimeCreditRequest: AirtimeCreditRequest): Flow<DataState<AirtimeCreditRequest>>
+    fun createAirtimeCreditRequest(airtimeCreditRequest: AirtimeCreditRequest)
 
 
     /**
@@ -29,10 +29,18 @@ interface AirTimeCreditRequestRemoteDataSource {
     fun getLastAirtimeCreditRequest(currentCreditLineId: String): Flow<DataState<AirtimeCreditRequest?>>
 
     /**
+     * Get last airtime credit request real time
+     *
+     * @param currentCreditLineId
+     * @return
+     */
+    fun getLastAirtimeCreditRequestRealTime(currentCreditLineId: String): Flow<DataState<AirtimeCreditRequest?>>
+
+    /**
      * Update airtime credit request
      *
      * @param currentAirtimeCreditRequest
      * @return
      */
-    fun updateAirtimeCreditRequest(currentAirtimeCreditRequest: AirtimeCreditRequest): Flow<DataState<AirtimeCreditRequest?>>
+    fun updateAirtimeCreditRequest(currentAirtimeCreditRequest: AirtimeCreditRequest)
 }
