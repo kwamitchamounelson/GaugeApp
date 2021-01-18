@@ -10,9 +10,18 @@ import com.example.gaugeapp.entities.AirTimeCreditLine
  */
 sealed class AirtimeCreditStateEvent {
     object GetCurrentAirtimeCreditLineOfTheUser : AirtimeCreditStateEvent()
+
     class GetLastAirtimeCreditRequest(val currentCreditLineId: String) : AirtimeCreditStateEvent()
+
     object InitAirtimeCreditLine : AirtimeCreditStateEvent()
+
     class RequestBorrowAirtimeCredit(val airtimeCreditRequest: AirtimeCreditRequest) : AirtimeCreditStateEvent()
+
     class CloseValidatedAirtimeCreditRequest(val currentAirtimeCreditLine: AirTimeCreditLine, val currentAirtimeCreditRequest: AirtimeCreditRequest) : AirtimeCreditStateEvent()
-    class DisableAirtimeCreditRequest(val currentAirtimeCreditRequest: AirtimeCreditRequest) : AirtimeCreditStateEvent()
+
+    class CloseAirtimeCreditRequest(val currentAirtimeCreditRequest: AirtimeCreditRequest) : AirtimeCreditStateEvent()
+
+    class CancelCloselAirtimeCreditRequest(val currentAirtimeCreditRequest: AirtimeCreditRequest) : AirtimeCreditStateEvent()
+
+    class CloseCurentCreditLine(val currentAirtimeCreditLine: AirTimeCreditLine) : AirtimeCreditStateEvent()
 }

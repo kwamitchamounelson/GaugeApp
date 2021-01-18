@@ -2,8 +2,6 @@ package com.example.gaugeapp.di
 
 import android.content.Context
 import androidx.room.Room
-import com.example.gaugeapp.dataSource.communityLoan.campaign.local.CampaignComLoanDao
-import com.example.gaugeapp.dataSource.communityLoan.creditLine.local.CreditLineComLoanDao
 import com.example.gaugeapp.dataSource.credit.AirtimeCreditLine.local.AirtimesCreditLineDao
 import com.example.gaugeapp.dataSource.credit.shoppingCredit.local.ShoppingCreditDao
 import com.example.gaugeapp.dataSource.roomPersistence.KWalletDataBase
@@ -71,31 +69,5 @@ object RoomModule {
     @Provides
     fun provideAirtimeCreditLineDao(kWalletDataBase: KWalletDataBase): AirtimesCreditLineDao {
         return kWalletDataBase.airtimeCreditLineDao()
-    }
-
-
-    /**
-     * Provide credit line com loan dao
-     *
-     * @param kWalletDataBase
-     * @return
-     */
-    @Singleton
-    @Provides
-    fun provideCreditLineComLoanDao(kWalletDataBase: KWalletDataBase): CreditLineComLoanDao {
-        return kWalletDataBase.creditLineComLoanDao()
-    }
-
-
-    /**
-     * Provide campaign com loan dao
-     *
-     * @param kWalletDataBase
-     * @return
-     */
-    @Singleton
-    @Provides
-    fun provideCampaignComLoanDao(kWalletDataBase: KWalletDataBase): CampaignComLoanDao {
-        return kWalletDataBase.campaignComLoanDao()
     }
 }

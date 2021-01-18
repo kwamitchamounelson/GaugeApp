@@ -7,20 +7,6 @@ import com.google.firebase.storage.StorageReference
 import com.example.gaugeapp.dataSource.authentification.remote.AuthFirestoreService
 import com.example.gaugeapp.dataSource.authentification.remote.AuthRemoteDataSourceImpl
 import com.example.gaugeapp.dataSource.authentification.remote.IAuthRemoteDataSource
-import com.example.gaugeapp.dataSource.communityLoan.campaign.local.CampaignComLoanDao
-import com.example.gaugeapp.dataSource.communityLoan.campaign.local.CampaignComLoanLocalDataSource
-import com.example.gaugeapp.dataSource.communityLoan.campaign.local.CampaignComLoanLocalDataSourceImpl
-import com.example.gaugeapp.dataSource.communityLoan.campaign.local.CampaignComLoanLocalMapper
-import com.example.gaugeapp.dataSource.communityLoan.campaign.remote.CampaignComLoanRemoteDataSource
-import com.example.gaugeapp.dataSource.communityLoan.campaign.remote.CampaignComLoanRemoteDataSourceImpl
-import com.example.gaugeapp.dataSource.communityLoan.campaign.remote.CampaignComLoanRemoteService
-import com.example.gaugeapp.dataSource.communityLoan.creditLine.local.CreditLineComLoanDao
-import com.example.gaugeapp.dataSource.communityLoan.creditLine.local.CreditLineComLoanLocalDataSource
-import com.example.gaugeapp.dataSource.communityLoan.creditLine.local.CreditLineComLoanLocalDataSourceImpl
-import com.example.gaugeapp.dataSource.communityLoan.creditLine.local.CreditLineComLoanLocalMapper
-import com.example.gaugeapp.dataSource.communityLoan.creditLine.remote.CreditLineComLoanRemoteDataSource
-import com.example.gaugeapp.dataSource.communityLoan.creditLine.remote.CreditLineComLoanRemoteDataSourceImpl
-import com.example.gaugeapp.dataSource.communityLoan.creditLine.remote.CreditLineComLoanRemoteService
 import com.example.gaugeapp.dataSource.credit.AirtimeCreditLine.local.AirtimeCreditLineLocalDataSource
 import com.example.gaugeapp.dataSource.credit.AirtimeCreditLine.local.AirtimeCreditLineLocalDataSourceImpl
 import com.example.gaugeapp.dataSource.credit.AirtimeCreditLine.local.AirtimesCreditLineDao
@@ -252,75 +238,6 @@ object DataSourceModule {
     @Provides
     fun provideAirtimeCreditLineRemoteDataSource(service: AirtimeCreditLineService): AirTimeCreditLineRemoteDataSource {
         return AirTimeCreditLineRemoteDataSourceImpl(service)
-    }
-
-
-    //---------------------------------------------------------------------------------------------------------------------
-    //-------------------------------------------COMMUNITY LOAN DATA SOURCE PROVIDING-----------------------------------------
-    //---------------------------------------------------------------------------------------------------------------------
-
-
-    /**
-     * Provide credit line com loan local data source
-     *
-     * @param dao
-     * @param mapper
-     * @return
-     */
-    @Singleton
-    @Provides
-    fun provideCreditLineComLoanLocalDataSource(
-        dao: CreditLineComLoanDao,
-        mapper: CreditLineComLoanLocalMapper
-    ): CreditLineComLoanLocalDataSource {
-        return CreditLineComLoanLocalDataSourceImpl(mapper, dao)
-    }
-
-
-    /**
-     * Provide credit line com loan remote data source
-     *
-     * @param service
-     * @return
-     */
-    @Singleton
-    @Provides
-    fun provideCreditLineComLoanRemoteDataSource(service: CreditLineComLoanRemoteService): CreditLineComLoanRemoteDataSource {
-        return CreditLineComLoanRemoteDataSourceImpl(service)
-    }
-
-
-
-
-    /**
-     * Provide campaign com loan remote data source
-     *
-     * @param service
-     * @return
-     */
-    @Singleton
-    @Provides
-    fun provideCampaignComLoanRemoteDataSource(service: CampaignComLoanRemoteService): CampaignComLoanRemoteDataSource {
-        return CampaignComLoanRemoteDataSourceImpl(service)
-    }
-
-
-
-
-    /**
-     * Provide campaign com loan local data source
-     *
-     * @param dao
-     * @param mapper
-     * @return
-     */
-    @Singleton
-    @Provides
-    fun provideCampaignComLoanLocalDataSource(
-        dao: CampaignComLoanDao,
-        mapper: CampaignComLoanLocalMapper
-    ): CampaignComLoanLocalDataSource {
-        return CampaignComLoanLocalDataSourceImpl(mapper, dao)
     }
 
 

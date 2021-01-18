@@ -2,6 +2,7 @@ package com.example.gaugeapp.repositories.creditRepositories
 
 import com.example.gaugeapp.commonRepositories.FireStoreAuthUtil
 import com.example.gaugeapp.data.entities.AirtimeCreditRequest
+import com.example.gaugeapp.data.enums.ENUM_REQUEST_STATUS
 import com.example.gaugeapp.dataSource.credit.AirtimeCreditLine.local.AirtimeCreditLineLocalDataSource
 import com.example.gaugeapp.dataSource.credit.AirtimeCreditLine.remote.AirTimeCreditLineRemoteDataSource
 import com.example.gaugeapp.dataSource.credit.airtimeCreditRequest.remote.AirTimeCreditRequestRemoteDataSource
@@ -27,11 +28,11 @@ class AirtimeCreditRepository @Inject constructor(
         return airtimeCreditLineRemoteDataSource.getCurrentAirtimeCreditLineRealTime()
     }
 
-    fun requestBorrowAirTimeCredit(airtimeCreditRequest: AirtimeCreditRequest){
-         airtimeCreditRequestRemoteDataSource.createAirtimeCreditRequest(airtimeCreditRequest)
+    fun requestBorrowAirTimeCredit(airtimeCreditRequest: AirtimeCreditRequest) {
+        airtimeCreditRequestRemoteDataSource.createAirtimeCreditRequest(airtimeCreditRequest)
     }
 
-    fun createCreditLine(){
+    fun createCreditLine() {
         val nowDateMillis = Calendar.getInstance().timeInMillis
         val airTimeCreditLine = AirTimeCreditLine().apply {
             userId = FireStoreAuthUtil.getUserUID()
@@ -134,13 +135,37 @@ class AirtimeCreditRepository @Inject constructor(
         airtimeCreditLineRemoteDataSource.updateAirtimeCreditLine(currentAirtimeCreditLine)
     }
 
-    fun disableAirtimeCreditRequest(currentAirtimeCreditRequest: AirtimeCreditRequest) {
+    fun closeAirtimeCreditRequest(currentAirtimeCreditRequest: AirtimeCreditRequest) {
+        //we disable current airtime credit request
+        disableAirtimeCreditRequest(currentAirtimeCreditRequest)
+    }
+
+    private fun disableAirtimeCreditRequest(currentAirtimeCreditRequest: AirtimeCreditRequest) {
         val nowDate = Calendar.getInstance().time
         currentAirtimeCreditRequest.apply {
             lastUpdatedDate = nowDate
             requestEnable = false
         }
         airtimeCreditRequestRemoteDataSource.updateAirtimeCreditRequest(currentAirtimeCreditRequest)
+    }
+
+    fun cancelCloselAirtimeCreditRequest(currentAirtimeCreditRequest: AirtimeCreditRequest) {
+        val nowDate = Calendar.getInstance().time
+        currentAirtimeCreditRequest.apply {
+            lastUpdatedDate = nowDate
+            requestEnable = false
+            status = ENUM_REQUEST_STATUS.CANCELED
+        }
+        airtimeCreditRequestRemoteDataSource.updateAirtimeCreditRequest(currentAirtimeCreditRequest)
+    }
+
+    fun closeCurrentCreditLine(currentAirtimeCreditLine: AirTimeCreditLine) {
+        val nowDate = Calendar.getInstance().time
+        currentAirtimeCreditLine.apply {
+            solved = true
+            syncDate = nowDate
+        }
+        airtimeCreditLineRemoteDataSource.updateAirtimeCreditLine(currentAirtimeCreditLine)
     }
 
 

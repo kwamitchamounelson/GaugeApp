@@ -90,8 +90,8 @@ class ShoppingCreditMainFragment : FragmentPermissions(), OnMapReadyCallback {
         bottomSheetBehavior = BottomSheetBehavior.from(id_map_shopping_bottomsheet)
         //we make invisible the views specific to airtime credit
         try {
-            id_credit_borrow_button.visibility = View.GONE
-            id_credit_borrow_button.visibility = View.GONE
+            id_airtime_block.visibility = View.GONE
+            id_airtime_block.visibility = View.GONE
 
 
             askAnyPermission(

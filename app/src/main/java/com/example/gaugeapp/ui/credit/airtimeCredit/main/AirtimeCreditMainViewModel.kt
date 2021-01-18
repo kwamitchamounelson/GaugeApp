@@ -49,20 +49,6 @@ class AirtimeCreditMainViewModel @ViewModelInject constructor(
     val airtimeCreditRequestObserver = MutableLiveData<DataState<AirtimeCreditRequest?>>()
 
     /**
-     * State event credit observer
-     *
-     * To manage the state of the user
-     * 0 By default if the user is in good standing and is not in the process of making a request
-     * 1 Case current request is PENDING
-     * 2 If the user is overdue
-     * 3 Case current request is REJECTED
-     *
-     */
-    val stateEventCreditObserver = MutableLiveData<Int>().apply {
-        value = 0
-    }
-
-    /**
      * Set state event
      *
      *
@@ -94,8 +80,14 @@ class AirtimeCreditMainViewModel @ViewModelInject constructor(
                         airtimeCreditStateEvent.currentAirtimeCreditRequest
                     )
                 }
-                is AirtimeCreditStateEvent.DisableAirtimeCreditRequest -> {
-                    repository.disableAirtimeCreditRequest(airtimeCreditStateEvent.currentAirtimeCreditRequest)
+                is AirtimeCreditStateEvent.CloseAirtimeCreditRequest -> {
+                    repository.closeAirtimeCreditRequest(airtimeCreditStateEvent.currentAirtimeCreditRequest)
+                }
+                is AirtimeCreditStateEvent.CancelCloselAirtimeCreditRequest -> {
+                    repository.cancelCloselAirtimeCreditRequest(airtimeCreditStateEvent.currentAirtimeCreditRequest)
+                }
+                is AirtimeCreditStateEvent.CloseCurentCreditLine -> {
+                    repository.closeCurrentCreditLine(airtimeCreditStateEvent.currentAirtimeCreditLine)
                 }
             }
         }
@@ -109,9 +101,7 @@ class AirtimeCreditMainViewModel @ViewModelInject constructor(
      * @return
      */
     fun calculateCreditLeft(airTimeCreditLine: AirTimeCreditLine): Double {
-        val totalDueNotPercentage = airTimeCreditLine.airtimeCreditList.filter {
-            !it.solved
-        }.sumByDouble {
+        val totalDueNotPercentage = airTimeCreditLine.airtimeCreditList.sumByDouble {
             it.amount
         }
         return (airTimeCreditLine.maxAmountToLoan - totalDueNotPercentage)

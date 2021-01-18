@@ -56,7 +56,7 @@ class AirtimeCreditMainFragment : Fragment() {
      * 2 if he is overdue
      *
      */
-    private var stateEventCredit: Int = 0
+    private var pending = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -81,6 +81,7 @@ class AirtimeCreditMainFragment : Fragment() {
 
             credit_list_empty.visibility = View.GONE
             id_credit_list_data_block.visibility = View.GONE
+            setUiStateGoodStandingNotRequest()
         } catch (e: Exception) {
             e.printStackTrace()
         }
@@ -90,47 +91,49 @@ class AirtimeCreditMainFragment : Fragment() {
     }
 
     private fun configureOnClickListener() {
-        try {
-            id_credit_borrow_button.setOnClickListener {
-                if (stateEventCredit == 0) {
-                    val bottomSheet =
-                        BorrowAirtimeBottomSheetFragment { amount, phoneNumber ->
-                            if (currentAirtimeCreditLine != null) {
-                                if (creditLeft >= amount) {
-                                    requireContext().toast("$amount,  To $phoneNumber")
-                                    viewModel.stateEventCreditObserver.value = 1
-                                    //we launch de request to borrow airtime
-                                    val nowDate = Calendar.getInstance().time
-                                    val airtimeCreditRequest = AirtimeCreditRequest(
-                                        "",
-                                        currentAirtimeCreditLine!!.id,
-                                        amount.toDouble(),
-                                        phoneNumber,
-                                        viewModel.userId,
-                                        nowDate,
-                                        ENUM_REQUEST_STATUS.PENDING,
-                                        nowDate,
-                                        true
-                                    )
-                                    viewModel.setStateEvent(
-                                        AirtimeCreditStateEvent.RequestBorrowAirtimeCredit(
-                                            airtimeCreditRequest
-                                        )
-                                    )
-                                } else {
-                                    requireContext().toast(R.string.your_remaining_credit_is_insufficient)
-                                }
-                            } else {
-                                //current credit line is null, we try to get it on the server
-                                requireContext().toast(R.string.connection_error_please_try_again)
-                                viewModel.setStateEvent(AirtimeCreditStateEvent.GetCurrentAirtimeCreditLineOfTheUser)
-                            }
+        id_credit_borrow_text_button.setOnClickListener {
+            val bottomSheet =
+                BorrowAirtimeBottomSheetFragment { amount, phoneNumber ->
+                    if (currentAirtimeCreditLine != null) {
+                        if (creditLeft >= amount) {
+                            requireContext().toast("$amount,  To $phoneNumber")
+                            setUiStatePendingRequest()
+                            //we launch de request to borrow airtime
+                            val nowDate = Calendar.getInstance().time
+                            val airtimeCreditRequest = AirtimeCreditRequest(
+                                "",
+                                currentAirtimeCreditLine!!.id,
+                                amount.toDouble(),
+                                phoneNumber,
+                                viewModel.userId,
+                                nowDate,
+                                ENUM_REQUEST_STATUS.PENDING,
+                                nowDate,
+                                true
+                            )
+                            viewModel.setStateEvent(
+                                AirtimeCreditStateEvent.RequestBorrowAirtimeCredit(
+                                    airtimeCreditRequest
+                                )
+                            )
+                        } else {
+                            requireContext().toast(R.string.your_remaining_credit_is_insufficient)
                         }
-                    bottomSheet.show(childFragmentManager, "")
+                    } else {
+                        //current credit line is null, we try to get it on the server
+                        requireContext().toast(R.string.connection_error_please_try_again)
+                        viewModel.setStateEvent(AirtimeCreditStateEvent.GetCurrentAirtimeCreditLineOfTheUser)
+                    }
                 }
-            }
-        } catch (e: Exception) {
-            e.printStackTrace()
+            bottomSheet.show(childFragmentManager, "")
+        }
+
+        id_credit_borrow_pending_cancel.setOnClickListener {
+            viewModel.setStateEvent(
+                AirtimeCreditStateEvent.CancelCloselAirtimeCreditRequest(
+                    currentAirtimeCreditRequest!!
+                )
+            )
         }
     }
 
@@ -147,18 +150,26 @@ class AirtimeCreditMainFragment : Fragment() {
                     if (dataState.data != null && dataState.data.requestEnable) {
                         when (dataState.data.status) {
                             ENUM_REQUEST_STATUS.PENDING -> {
-                                if (viewModel.stateEventCreditObserver.value != 1) {
-                                    viewModel.stateEventCreditObserver.value = 1
-                                }
+                                setUiStatePendingRequest()
                             }
                             ENUM_REQUEST_STATUS.REJECTED -> {
-                                if (viewModel.stateEventCreditObserver.value != 3) {
-                                    viewModel.stateEventCreditObserver.value = 3
-                                }
+                                //kola rejected the request, we show and alert to notify the user
+                                requireContext().alert {
+                                    titleResource = R.string.app_name
+                                    messageResource = R.string.your_last_request_has_been_rejected
+                                    okButton {
+                                    }
+                                    onCancelled {
+                                        setUiStateGoodStandingNotRequest()
+                                        AirtimeCreditStateEvent.CloseAirtimeCreditRequest(
+                                            currentAirtimeCreditRequest!!
+                                        )
+                                    }
+                                }.show()
                             }
                             ENUM_REQUEST_STATUS.VALIDATED -> {
                                 //we add airtime credit to corresponding to this request to the current credit line and we disable de request
-                                viewModel.stateEventCreditObserver.value = 0
+                                setUiStateGoodStandingNotRequest()
                                 viewModel.setStateEvent(
                                     AirtimeCreditStateEvent.CloseValidatedAirtimeCreditRequest(
                                         currentAirtimeCreditLine!!,
@@ -168,8 +179,9 @@ class AirtimeCreditMainFragment : Fragment() {
                             }
                             ENUM_REQUEST_STATUS.CANCELED -> {
                                 //We only disable de request
+                                setUiStateGoodStandingNotRequest()
                                 viewModel.setStateEvent(
-                                    AirtimeCreditStateEvent.DisableAirtimeCreditRequest(
+                                    AirtimeCreditStateEvent.CloseAirtimeCreditRequest(
                                         currentAirtimeCreditRequest!!
                                     )
                                 )
@@ -193,8 +205,66 @@ class AirtimeCreditMainFragment : Fragment() {
                     }
                     is DataState.Success -> {
                         credit_progress.visibility = View.GONE
-                        printLogD(TAG, "currentAirtimeCreditLine => ${dataState.data.toString()}")
-                        updateUI(dataState.data)
+                        currentAirtimeCreditLine = dataState.data
+                        printLogD(
+                            TAG,
+                            "currentAirtimeCreditLine => ${currentAirtimeCreditLine.toString()}"
+                        )
+                        if (currentAirtimeCreditLine != null) {
+                            if (currentAirtimeCreditLine!!.id.isNotBlank()) {
+
+                                val totalLoan =
+                                    currentAirtimeCreditLine!!.airtimeCreditList.sumByDouble { it.amount }
+
+                                val maxAmount =
+                                    currentAirtimeCreditLine!!.maxAmountToLoan
+
+                                if (totalLoan < maxAmount) {
+                                    updateUI(currentAirtimeCreditLine!!)
+                                    //we fetch if we have pending request
+                                    viewModel.setStateEvent(
+                                        AirtimeCreditStateEvent.GetLastAirtimeCreditRequest(
+                                            currentAirtimeCreditLine!!.id
+                                        )
+                                    )
+                                } else if (totalLoan == maxAmount) {
+                                    val totalUnSolved =
+                                        currentAirtimeCreditLine!!.airtimeCreditList.filter { !it.solved }
+                                            .sumByDouble {
+                                                it.amount
+                                            }
+                                    if (totalUnSolved == 0.0) {
+                                        //the current credit line is solved, we close it and automatically new is created
+                                        viewModel.setStateEvent(
+                                            AirtimeCreditStateEvent.CloseCurentCreditLine(
+                                                currentAirtimeCreditLine!!
+                                            )
+                                        )
+                                    } else {
+                                        updateUI(currentAirtimeCreditLine!!)
+                                        //we fetch if we have pending request
+                                        viewModel.setStateEvent(
+                                            AirtimeCreditStateEvent.GetLastAirtimeCreditRequest(
+                                                currentAirtimeCreditLine!!.id
+                                            )
+                                        )
+                                    }
+                                }
+
+                            } else {
+                                //we try to recover the credit line to be sure to have the id
+                                viewModel.setStateEvent(AirtimeCreditStateEvent.GetCurrentAirtimeCreditLineOfTheUser)
+                            }
+                        } else {
+                            //credit left
+                            id_credit_left.text = "0 F"
+
+                            //credit due
+                            id_credit_due.text = "0 F"
+
+                            //init new airtime credit line
+                            viewModel.setStateEvent(AirtimeCreditStateEvent.InitAirtimeCreditLine)
+                        }
                     }
                     is DataState.Failure -> {
                         dataState.throwable?.printStackTrace()
@@ -202,82 +272,59 @@ class AirtimeCreditMainFragment : Fragment() {
                     }
                 }
             })
+    }
 
-        viewModel.stateEventCreditObserver.observe(
-            viewLifecycleOwner,
-            Observer { state ->
-                state?.let {
-                    stateEventCredit = it
-                    try {
-                        when (state) {
-                            0 -> {
-                                // 0 by default if the user is in good standing and is not in the process of making a request
-                                id_credit_borrow_state_text.apply {
-                                    textResource = R.string.borrow_airtime
-                                    textColorResource = R.color.colorPrimary
-                                }
-                                id_credit_borrow_grace_periode.visibility = View.GONE
-                                id_credit_borrow_pending_rv.visibility = View.GONE
-                                id_credit_payment_explanation.visibility = View.VISIBLE
-                                id_credit_payment_penality_explanation.visibility =
-                                    View.GONE
-                            }
-                            1 -> {
-                                //1 if a loan request is pending
-                                id_credit_borrow_state_text.apply {
-                                    textResource = R.string.you_are_on_the_way
-                                    textColorResource = R.color.colorPrimary
-                                }
-                                id_credit_borrow_grace_periode.visibility = View.GONE
-                                id_credit_borrow_pending_rv.visibility = View.VISIBLE
-                                id_credit_payment_explanation.visibility = View.VISIBLE
-                                id_credit_payment_penality_explanation.visibility =
-                                    View.GONE
-                                startPendingAnimation()
-                            }
-                            2 -> {
-                                //2 if he is overdue
-                                id_credit_borrow_state_text.apply {
-                                    textResource = R.string.you_are_overdue
-                                    textColorResource = R.color.color_red_credit_due
-                                }
-                                id_credit_borrow_grace_periode.visibility = View.VISIBLE
-                                id_credit_borrow_pending_rv.visibility = View.GONE
+    private fun setUiStateOverdue() {
+        pending = false
+        //2 if he is overdue
+        id_credit_borrow_text_button.visibility = View.GONE
+        id_credit_borrow_text_state.apply {
+            visibility = View.VISIBLE
+            textResource = R.string.you_are_overdue
+            textColorResource = R.color.color_red_credit_due
+        }
+        id_credit_borrow_grace_periode.visibility = View.VISIBLE
+        id_credit_borrow_pending_rv.visibility = View.GONE
+        id_credit_borrow_pending_cancel.visibility = View.GONE
 
-                                id_credit_payment_explanation.visibility = View.GONE
-                                id_credit_payment_penality_explanation.visibility =
-                                    View.VISIBLE
-                            }
-                            3 -> {
-                                //kola rejected the request, we show and alert to notify the user
-                                requireContext().alert {
-                                    titleResource = R.string.app_name
-                                    messageResource = R.string.your_last_request_has_been_rejected
-                                    okButton {
-                                        AirtimeCreditStateEvent.DisableAirtimeCreditRequest(
-                                            currentAirtimeCreditRequest!!
-                                        )
-                                    }
-                                    onCancelled {
-                                        AirtimeCreditStateEvent.DisableAirtimeCreditRequest(
-                                            currentAirtimeCreditRequest!!
-                                        )
-                                    }
-                                }.show()
-                            }
-                            else -> {
+        id_credit_payment_explanation.visibility = View.GONE
+        id_credit_payment_penality_explanation.visibility =
+            View.VISIBLE
+    }
 
-                            }
-                        }
-                    } catch (e: Exception) {
-                        e.printStackTrace()
-                    }
-                }
-            })
+    private fun setUiStatePendingRequest() {
+        pending = true
+        //1 if a loan request is pending
+        id_credit_borrow_text_button.visibility = View.GONE
+        id_credit_borrow_text_state.apply {
+            visibility = View.VISIBLE
+            textResource = R.string.you_are_on_the_way
+            textColorResource = R.color.colorPrimary
+        }
+        id_credit_borrow_grace_periode.visibility = View.GONE
+        id_credit_borrow_pending_rv.visibility = View.VISIBLE
+        id_credit_borrow_pending_cancel.visibility = View.VISIBLE
+        id_credit_payment_explanation.visibility = View.VISIBLE
+        id_credit_payment_penality_explanation.visibility =
+            View.GONE
+        startPendingAnimation()
+    }
+
+    private fun setUiStateGoodStandingNotRequest() {
+        pending = false
+        // 0 by default if the user is in good standing and is not in the process of making a request
+        id_credit_borrow_text_button.visibility = View.VISIBLE
+        id_credit_borrow_text_state.visibility = View.GONE
+        id_credit_borrow_grace_periode.visibility = View.GONE
+        id_credit_borrow_pending_rv.visibility = View.GONE
+        id_credit_borrow_pending_cancel.visibility = View.GONE
+        id_credit_payment_explanation.visibility = View.VISIBLE
+        id_credit_payment_penality_explanation.visibility =
+            View.GONE
     }
 
     private fun startPendingAnimation() {
-        if (stateEventCredit == 1) {
+        if (pending) {
 
             val pendingItems = (0..3).map {
                 PendingItem(it)
@@ -291,11 +338,13 @@ class AirtimeCreditMainFragment : Fragment() {
                 }
             }
 
+            val pendingCount = (pendingItems.size - 1)
+
             //start thread animation
             try {
                 var currentIndex = 0
                 val thread = Thread {
-                    while (stateEventCredit == 1) {
+                    while (pending) {
                         requireActivity().runOnUiThread(Runnable {
                             pendingItems.forEach { item ->
                                 item.apply {
@@ -304,12 +353,12 @@ class AirtimeCreditMainFragment : Fragment() {
                                 }
                             }
                             currentIndex++
-                            if (currentIndex > 3) {
+                            if (currentIndex > pendingCount) {
                                 currentIndex = 0
                             }
                         })
                         try {
-                            Thread.sleep(500)
+                            Thread.sleep(200)
                         } catch (e: Exception) {
                             e.printStackTrace()
                         }
@@ -323,55 +372,30 @@ class AirtimeCreditMainFragment : Fragment() {
     }
 
     @SuppressLint("SetTextI18n")
-    private fun updateUI(airTimeCreditLine: AirTimeCreditLine?) {
-        currentAirtimeCreditLine = airTimeCreditLine
-        if (airTimeCreditLine != null) {
-            if (airTimeCreditLine.id.isNotBlank()) {
-                //credit left
-                creditLeft = viewModel.calculateCreditLeft(airTimeCreditLine)
-                id_credit_left.text =
-                    creditLeft.formatNumberWithSpaceBetweenThousand() + " F"
+    private fun updateUI(airTimeCreditLine: AirTimeCreditLine) {
+        //credit left
+        creditLeft = viewModel.calculateCreditLeft(airTimeCreditLine)
+        id_credit_left.text =
+            creditLeft.formatNumberWithSpaceBetweenThousand() + " F"
 
-                //credit due
-                creditDue = viewModel.calculateCreditDue(airTimeCreditLine)
-                id_credit_due.text =
-                    creditDue.formatNumberWithSpaceBetweenThousand() + " F"
+        //credit due
+        creditDue = viewModel.calculateCreditDue(airTimeCreditLine)
+        id_credit_due.text =
+            creditDue.formatNumberWithSpaceBetweenThousand() + " F"
 
 
-                val nowDate = Calendar.getInstance().time
+        val nowDate = Calendar.getInstance().time
 
-                if (airTimeCreditLine.dueDate < nowDate) {
-                    //value 2 , because user is overdue
-                    viewModel.stateEventCreditObserver.value = 2
-                }
-
-                //show credit list
-                val items = airTimeCreditLine.airtimeCreditList.map {
-                    AirtimeCreditItem(it, airTimeCreditLine)
-                }
-                updateRv(items)
-
-                //we fetch if we have pending request
-                viewModel.setStateEvent(
-                    AirtimeCreditStateEvent.GetLastAirtimeCreditRequest(
-                        airTimeCreditLine.id
-                    )
-                )
-
-            } else {
-                //we try to recover the credit line to be sure to have the id
-                viewModel.setStateEvent(AirtimeCreditStateEvent.GetCurrentAirtimeCreditLineOfTheUser)
-            }
-        } else {
-            //credit left
-            id_credit_left.text = "0 F"
-
-            //credit due
-            id_credit_due.text = "0 F"
-
-            //init new airtime credit line
-            viewModel.setStateEvent(AirtimeCreditStateEvent.InitAirtimeCreditLine)
+        if (airTimeCreditLine.dueDate < nowDate) {
+            //value 2 , because user is overdue
+            setUiStateOverdue()
         }
+
+        //show credit list
+        val items = airTimeCreditLine.airtimeCreditList.filter { !it.solved }.map {
+            AirtimeCreditItem(it, airTimeCreditLine)
+        }
+        updateRv(items)
     }
 
     private fun updateRv(items: List<AirtimeCreditItem>) {
@@ -422,7 +446,7 @@ class AirtimeCreditMainFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        stateEventCredit = 0
+        pending = false
     }
 
 }

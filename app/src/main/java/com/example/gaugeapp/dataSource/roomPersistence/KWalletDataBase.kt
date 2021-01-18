@@ -8,10 +8,6 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 import com.example.gaugeapp.commonRepositories.roomRep.DateConverter
 import com.example.gaugeapp.commonRepositories.roomRep.roomEntities.SmsTable
 import com.example.gaugeapp.data.entities.Balance
-import com.example.gaugeapp.dataSource.communityLoan.campaign.local.CampaignComLoanDao
-import com.example.gaugeapp.dataSource.communityLoan.campaign.local.CampaignComLoanTable
-import com.example.gaugeapp.dataSource.communityLoan.creditLine.local.CreditLineComLoanDao
-import com.example.gaugeapp.dataSource.communityLoan.creditLine.local.CreditLineComLoanTable
 import com.example.gaugeapp.dataSource.credit.AirtimeCreditLine.local.AirtimesCreditLineDao
 import com.example.gaugeapp.dataSource.credit.AirtimeCreditLine.local.AirtimesCreditLineLocalEntity
 import com.example.gaugeapp.dataSource.credit.shoppingCredit.local.ShoppingCreditDao
@@ -22,7 +18,7 @@ import com.example.gaugeapp.dataSource.user.local.UserDao
 
 @Database(
     entities = [SmsTable::class, Balance::class, UserCacheEntity::class, ShoppingCreditLineTable::class, ShoppingCreditTable::class
-        , AirtimesCreditLineLocalEntity::class, CampaignComLoanTable::class, CreditLineComLoanTable::class],
+        , AirtimesCreditLineLocalEntity::class],
     version = 3
 )
 @TypeConverters(DateConverter::class)
@@ -50,7 +46,4 @@ abstract class KWalletDataBase : RoomDatabase() {
     abstract fun userDao(): UserDao
     abstract fun shoppingCreditDao(): ShoppingCreditDao
     abstract fun airtimeCreditLineDao(): AirtimesCreditLineDao
-    abstract fun creditLineComLoanDao(): CreditLineComLoanDao
-    abstract fun campaignComLoanDao(): CampaignComLoanDao
-
 }
