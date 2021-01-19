@@ -59,7 +59,10 @@ class AirtimeCreditItem(
                     airTimeCreditLine.airtimeCreditList.indexOfFirst { it.id == airtimeCredit.id }
                 if (index >= 0) {
                     val repository = hiltEntryPoint.airtimeCreditRepository()
-                    airTimeCreditLine.airtimeCreditList[index].solved = true
+                    airTimeCreditLine.airtimeCreditList[index].apply {
+                        solved = true
+                        repaymentDate = Calendar.getInstance().time
+                    }
                     repository.updateCreditLine(airTimeCreditLine)
                 }
             }

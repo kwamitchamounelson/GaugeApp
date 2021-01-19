@@ -52,4 +52,11 @@ interface AirtimeCreditLineLocalDataSource {
      * @return
      */
     suspend fun getAllAirtimeCreditLine(): List<AirTimeCreditLine>
+
+    /**
+     * Get all solved credit line of the user
+     *
+     * @return
+     */
+    suspend fun getAllSolvedCreditLineOfTheUser(): List<AirTimeCreditLine>
 }

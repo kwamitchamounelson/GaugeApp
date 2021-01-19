@@ -47,6 +47,14 @@ class AirTimeCreditLineRemoteDataSourceImpl @Inject constructor(
     override fun getAllAirtimeCreditLine() =
         getResult { service.getAllAirtimeCreditLine() }
 
+    /**
+     * Get all solved credit line of the user
+     *
+     * @return
+     */
+    override fun getAllSolvedCreditLineOfTheUser() =
+        getResult { service.getAllSolvedCreditLineOfTheUser() }
+
 
     /**
      * Get current airtime credit line of the user

@@ -11,12 +11,26 @@ import com.example.gaugeapp.entities.AirtimeCredit
 import com.example.gaugeapp.ui.credit.ConstantCredit
 import com.example.gaugeapp.utils.DataState
 import com.example.gaugeapp.utils.getOneDayInMillis
+import com.example.gaugeapp.utils.networkBoundResource.NetworkBoundResourceAirtimeCredit
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.launch
 import java.util.*
 import javax.inject.Inject
 
+
+/**
+ * Airtime credit repository
+ *
+ * @property airtimeCreditLineLocalDataSource
+ * @property airtimeCreditLineRemoteDataSource
+ * @property airtimeCreditRequestRemoteDataSource
+ * @constructor Create empty Airtime credit repository
+ */
 @InternalCoroutinesApi
 class AirtimeCreditRepository @Inject constructor(
     private val airtimeCreditLineLocalDataSource: AirtimeCreditLineLocalDataSource,
@@ -24,14 +38,29 @@ class AirtimeCreditRepository @Inject constructor(
     private val airtimeCreditRequestRemoteDataSource: AirTimeCreditRequestRemoteDataSource
 ) {
 
+    /**
+     * Get current credit line of the user
+     *
+     * @return
+     */
     fun getCurrentCreditLineOfTheUser(): Flow<DataState<AirTimeCreditLine?>> {
         return airtimeCreditLineRemoteDataSource.getCurrentAirtimeCreditLineRealTime()
     }
 
+
+    /**
+     * Request borrow air time credit
+     *
+     * @param airtimeCreditRequest
+     */
     fun requestBorrowAirTimeCredit(airtimeCreditRequest: AirtimeCreditRequest) {
         airtimeCreditRequestRemoteDataSource.createAirtimeCreditRequest(airtimeCreditRequest)
     }
 
+    /**
+     * Create credit line
+     *
+     */
     fun createCreditLine() {
         val nowDateMillis = Calendar.getInstance().timeInMillis
         val airTimeCreditLine = AirTimeCreditLine().apply {
@@ -48,53 +77,61 @@ class AirtimeCreditRepository @Inject constructor(
         airtimeCreditLineRemoteDataSource.createAirtimeCreditLine(airTimeCreditLine)
     }
 
-    fun getAllSolvedCreditLineOfTheUser(userUid: String): Flow<DataState<List<AirTimeCreditLine>>> {
-        //Mock data
-        return flow {
 
-            val list = arrayListOf<AirTimeCreditLine>()
+    /**
+     * Get all solved credit line of the user
+     *
+     * @return
+     */
+    @InternalCoroutinesApi
+    fun getAllSolvedCreditLineOfTheUser(): Flow<DataState<List<AirTimeCreditLine>>> {
 
-            val nowDateMillis = Calendar.getInstance().timeInMillis
-            val withinAWeek = Date((getOneDayInMillis() * 7) + nowDateMillis)
-            val otherDay = Date((getOneDayInMillis() * ((1..100).random())) + nowDateMillis)
-            val yesterday = Date((nowDateMillis - getOneDayInMillis()))
-
-            (1..10).forEach { creditLineId ->
-                val creditList = arrayListOf<AirtimeCredit>().apply {
-                    (1..5).forEach {
-                        add(
-                            AirtimeCredit().apply {
-                                id = "$it"
-                                idCreditLine = creditLineId.toString()
-                                amount = 100.0
-                                solved = true
-                                repaymentDate = listOf(withinAWeek, yesterday, otherDay).random()
-                            }
-                        )
-                    }
+        return NetworkBoundResourceAirtimeCredit(
+            fetchFromLocal = {
+                flow {
+                    emit(airtimeCreditLineLocalDataSource.getAllSolvedCreditLineOfTheUser())
                 }
-
-                val dueDateRandom = listOf(withinAWeek, yesterday, otherDay).random()
-                val mockData = AirTimeCreditLine().apply {
-                    id = creditLineId.toString()
-                    userId = userUid
-                    airtimeCreditList = creditList
-                    dueDate = dueDateRandom
-                    solved = true
+            },
+            shouldFetchFromRemote = { localList ->
+                localList?.isEmpty()
+                    ?: true
+            },
+            fetchFromRemote = {
+                airtimeCreditLineRemoteDataSource.getAllSolvedCreditLineOfTheUser()
+            },
+            processRemoteResponse = { dataState ->
+                dataState.extractData ?: arrayListOf()
+            },
+            saveRemoteData = { remoteList ->
+                GlobalScope.launch {
+                    airtimeCreditLineLocalDataSource.insertManyAirtimeCreditLine(remoteList)
                 }
-                list.add(mockData)
+            }, onFetchFailed = { errorBody: String?, statusCode: Int ->
+
             }
-
-            emit(DataState.Success(list))
-        }
+        ).flowOn(Dispatchers.IO)
     }
 
+
+    /**
+     * Get last request real
+     *
+     * @param currentCreditLineId
+     * @return
+     */
     fun getLastRequestReal(currentCreditLineId: String): Flow<DataState<AirtimeCreditRequest?>> {
         return airtimeCreditRequestRemoteDataSource.getLastAirtimeCreditRequestRealTime(
             currentCreditLineId
         )
     }
 
+
+    /**
+     * Close validated airtime credit request
+     *
+     * @param currentAirtimeCreditLine
+     * @param currentAirtimeCreditRequest
+     */
     fun closeValidatedAirtimeCreditRequest(
         currentAirtimeCreditLine: AirTimeCreditLine,
         currentAirtimeCreditRequest: AirtimeCreditRequest
@@ -135,11 +172,23 @@ class AirtimeCreditRepository @Inject constructor(
         airtimeCreditLineRemoteDataSource.updateAirtimeCreditLine(currentAirtimeCreditLine)
     }
 
+
+    /**
+     * Close airtime credit request
+     *
+     * @param currentAirtimeCreditRequest
+     */
     fun closeAirtimeCreditRequest(currentAirtimeCreditRequest: AirtimeCreditRequest) {
         //we disable current airtime credit request
         disableAirtimeCreditRequest(currentAirtimeCreditRequest)
     }
 
+
+    /**
+     * Disable airtime credit request
+     *
+     * @param currentAirtimeCreditRequest
+     */
     private fun disableAirtimeCreditRequest(currentAirtimeCreditRequest: AirtimeCreditRequest) {
         val nowDate = Calendar.getInstance().time
         currentAirtimeCreditRequest.apply {
@@ -149,6 +198,12 @@ class AirtimeCreditRepository @Inject constructor(
         airtimeCreditRequestRemoteDataSource.updateAirtimeCreditRequest(currentAirtimeCreditRequest)
     }
 
+
+    /**
+     * Cancel closel airtime credit request
+     *
+     * @param currentAirtimeCreditRequest
+     */
     fun cancelCloselAirtimeCreditRequest(currentAirtimeCreditRequest: AirtimeCreditRequest) {
         val nowDate = Calendar.getInstance().time
         currentAirtimeCreditRequest.apply {
@@ -159,6 +214,12 @@ class AirtimeCreditRepository @Inject constructor(
         airtimeCreditRequestRemoteDataSource.updateAirtimeCreditRequest(currentAirtimeCreditRequest)
     }
 
+
+    /**
+     * Close current credit line
+     *
+     * @param currentAirtimeCreditLine
+     */
     fun closeCurrentCreditLine(currentAirtimeCreditLine: AirTimeCreditLine) {
         val nowDate = Calendar.getInstance().time
         currentAirtimeCreditLine.apply {
@@ -168,6 +229,12 @@ class AirtimeCreditRepository @Inject constructor(
         airtimeCreditLineRemoteDataSource.updateAirtimeCreditLine(currentAirtimeCreditLine)
     }
 
+
+    /**
+     * Update credit line
+     *
+     * @param airTimeCreditLine
+     */
     fun updateCreditLine(airTimeCreditLine: AirTimeCreditLine) {
         airtimeCreditLineRemoteDataSource.updateAirtimeCreditLine(airTimeCreditLine)
     }

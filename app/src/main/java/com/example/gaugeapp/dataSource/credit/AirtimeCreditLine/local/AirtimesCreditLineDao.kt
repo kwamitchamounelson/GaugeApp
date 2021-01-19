@@ -24,4 +24,7 @@ interface AirtimesCreditLineDao {
 
     @Query("SELECT * FROM airtimescreditlinelocalentity ORDER BY createAt DESC")
     suspend fun getAllAirtimeCreditLine(): List<AirtimesCreditLineLocalEntity>
+
+    @Query("SELECT * FROM airtimescreditlinelocalentity WHERE solved=1 ORDER BY createAt DESC")
+    fun getAllSolvedCreditLineOfTheUser(): List<AirtimesCreditLineLocalEntity>
 }

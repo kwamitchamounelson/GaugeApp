@@ -34,6 +34,13 @@ interface AirTimeCreditLineRemoteDataSource {
     fun getAllAirtimeCreditLine(): Flow<DataState<List<AirTimeCreditLine>>>
 
     /**
+     * Get all solved credit line of the user
+     *
+     * @return
+     */
+    fun getAllSolvedCreditLineOfTheUser(): Flow<DataState<List<AirTimeCreditLine>>>
+
+    /**
      * Get current airtime credit line of the user
      *
      * @return

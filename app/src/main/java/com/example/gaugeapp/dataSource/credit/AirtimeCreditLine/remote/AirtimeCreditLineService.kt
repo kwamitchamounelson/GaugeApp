@@ -170,5 +170,26 @@ class AirtimeCreditLineService @Inject constructor(
             cancelFlow(this)
         }
 
+    fun getAllSolvedCreditLineOfTheUser(): Flow<FirebaseResponseType<List<AirTimeCreditLine>>> =
+        flow {
+            try {
+                val snapshot = FireStoreCollDocRef.airtimeCreditLineCollRef
+                    .whereEqualTo(AirTimeCreditLine::solved.name, true)
+                    .orderBy(AirTimeCreditLine::createAt.name, Query.Direction.DESCENDING)
+                    .get()
+                    .await()
+
+                val data = snapshot.map { queryDocumentSnapshot ->
+                    val entity = queryDocumentSnapshot.toObject(AirTimeCreditLine::class.java)
+                    entity.apply {
+                        id = queryDocumentSnapshot.id
+                    }
+                }
+                emit(FirebaseResponseType.FirebaseSuccessResponse(data))
+            } catch (ex: Exception) {
+                emit(FirebaseResponseType.FirebaseErrorResponse(ex))
+            }
+        }
+
 
 }

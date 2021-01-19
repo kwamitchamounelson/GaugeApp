@@ -16,6 +16,7 @@ import com.example.gaugeapp.entities.AirTimeCreditLine
 import com.example.gaugeapp.utils.DataState
 import com.example.gaugeapp.utils.formatNumberWithSpaceBetweenThousand
 import com.example.gaugeapp.ui.credit.items.AirtimeCreditHistoryItem
+import com.example.gaugeapp.utils.printLogD
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.Section
 import com.xwray.groupie.kotlinandroidextensions.ViewHolder
@@ -50,6 +51,15 @@ class AirtimeCreditHistoryFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        try {
+            //toolbar title
+            id_credit_toolbar_title.textResource = R.string.airtime_credit_history
+
+            id_credit_history_total_amount.text =""
+
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
         observeLiveData()
         viewModel.getHistoryOfCredit()
     }
@@ -60,6 +70,7 @@ class AirtimeCreditHistoryFragment : Fragment() {
                 is DataState.Loading -> {
                 }
                 is DataState.Success -> {
+                    printLogD(TAG, "${dataState.data?.size}")
                     updateUI(dataState.data)
                 }
                 is DataState.Failure -> {
@@ -71,9 +82,6 @@ class AirtimeCreditHistoryFragment : Fragment() {
     private fun updateUI(airtimeCreditLineList: List<AirTimeCreditLine>?) {
         if (airtimeCreditLineList != null) {
             try {
-
-                //toolbar title
-                id_credit_toolbar_title.textResource = R.string.airtime_credit_history
 
                 val sumPayBackPercent = airtimeCreditLineList.sumByDouble { it.payBackPercent }
 

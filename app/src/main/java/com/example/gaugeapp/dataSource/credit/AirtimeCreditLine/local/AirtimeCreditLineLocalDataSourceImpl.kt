@@ -69,4 +69,12 @@ class AirtimeCreditLineLocalDataSourceImpl @Inject constructor(
     override suspend fun getAllAirtimeCreditLine(): List<AirTimeCreditLine> =
         mapper.mapListToEntity(dao.getAllAirtimeCreditLine())
 
+    /**
+     * Get all solved credit line of the user
+     *
+     * @return
+     */
+    override suspend fun getAllSolvedCreditLineOfTheUser(): List<AirTimeCreditLine> =
+        mapper.mapListToEntity(dao.getAllSolvedCreditLineOfTheUser())
+
 }

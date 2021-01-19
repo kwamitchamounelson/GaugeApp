@@ -32,7 +32,7 @@ class AirtimeCreditHistoryViewModel @ViewModelInject constructor(
 
     fun getHistoryOfCredit() {
         val job = viewModelScope.launch {
-            repository.getAllSolvedCreditLineOfTheUser(userId).onEach {
+            repository.getAllSolvedCreditLineOfTheUser().onEach {
                 listAirtimeCreditLinetObserver.value = it
             }.launchIn(viewModelScope)
         }
