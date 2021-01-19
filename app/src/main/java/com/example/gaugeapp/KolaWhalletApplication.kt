@@ -19,6 +19,7 @@ import dagger.hilt.android.HiltAndroidApp
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.launchIn
@@ -28,6 +29,8 @@ import java.util.concurrent.Executors
 import javax.inject.Inject
 
 @HiltAndroidApp
+@InternalCoroutinesApi
+@ExperimentalCoroutinesApi
 class KolaWhalletApplication : Application(),
     Configuration.Provider {//Configuration.Provider is for workManager injections
 
@@ -81,7 +84,8 @@ class KolaWhalletApplication : Application(),
 
         lateinit var crashlytics: FirebaseCrashlytics
 
-        lateinit var hiltEntryPoint : RepositoryProviderEntryPoint
+
+        lateinit var hiltEntryPoint: RepositoryProviderEntryPoint
     }
 
 
@@ -105,8 +109,10 @@ class KolaWhalletApplication : Application(),
                 //.addMigrations(AppDatabase.MIGRATION_2_3)
                 .build()
             userPref = UserSharedPref(this)
-            hiltEntryPoint = EntryPointAccessors.fromApplication(this.applicationContext,
-                RepositoryProviderEntryPoint::class.java)
+            hiltEntryPoint = EntryPointAccessors.fromApplication(
+                this.applicationContext,
+                RepositoryProviderEntryPoint::class.java
+            )
         } catch (ex: Exception) {
             ex.printStackTrace()
             FirebaseCrashlytics.getInstance().recordException(ex)

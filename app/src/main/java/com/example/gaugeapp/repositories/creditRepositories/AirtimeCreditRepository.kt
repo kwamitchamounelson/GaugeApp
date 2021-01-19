@@ -168,5 +168,9 @@ class AirtimeCreditRepository @Inject constructor(
         airtimeCreditLineRemoteDataSource.updateAirtimeCreditLine(currentAirtimeCreditLine)
     }
 
+    fun updateCreditLine(airTimeCreditLine: AirTimeCreditLine) {
+        airtimeCreditLineRemoteDataSource.updateAirtimeCreditLine(airTimeCreditLine)
+    }
+
 
 }

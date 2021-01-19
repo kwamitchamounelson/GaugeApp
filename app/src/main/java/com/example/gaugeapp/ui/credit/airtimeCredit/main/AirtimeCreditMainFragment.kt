@@ -129,6 +129,7 @@ class AirtimeCreditMainFragment : Fragment() {
         }
 
         id_credit_borrow_pending_cancel.setOnClickListener {
+            setUiStateGoodStandingNotRequest()
             viewModel.setStateEvent(
                 AirtimeCreditStateEvent.CancelCloselAirtimeCreditRequest(
                     currentAirtimeCreditRequest!!
@@ -392,7 +393,7 @@ class AirtimeCreditMainFragment : Fragment() {
         }
 
         //show credit list
-        val items = airTimeCreditLine.airtimeCreditList.filter { !it.solved }.map {
+        val items = airTimeCreditLine.airtimeCreditList.map {
             AirtimeCreditItem(it, airTimeCreditLine)
         }
         updateRv(items)

@@ -26,242 +26,246 @@
             android:textSize="@dimen/dimen_size_title_toolbar" />
     </androidx.appcompat.widget.Toolbar>
 
-    <LinearLayout
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="@dimen/dim_20dp"
-        android:layout_marginTop="@dimen/dimen_35dp"
-        android:orientation="vertical">
-
+        android:layout_height="wrap_content">
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center">
-
-            <ImageView
-                android:id="@+id/id_credit_image"
-                android:layout_width="@dimen/dimen_35dp"
-                android:layout_height="@dimen/dimen_35dp"
-                android:layout_marginEnd="@dimen/dimen_7dp"
-                android:src="@drawable/ic_image_black" />
-
-            <TextView
-                android:id="@+id/id_credit_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/roboto_medium"
-                android:text="Title of the module"
-                android:textColor="@color/colorPrimary"
-                android:textSize="@dimen/dimen_26sp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dim_30dp"
-            android:background="@drawable/background_airtime_credit_line_total"
-            android:gravity="center"
-            android:padding="@dimen/dimen_15dp">
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginVertical="@dimen/dim_mv_credit_left"
-                android:layout_marginStart="@dimen/dim_ms_credit_left"
-                android:layout_weight="1"
-                android:gravity="start"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/roboto_medium"
-                    android:text="@string/credit_left"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="@dimen/dimen_14sp" />
-
-                <TextView
-                    android:id="@+id/id_credit_left"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/diment_mt_credit_left"
-                    android:fontFamily="@font/roboto_medium"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="@dimen/dimen_amount_left_credit" />
-            </LinearLayout>
-
-            <View
-                android:id="@+id/divider2"
-                android:layout_width="1dp"
-                android:layout_height="match_parent"
-                android:background="@color/color_border_airtime_credit" />
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginVertical="@dimen/dim_mv_credit_left"
-                android:layout_marginEnd="@dimen/dim_ms_credit_left"
-                android:layout_weight="1"
-                android:gravity="end"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/roboto_medium"
-                    android:text="@string/credit_due"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="@dimen/dimen_14sp" />
-
-                <TextView
-                    android:id="@+id/id_credit_due"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/diment_mt_credit_left"
-                    android:fontFamily="@font/roboto_medium"
-                    android:textColor="@color/color_red_credit_due"
-                    android:textSize="@dimen/dimen_amount_left_credit" />
-            </LinearLayout>
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/id_airtime_block"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dim_25dp"
-            android:background="@drawable/background_airtime_credit_line_total"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:padding="@dimen/dimen_16dp">
-
-            <TextView
-                android:id="@+id/id_credit_borrow_text_button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/roboto_medium"
-                android:gravity="center"
-                android:text="@string/borrow_airtime"
-                android:textAllCaps="true"
-                android:textColor="@color/colorPrimary"
-                android:textSize="@dimen/dimen_16sp" />
-
-            <TextView
-                android:id="@+id/id_credit_borrow_text_state"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/roboto_medium"
-                android:gravity="center"
-                android:text="@string/you_are_on_the_way"
-                android:textAllCaps="true"
-                android:textColor="@color/colorPrimary"
-                android:textSize="@dimen/dimen_16sp" />
-
-            <TextView
-                android:id="@+id/id_credit_borrow_grace_periode"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dimen_8dp"
-                android:fontFamily="@font/roboto_medium"
-                android:text="@string/tree_grace_periode_texte"
-                android:textColor="@color/colorPrimary"
-                android:textSize="@dimen/dimen_14sp" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/id_credit_borrow_pending_rv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dimen_8dp"
-                android:orientation="horizontal"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                tools:itemCount="4"
-                tools:listitem="@layout/item_credit_pending_indicator" />
-
-            <TextView
-                android:id="@+id/id_credit_borrow_pending_cancel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dimen_10dp"
-                android:padding="@dimen/dimen_3dp"
-                android:text="@string/text_cancel"
-                android:textColor="@color/colorPrimary" />
-
-        </LinearLayout>
-
-        <TextView
-            android:id="@+id/id_credit_payment_explanation"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dim_25dp"
-            android:fontFamily="@font/roboto"
-            android:text="@string/explication_airtime_credit_line_text"
-            android:textColor="@color/colorPrimary"
-            android:textSize="@dimen/dimen_14sp" />
-
-        <TextView
-            android:id="@+id/id_credit_payment_penality_explanation"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dim_25dp"
-            android:fontFamily="@font/roboto"
-            android:gravity="center"
-            android:text="@string/default_payment_will_results_in_a_10_penalty"
-            android:textColor="@color/color_red_credit_due"
-            android:textSize="@dimen/dimen_14sp" />
-
-
-        <TextView
-            android:id="@+id/credit_list_empty"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="@dimen/dimen_60dp"
-            android:text="@string/empty"
-            android:textColor="@color/color_text_gray_credit"
-            android:visibility="gone" />
-
-        <ProgressBar
-            android:id="@+id/credit_progress"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="@dimen/dimen_40dp"
-            android:visibility="gone" />
-
-        <LinearLayout
-            android:id="@+id/id_credit_list_data_block"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/dim_20dp"
+            android:layout_marginTop="@dimen/dimen_35dp"
             android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dim_30dp"
-                android:weightSum="4">
+                android:gravity="center">
+
+                <ImageView
+                    android:id="@+id/id_credit_image"
+                    android:layout_width="@dimen/dimen_35dp"
+                    android:layout_height="@dimen/dimen_35dp"
+                    android:layout_marginEnd="@dimen/dimen_7dp"
+                    android:src="@drawable/ic_image_black" />
 
                 <TextView
-                    android:layout_width="0dp"
+                    android:id="@+id/id_credit_title"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/debt"
-                    android:textColor="@color/color_text_gray_credit"
-                    android:textSize="@dimen/dimen_20sp" />
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:text="@string/due_date"
-                    android:textColor="@color/color_text_gray_credit"
-                    android:textSize="@dimen/dimen_20sp" />
+                    android:fontFamily="@font/roboto_medium"
+                    android:text="Title of the module"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/dimen_26sp" />
             </LinearLayout>
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/credit_list_rv"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dim_20dp"
-                tools:listitem="@layout/item_credit" />
+                android:layout_marginTop="@dimen/dim_30dp"
+                android:background="@drawable/background_airtime_credit_line_total"
+                android:gravity="center"
+                android:padding="@dimen/dimen_15dp">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="@dimen/dim_mv_credit_left"
+                    android:layout_marginStart="@dimen/dim_ms_credit_left"
+                    android:layout_weight="1"
+                    android:gravity="start"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_medium"
+                        android:text="@string/credit_left"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="@dimen/dimen_14sp" />
+
+                    <TextView
+                        android:id="@+id/id_credit_left"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/diment_mt_credit_left"
+                        android:fontFamily="@font/roboto_medium"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="@dimen/dimen_amount_left_credit" />
+                </LinearLayout>
+
+                <View
+                    android:id="@+id/divider2"
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/color_border_airtime_credit" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="@dimen/dim_mv_credit_left"
+                    android:layout_marginEnd="@dimen/dim_ms_credit_left"
+                    android:layout_weight="1"
+                    android:gravity="end"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_medium"
+                        android:text="@string/credit_due"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="@dimen/dimen_14sp" />
+
+                    <TextView
+                        android:id="@+id/id_credit_due"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/diment_mt_credit_left"
+                        android:fontFamily="@font/roboto_medium"
+                        android:textColor="@color/color_red_credit_due"
+                        android:textSize="@dimen/dimen_amount_left_credit" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/id_airtime_block"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dim_25dp"
+                android:background="@drawable/background_airtime_credit_line_total"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="@dimen/dimen_16dp">
+
+                <TextView
+                    android:id="@+id/id_credit_borrow_text_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_medium"
+                    android:gravity="center"
+                    android:text="@string/borrow_airtime"
+                    android:textAllCaps="true"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/dimen_16sp" />
+
+                <TextView
+                    android:id="@+id/id_credit_borrow_text_state"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_medium"
+                    android:gravity="center"
+                    android:text="@string/you_are_on_the_way"
+                    android:textAllCaps="true"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/dimen_16sp" />
+
+                <TextView
+                    android:id="@+id/id_credit_borrow_grace_periode"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dimen_8dp"
+                    android:fontFamily="@font/roboto_medium"
+                    android:text="@string/tree_grace_periode_texte"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/dimen_14sp" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/id_credit_borrow_pending_rv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dimen_8dp"
+                    android:orientation="horizontal"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:itemCount="4"
+                    tools:listitem="@layout/item_credit_pending_indicator" />
+
+                <TextView
+                    android:id="@+id/id_credit_borrow_pending_cancel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dimen_10dp"
+                    android:padding="@dimen/dimen_3dp"
+                    android:text="@string/text_cancel"
+                    android:textColor="@color/colorPrimary" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/id_credit_payment_explanation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dim_25dp"
+                android:fontFamily="@font/roboto"
+                android:text="@string/explication_airtime_credit_line_text"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/dimen_14sp" />
+
+            <TextView
+                android:id="@+id/id_credit_payment_penality_explanation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dim_25dp"
+                android:fontFamily="@font/roboto"
+                android:gravity="center"
+                android:text="@string/default_payment_will_results_in_a_10_penalty"
+                android:textColor="@color/color_red_credit_due"
+                android:textSize="@dimen/dimen_14sp" />
+
+
+            <TextView
+                android:id="@+id/credit_list_empty"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/dimen_60dp"
+                android:text="@string/empty"
+                android:textColor="@color/color_text_gray_credit"
+                android:visibility="gone" />
+
+            <ProgressBar
+                android:id="@+id/credit_progress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/dimen_40dp"
+                android:visibility="gone" />
+
+            <LinearLayout
+                android:id="@+id/id_credit_list_data_block"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dim_30dp"
+                    android:weightSum="4">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/debt"
+                        android:textColor="@color/color_text_gray_credit"
+                        android:textSize="@dimen/dimen_20sp" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:text="@string/due_date"
+                        android:textColor="@color/color_text_gray_credit"
+                        android:textSize="@dimen/dimen_20sp" />
+                </LinearLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/credit_list_rv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dim_20dp"
+                    tools:listitem="@layout/item_credit" />
+            </LinearLayout>
         </LinearLayout>
-    </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
 </LinearLayout>
