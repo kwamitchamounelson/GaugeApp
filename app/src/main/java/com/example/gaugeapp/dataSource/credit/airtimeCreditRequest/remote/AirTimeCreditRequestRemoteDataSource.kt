@@ -37,10 +37,38 @@ interface AirTimeCreditRequestRemoteDataSource {
     fun getLastAirtimeCreditRequestRealTime(currentCreditLineId: String): Flow<DataState<AirtimeCreditRequest?>>
 
     /**
+     * Get last airtime credit request not flow real time
+     *
+     * @param currentCreditLineId
+     * @param onComplete
+     * @receiver
+     */
+    fun getLastAirtimeCreditRequestNotFlowRealTime(
+        currentCreditLineId: String,
+        onComplete: (DataState<AirtimeCreditRequest?>) -> Unit
+    )
+
+    /**
      * Update airtime credit request
      *
      * @param currentAirtimeCreditRequest
      * @return
      */
     fun updateAirtimeCreditRequest(currentAirtimeCreditRequest: AirtimeCreditRequest)
+
+
+    /**
+     * Update airtime credit request
+     *
+     * @param currentAirtimeCreditRequest
+     * @param onSuccess
+     * @param onError
+     * @receiver
+     * @receiver
+     */
+    fun updateAirtimeCreditRequest(
+        currentAirtimeCreditRequest: AirtimeCreditRequest,
+        onSuccess: () -> Unit,
+        onError: () -> Unit
+    )
 }

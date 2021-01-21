@@ -4,6 +4,7 @@ import com.example.gaugeapp.commonRepositories.FireStoreCollDocRef
 import com.example.gaugeapp.commonRepositories.commonFireStoreRefKeyWord
 import com.example.gaugeapp.data.entities.AirtimeCreditRequest
 import com.example.gaugeapp.dataSource.FirebaseCUDService
+import com.example.gaugeapp.utils.DataState
 import com.example.gaugeapp.utils.FirebaseResponseType
 import com.example.gaugeapp.utils.printLogD
 import com.google.firebase.firestore.FirebaseFirestore
@@ -66,6 +67,25 @@ class AirtimeCreditRequestService @Inject constructor(
             .addOnFailureListener { exception ->
                 exception.printStackTrace()
                 printLogD(TAG, exception.toString())
+            }
+    }
+
+    fun updateAirtimeCreditRequest(
+        airtimeCreditRequest: AirtimeCreditRequest,
+        onSuccess: () -> Unit,
+        onError: () -> Unit
+    ) {
+        val collection = getCollectionReference(airtimeCreditRequest.airtimeCreditLineId)
+        collection.document(airtimeCreditRequest.id)
+            .set(airtimeCreditRequest, SetOptions.merge())
+            .addOnSuccessListener {
+                printLogD(TAG, "Success updateAirtimeCreditRequest")
+                onSuccess()
+            }
+            .addOnFailureListener { exception ->
+                exception.printStackTrace()
+                printLogD(TAG, exception.toString())
+                onError()
             }
     }
 
@@ -149,6 +169,38 @@ class AirtimeCreditRequestService @Inject constructor(
 
             cancelFlow(this)
         }
+
+
+    fun getLastAirtimeCreditRequestNotFlowRealTime(
+        currentCreditLineId: String,
+        onComplete: (DataState<AirtimeCreditRequest?>) -> Unit
+    ) {
+
+        getCollectionReference(currentCreditLineId)
+            .orderBy(AirtimeCreditRequest::creationDate.name, Query.Direction.DESCENDING)
+            .limit(1)
+            .addSnapshotListener { value, error ->
+                if (error != null) {
+                    printLogD(TAG, error.toString())
+                    onComplete(DataState.Failure(error))
+                    return@addSnapshotListener
+                }
+                val data = value?.map { queryDocumentSnapshot ->
+                    val entity =
+                        queryDocumentSnapshot.toObject(AirtimeCreditRequest::class.java)
+                    entity.apply {
+                        id = queryDocumentSnapshot.id
+                    }
+                }
+                val response = if (data!!.isEmpty()) {
+                    null
+                } else {
+                    data.first()
+                }
+                onComplete(DataState.Success(response))
+            }
+
+    }
 
 
 }

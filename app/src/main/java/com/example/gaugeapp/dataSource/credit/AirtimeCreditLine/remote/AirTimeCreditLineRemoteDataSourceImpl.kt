@@ -71,4 +71,13 @@ class AirTimeCreditLineRemoteDataSourceImpl @Inject constructor(
      */
     override fun getCurrentAirtimeCreditLineRealTime() =
         getResult { service.getCurrentAirtimeCreditLineRealTime() }
+
+    /**
+     * Get current airtime credit line not flow real time
+     *
+     * @param onComplete
+     * @receiver
+     */
+    override fun getCurrentAirtimeCreditLineNotFlowRealTime(onComplete: (DataState<AirTimeCreditLine?>) -> Unit) =
+        service.getCurrentAirtimeCreditLineNotFlowRealTime(onComplete)
 }

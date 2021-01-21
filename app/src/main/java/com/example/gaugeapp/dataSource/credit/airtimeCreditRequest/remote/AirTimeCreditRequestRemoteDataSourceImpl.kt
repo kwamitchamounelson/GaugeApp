@@ -2,6 +2,7 @@ package com.example.gaugeapp.dataSource.credit.airtimeCreditRequest.remote
 
 import com.example.gaugeapp.data.entities.AirtimeCreditRequest
 import com.example.gaugeapp.dataSource.common.BaseRemoteDataSource
+import com.example.gaugeapp.utils.DataState
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import javax.inject.Inject
 
@@ -47,6 +48,18 @@ class AirTimeCreditRequestRemoteDataSourceImpl @Inject constructor(
         getResult { service.getLastAirtimeCreditRequestRealTime(currentCreditLineId) }
 
     /**
+     * Get last airtime credit request not flow real time
+     *
+     * @param currentCreditLineId
+     * @param onComplete
+     * @receiver
+     */
+    override fun getLastAirtimeCreditRequestNotFlowRealTime(
+        currentCreditLineId: String,
+        onComplete: (DataState<AirtimeCreditRequest?>) -> Unit
+    ) = service.getLastAirtimeCreditRequestNotFlowRealTime(currentCreditLineId, onComplete)
+
+    /**
      * Update airtime credit request
      *
      * @param currentAirtimeCreditRequest
@@ -54,4 +67,20 @@ class AirTimeCreditRequestRemoteDataSourceImpl @Inject constructor(
      */
     override fun updateAirtimeCreditRequest(currentAirtimeCreditRequest: AirtimeCreditRequest) =
         service.updateAirtimeCreditRequest(currentAirtimeCreditRequest)
+
+    /**
+     * Update airtime credit request
+     *
+     * @param currentAirtimeCreditRequest
+     * @param onSuccess
+     * @param onError
+     * @receiver
+     * @receiver
+     */
+    override fun updateAirtimeCreditRequest(
+        currentAirtimeCreditRequest: AirtimeCreditRequest,
+        onSuccess: () -> Unit,
+        onError: () -> Unit
+    ) =
+        service.updateAirtimeCreditRequest(currentAirtimeCreditRequest, onSuccess, onError)
 }

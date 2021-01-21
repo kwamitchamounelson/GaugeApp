@@ -54,4 +54,13 @@ interface AirTimeCreditLineRemoteDataSource {
      * @return
      */
     fun getCurrentAirtimeCreditLineRealTime(): Flow<DataState<AirTimeCreditLine?>>
+
+
+    /**
+     * Get current airtime credit line not flow real time
+     *
+     * @param onComplete
+     * @receiver
+     */
+    fun getCurrentAirtimeCreditLineNotFlowRealTime(onComplete: (DataState<AirTimeCreditLine?>) -> Unit)
 }

@@ -43,8 +43,13 @@ class AirtimeCreditRepository @Inject constructor(
      *
      * @return
      */
-    fun getCurrentCreditLineOfTheUser(): Flow<DataState<AirTimeCreditLine?>> {
+    fun getCurrentAirtimeCreditLineRealTime(): Flow<DataState<AirTimeCreditLine?>> {
         return airtimeCreditLineRemoteDataSource.getCurrentAirtimeCreditLineRealTime()
+    }
+
+
+    fun getCurrentAirtimeCreditLineNotFlowRealTime(onComplete: (DataState<AirTimeCreditLine?>) -> Unit) {
+        airtimeCreditLineRemoteDataSource.getCurrentAirtimeCreditLineNotFlowRealTime(onComplete)
     }
 
 
@@ -119,9 +124,20 @@ class AirtimeCreditRepository @Inject constructor(
      * @param currentCreditLineId
      * @return
      */
-    fun getLastRequestReal(currentCreditLineId: String): Flow<DataState<AirtimeCreditRequest?>> {
+    fun getLastAirtimeCreditRequestRealTime(currentCreditLineId: String): Flow<DataState<AirtimeCreditRequest?>> {
         return airtimeCreditRequestRemoteDataSource.getLastAirtimeCreditRequestRealTime(
             currentCreditLineId
+        )
+    }
+
+
+    fun getLastAirtimeCreditRequestNotFlowRealTime(
+        currentCreditLineId: String,
+        onComplete: (DataState<AirtimeCreditRequest?>) -> Unit
+    ) {
+        airtimeCreditRequestRemoteDataSource.getLastAirtimeCreditRequestNotFlowRealTime(
+            currentCreditLineId,
+            onComplete
         )
     }
 
@@ -143,33 +159,43 @@ class AirtimeCreditRepository @Inject constructor(
 
 
         //we disable current airtime credit request
-        disableAirtimeCreditRequest(currentAirtimeCreditRequest)
+        currentAirtimeCreditRequest.apply {
+            lastUpdatedDate = nowDate
+            requestEnable = false
+        }
+        airtimeCreditRequestRemoteDataSource.updateAirtimeCreditRequest(
+            currentAirtimeCreditRequest,
+            onSuccess = {
+                //we add a loan to the current credit line
+                val currentLoanList = arrayListOf<AirtimeCredit>().apply {
+                    addAll(currentAirtimeCreditLine.airtimeCreditList)
+                }
+                val newAirtimeCredit = AirtimeCredit().apply {
+                    id = nowDate.time.toString()
+                    idCreditLine = currentAirtimeCreditLine.id
+                    amount = currentAirtimeCreditRequest.amount
+                    solved = false
+                    dateOfLoan = nowDate
+                    repaymentDate = currentAirtimeCreditLine.dueDate
+                }
+                currentAirtimeCreditLine.apply {
+                    if (currentLoanList.isEmpty()) {
+                        dueDate = dueDateFromNow
+                        createAt = nowDate
+                        syncDate = nowDate
+                        newAirtimeCredit.repaymentDate = dueDateFromNow
+                    }
+                    currentLoanList.add(newAirtimeCredit)
 
-        //we add a loan to the current credit line
-        val currentLoanList = arrayListOf<AirtimeCredit>().apply {
-            addAll(currentAirtimeCreditLine.airtimeCreditList)
-        }
-        val newAirtimeCredit = AirtimeCredit().apply {
-            id = nowDate.time.toString()
-            idCreditLine = currentAirtimeCreditLine.id
-            amount = currentAirtimeCreditRequest.amount
-            solved = false
-            dateOfLoan = nowDate
-            repaymentDate = currentAirtimeCreditLine.dueDate
-        }
-        currentAirtimeCreditLine.apply {
-            if (currentLoanList.isEmpty()) {
-                dueDate = dueDateFromNow
-                createAt = nowDate
-                syncDate = nowDate
-                newAirtimeCredit.repaymentDate = dueDateFromNow
+                    airtimeCreditList = currentLoanList
+                }
+
+                airtimeCreditLineRemoteDataSource.updateAirtimeCreditLine(currentAirtimeCreditLine)
+            },
+            onError = {
+
             }
-            currentLoanList.add(newAirtimeCredit)
-
-            airtimeCreditList = currentLoanList
-        }
-
-        airtimeCreditLineRemoteDataSource.updateAirtimeCreditLine(currentAirtimeCreditLine)
+        )
     }
 
 

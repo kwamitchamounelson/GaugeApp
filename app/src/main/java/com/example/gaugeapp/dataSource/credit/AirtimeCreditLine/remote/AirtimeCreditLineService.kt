@@ -3,6 +3,7 @@ package com.example.gaugeapp.dataSource.credit.AirtimeCreditLine.remote
 import com.example.gaugeapp.commonRepositories.FireStoreCollDocRef
 import com.example.gaugeapp.dataSource.FirebaseCUDService
 import com.example.gaugeapp.entities.AirTimeCreditLine
+import com.example.gaugeapp.utils.DataState
 import com.example.gaugeapp.utils.FirebaseResponseType
 import com.example.gaugeapp.utils.printLogD
 import com.google.firebase.firestore.FirebaseFirestore
@@ -169,6 +170,40 @@ class AirtimeCreditLineService @Inject constructor(
 
             cancelFlow(this)
         }
+
+
+    /**
+     * Get current airtime credit line not flow real time
+     *
+     * @return
+     */
+    fun getCurrentAirtimeCreditLineNotFlowRealTime(onComplete: (DataState<AirTimeCreditLine?>) -> Unit) {
+
+        FireStoreCollDocRef.airtimeCreditLineCollRef
+            .whereEqualTo(AirTimeCreditLine::solved.name, false)
+            .orderBy(AirTimeCreditLine::createAt.name, Query.Direction.DESCENDING)
+            .limit(1)
+            .addSnapshotListener { value, error ->
+                if (error != null) {
+                    printLogD(TAG, error.toString())
+                    onComplete(DataState.Failure(error))
+                    return@addSnapshotListener
+                }
+                val data = value?.map { queryDocumentSnapshot ->
+                    val entity =
+                        queryDocumentSnapshot.toObject(AirTimeCreditLine::class.java)
+                    entity.apply {
+                        id = queryDocumentSnapshot.id
+                    }
+                }
+                val creditLine = if (data!!.isEmpty()) {
+                    null
+                } else {
+                    data.first()
+                }
+                onComplete(DataState.Success(creditLine))
+            }
+    }
 
     fun getAllSolvedCreditLineOfTheUser(): Flow<FirebaseResponseType<List<AirTimeCreditLine>>> =
         flow {

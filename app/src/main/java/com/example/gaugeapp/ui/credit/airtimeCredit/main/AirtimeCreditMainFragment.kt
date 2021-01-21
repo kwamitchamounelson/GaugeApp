@@ -41,6 +41,7 @@ class AirtimeCreditMainFragment : Fragment() {
             AirtimeCreditMainFragment()
     }
 
+    private var firstTime: Boolean = true
     private var creditDue: Double = 0.0
     private var creditLeft: Double = 0.0
     private var currentAirtimeCreditLine: AirTimeCreditLine? = null
@@ -146,10 +147,13 @@ class AirtimeCreditMainFragment : Fragment() {
                 }
                 is DataState.Success -> {
                     currentAirtimeCreditRequest = dataState.data
-                    printLogD(TAG, "currentAirtimeCreditRequest => ${dataState.data.toString()}")
+                    printLogD(
+                        TAG,
+                        "currentAirtimeCreditRequest => ${currentAirtimeCreditRequest.toString()}"
+                    )
                     //to do pending animation
-                    if (dataState.data != null && dataState.data.requestEnable) {
-                        when (dataState.data.status) {
+                    if (currentAirtimeCreditRequest != null && currentAirtimeCreditRequest!!.requestEnable) {
+                        when (currentAirtimeCreditRequest!!.status) {
                             ENUM_REQUEST_STATUS.PENDING -> {
                                 setUiStatePendingRequest()
                             }
@@ -171,6 +175,7 @@ class AirtimeCreditMainFragment : Fragment() {
                             ENUM_REQUEST_STATUS.VALIDATED -> {
                                 //we add airtime credit to corresponding to this request to the current credit line and we disable de request
                                 setUiStateGoodStandingNotRequest()
+                                currentAirtimeCreditRequest!!.requestEnable = false
                                 viewModel.setStateEvent(
                                     AirtimeCreditStateEvent.CloseValidatedAirtimeCreditRequest(
                                         currentAirtimeCreditLine!!,
@@ -222,12 +227,6 @@ class AirtimeCreditMainFragment : Fragment() {
 
                                 if (totalLoan < maxAmount) {
                                     updateUI(currentAirtimeCreditLine!!)
-                                    //we fetch if we have pending request
-                                    viewModel.setStateEvent(
-                                        AirtimeCreditStateEvent.GetLastAirtimeCreditRequest(
-                                            currentAirtimeCreditLine!!.id
-                                        )
-                                    )
                                 } else if (totalLoan == maxAmount) {
                                     val totalUnSolved =
                                         currentAirtimeCreditLine!!.airtimeCreditList.filter { !it.solved }
@@ -243,12 +242,6 @@ class AirtimeCreditMainFragment : Fragment() {
                                         )
                                     } else {
                                         updateUI(currentAirtimeCreditLine!!)
-                                        //we fetch if we have pending request
-                                        viewModel.setStateEvent(
-                                            AirtimeCreditStateEvent.GetLastAirtimeCreditRequest(
-                                                currentAirtimeCreditLine!!.id
-                                            )
-                                        )
                                     }
                                 }
 
@@ -397,6 +390,16 @@ class AirtimeCreditMainFragment : Fragment() {
             AirtimeCreditItem(it, airTimeCreditLine)
         }
         updateRv(items)
+
+        if (firstTime) {
+            firstTime = false
+            //we fetch if we have pending request
+            viewModel.setStateEvent(
+                AirtimeCreditStateEvent.GetLastAirtimeCreditRequest(
+                    currentAirtimeCreditLine!!.id
+                )
+            )
+        }
     }
 
     private fun updateRv(items: List<AirtimeCreditItem>) {

@@ -58,9 +58,13 @@ class AirtimeCreditMainViewModel @ViewModelInject constructor(
         val job = viewModelScope.launch {
             when (airtimeCreditStateEvent) {
                 is AirtimeCreditStateEvent.GetCurrentAirtimeCreditLineOfTheUser -> {
-                    repository.getCurrentCreditLineOfTheUser().onEach {
+                    /*repository.getCurrentAirtimeCreditLineRealTime().onEach {
                         currentAirtimeCreditLinetObserver.value = it
-                    }.launchIn(viewModelScope)
+                    }.launchIn(viewModelScope)*/
+
+                    repository.getCurrentAirtimeCreditLineNotFlowRealTime {
+                        currentAirtimeCreditLinetObserver.value = it
+                    }
                 }
                 is AirtimeCreditStateEvent.RequestBorrowAirtimeCredit -> {
                     repository.requestBorrowAirTimeCredit(airtimeCreditStateEvent.airtimeCreditRequest)
@@ -69,10 +73,14 @@ class AirtimeCreditMainViewModel @ViewModelInject constructor(
                     repository.createCreditLine()
                 }
                 is AirtimeCreditStateEvent.GetLastAirtimeCreditRequest -> {
-                    repository.getLastRequestReal(airtimeCreditStateEvent.currentCreditLineId)
+                    /*repository.getLastAirtimeCreditRequestRealTime(airtimeCreditStateEvent.currentCreditLineId)
                         .onEach {
                             airtimeCreditRequestObserver.value = it
-                        }.launchIn(viewModelScope)
+                        }.launchIn(viewModelScope)*/
+
+                    repository.getLastAirtimeCreditRequestNotFlowRealTime(airtimeCreditStateEvent.currentCreditLineId) {
+                        airtimeCreditRequestObserver.value = it
+                    }
                 }
                 is AirtimeCreditStateEvent.CloseValidatedAirtimeCreditRequest -> {
                     repository.closeValidatedAirtimeCreditRequest(
