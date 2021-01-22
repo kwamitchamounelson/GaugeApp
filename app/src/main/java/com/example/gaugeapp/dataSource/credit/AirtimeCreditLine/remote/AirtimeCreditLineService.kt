@@ -252,7 +252,11 @@ class AirtimeCreditLineService @Inject constructor(
                 }
                 emit(FirebaseResponseType.FirebaseSuccessResponse(data))
             } catch (ex: Exception) {
-                emit(FirebaseResponseType.FirebaseErrorResponse(ex))
+                try {
+                    emit(FirebaseResponseType.FirebaseErrorResponse(ex))
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
             }
         }
 
@@ -279,7 +283,11 @@ class AirtimeCreditLineService @Inject constructor(
                 }
                 emit(FirebaseResponseType.FirebaseSuccessResponse(data))
             } catch (ex: Exception) {
-                emit(FirebaseResponseType.FirebaseErrorResponse(ex))
+                try {
+                    emit(FirebaseResponseType.FirebaseErrorResponse(ex))
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
             }
         }
 
@@ -302,7 +310,11 @@ class AirtimeCreditLineService @Inject constructor(
                 }
                 emit(FirebaseResponseType.FirebaseSuccessResponse(data))
             } catch (ex: Exception) {
-                emit(FirebaseResponseType.FirebaseErrorResponse(ex))
+                try {
+                    emit(FirebaseResponseType.FirebaseErrorResponse(ex))
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
             }
         }
 
