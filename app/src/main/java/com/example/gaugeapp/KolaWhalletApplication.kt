@@ -29,8 +29,6 @@ import java.util.concurrent.Executors
 import javax.inject.Inject
 
 @HiltAndroidApp
-@InternalCoroutinesApi
-@ExperimentalCoroutinesApi
 class KolaWhalletApplication : Application(),
     Configuration.Provider {//Configuration.Provider is for workManager injections
 
@@ -85,6 +83,7 @@ class KolaWhalletApplication : Application(),
         lateinit var crashlytics: FirebaseCrashlytics
 
 
+        @InternalCoroutinesApi
         lateinit var hiltEntryPoint: RepositoryProviderEntryPoint
     }
 
@@ -99,6 +98,8 @@ class KolaWhalletApplication : Application(),
     }
 
 
+    @ExperimentalCoroutinesApi
+    @InternalCoroutinesApi
     override fun onCreate() {
         super.onCreate()
         crashlytics = FirebaseCrashlytics.getInstance()

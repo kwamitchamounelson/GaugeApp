@@ -11,7 +11,7 @@ import com.example.gaugeapp.entities.AirtimeCredit
 import com.example.gaugeapp.ui.credit.ConstantCredit
 import com.example.gaugeapp.utils.DataState
 import com.example.gaugeapp.utils.getOneDayInMillis
-import com.example.gaugeapp.utils.networkBoundResource.NetworkBoundResourceAirtimeCredit
+import com.example.gaugeapp.utils.networkBoundResource.networkBoundResourceCreditLine
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.InternalCoroutinesApi
@@ -73,11 +73,11 @@ class AirtimeCreditRepository @Inject constructor(
         val nowDateMillis = Calendar.getInstance().timeInMillis
         val airTimeCreditLine = AirTimeCreditLine().apply {
             userId = FireStoreAuthUtil.getUserUID()
-            maxAmountToLoan = ConstantCredit.MAX_AMOUNT_TO_LOAN
+            maxAmountToLoan = ConstantCredit.MAX_AMOUNT_TO_LOAN_AIRTIME
             dueDate = Date((getOneDayInMillis() * ConstantCredit.MAX_DUE_DAY_COUNT) + nowDateMillis)
             airtimeCreditList = listOf()
             payBackPercent = ConstantCredit.INTEREST_RATE
-            minAmountToLoan = ConstantCredit.MIN_AMOUNT_TO_LOAN
+            minAmountToLoan = ConstantCredit.MIN_AMOUNT_TO_LOAN_AIRTIME
             createAt = Date(nowDateMillis)
             syncDate = Date(nowDateMillis)
             solved = false
@@ -94,7 +94,7 @@ class AirtimeCreditRepository @Inject constructor(
     @InternalCoroutinesApi
     fun getAllSolvedCreditLineOfTheUserFirsTime(): Flow<DataState<List<AirTimeCreditLine>>> {
 
-        return NetworkBoundResourceAirtimeCredit(
+        return networkBoundResourceCreditLine(
             fetchFromLocal = {
                 airtimeCreditLineLocalDataSource.getAllSolvedCreditLineOfTheUser()
             },
@@ -129,7 +129,7 @@ class AirtimeCreditRepository @Inject constructor(
     @InternalCoroutinesApi
     fun getAllSolvedCreditLineOfTheUserAfterDate(lastCreditLine: AirTimeCreditLine): Flow<DataState<List<AirTimeCreditLine>>> {
 
-        return NetworkBoundResourceAirtimeCredit(
+        return networkBoundResourceCreditLine(
             fetchFromLocal = {
                 flow {
                     emit(listOf<AirTimeCreditLine>())

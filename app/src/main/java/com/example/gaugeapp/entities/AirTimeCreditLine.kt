@@ -1,6 +1,5 @@
 package com.example.gaugeapp.entities
 
-import com.example.gaugeapp.entities.AirtimeCredit
 import com.example.gaugeapp.ui.credit.ConstantCredit.INTEREST_RATE
 import java.io.Serializable
 import java.util.*

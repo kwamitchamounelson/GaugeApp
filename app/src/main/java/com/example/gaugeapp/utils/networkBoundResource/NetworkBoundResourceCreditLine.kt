@@ -5,7 +5,7 @@ import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.flow.*
 
 @InternalCoroutinesApi
-inline fun <DB, REMOTE> NetworkBoundResourceAirtimeCredit(
+inline fun <DB, REMOTE> networkBoundResourceCreditLine(
     crossinline fetchFromLocal: () -> Flow<DB>, //It fecth data from local database
     crossinline shouldFetchFromRemote: (DB?) -> Boolean = { true }, //It decide whether network request should be made or use local persistent data if available (Optional)
     crossinline fetchFromRemote: () -> Flow<DataState<REMOTE>>, //It perform network request operation

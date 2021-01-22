@@ -7,7 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.example.gaugeapp.commonRepositories.FireStoreAuthUtil
-import com.example.gaugeapp.entities.ShoppingCreditLineWithShoppingCreditsList
+import com.example.gaugeapp.entities.ShoppingCreditLine
 import com.example.gaugeapp.repositories.creditRepositories.ShoppingCreditRepository
 import com.example.gaugeapp.ui.base.BaseViewModel
 import com.example.gaugeapp.utils.DataState
@@ -28,14 +28,25 @@ class ShoppingCreditHistoryViewModel @ViewModelInject constructor(
      */
     val userId = FireStoreAuthUtil.getUserUID()
 
-    val listShoppingCreditLinetObserver =
-        MutableLiveData<DataState<List<ShoppingCreditLineWithShoppingCreditsList>>>()
+    val listShoppingCreditLinetFirstTimeObserver =
+        MutableLiveData<DataState<List<ShoppingCreditLine>>>()
 
-    fun getHistoryOfCredit() {
+
+    fun setStateEvent(shoppingCreditHistoryStateEven: ShoppingCreditHistoryStateEven) {
         val job = viewModelScope.launch {
-            repository.getAllSolvedCreditLineOfTheUser(userId).onEach {
-                listShoppingCreditLinetObserver.value = it
-            }.launchIn(viewModelScope)
+            when (shoppingCreditHistoryStateEven) {
+                is ShoppingCreditHistoryStateEven.GetDataFirstTime -> {
+                    repository.getAllSolvedCreditLineOfTheUserFirsTime().onEach {
+                        listShoppingCreditLinetFirstTimeObserver.value = it
+                    }.launchIn(viewModelScope)
+                }
+                is ShoppingCreditHistoryStateEven.GetDataAfterFirstTime -> {
+                    repository.getAllSolvedCreditLineOfTheUserAfterDate(
+                        shoppingCreditHistoryStateEven.lastCreditLine
+                    ).onEach {
+                    }.launchIn(viewModelScope)
+                }
+            }
         }
         jobList["ShoppingCreditHistory"] = job
     }

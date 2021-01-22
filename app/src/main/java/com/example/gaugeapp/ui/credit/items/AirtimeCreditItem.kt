@@ -67,6 +67,12 @@ class AirtimeCreditItem(
                 }
             }
         }
+
+        viewHolder.itemView.id_credit_solved.visibility = if (airtimeCredit.solved) {
+            View.VISIBLE
+        } else {
+            View.GONE
+        }
     }
 
     private fun getTotalAmount(): String {

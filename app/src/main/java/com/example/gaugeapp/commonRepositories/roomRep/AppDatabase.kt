@@ -8,13 +8,12 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 import com.example.gaugeapp.commonRepositories.roomRep.roomEntities.SmsTable
 import com.example.gaugeapp.data.entities.Balance
 import com.example.gaugeapp.dataSource.credit.AirtimeCreditLine.local.AirtimesCreditLineLocalEntity
-import com.example.gaugeapp.dataSource.credit.shoppingCredit.local.persistanceEntities.ShoppingCreditLineTable
-import com.example.gaugeapp.dataSource.credit.shoppingCredit.local.persistanceEntities.ShoppingCreditTable
+import com.example.gaugeapp.dataSource.credit.shoppingCredit.local.ShoppingCreditLineLocalEntity
 import com.example.gaugeapp.dataSource.user.local.UserCacheEntity
 
 
 @Database(
-    entities = [SmsTable::class, Balance::class, UserCacheEntity::class, ShoppingCreditLineTable::class, ShoppingCreditTable::class
+    entities = [SmsTable::class, Balance::class, UserCacheEntity::class, ShoppingCreditLineLocalEntity::class
         , AirtimesCreditLineLocalEntity::class],
     version = 3
 )

@@ -3,7 +3,7 @@ package com.example.gaugeapp.di
 import android.content.Context
 import androidx.room.Room
 import com.example.gaugeapp.dataSource.credit.AirtimeCreditLine.local.AirtimesCreditLineDao
-import com.example.gaugeapp.dataSource.credit.shoppingCredit.local.ShoppingCreditDao
+import com.example.gaugeapp.dataSource.credit.shoppingCredit.local.ShoppingCreditLineDao
 import com.example.gaugeapp.dataSource.roomPersistence.KWalletDataBase
 import com.example.gaugeapp.dataSource.user.local.UserDao
 import dagger.Module
@@ -55,7 +55,7 @@ object RoomModule {
      */
     @Singleton
     @Provides
-    fun provideShoppingCreditDao(kWalletDataBase: KWalletDataBase): ShoppingCreditDao {
+    fun provideShoppingCreditDao(kWalletDataBase: KWalletDataBase): ShoppingCreditLineDao {
         return kWalletDataBase.shoppingCreditDao()
     }
 

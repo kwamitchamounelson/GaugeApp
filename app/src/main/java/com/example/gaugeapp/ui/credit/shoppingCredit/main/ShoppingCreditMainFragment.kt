@@ -10,12 +10,16 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.gaugeapp.R
-import com.example.gaugeapp.entities.ShoppingCreditLineWithShoppingCreditsList
+import com.example.gaugeapp.data.entities.ShoppingCreditRequest
+import com.example.gaugeapp.data.enums.ENUM_REQUEST_STATUS
+import com.example.gaugeapp.entities.ShoppingCreditLine
+import com.example.gaugeapp.ui.credit.items.PendingItem
 import com.example.gaugeapp.ui.credit.items.ShoppingCreditItem
 import com.example.gaugeapp.utils.DataState
 import com.example.gaugeapp.utils.formatNumberWithSpaceBetweenThousand
 import com.example.gaugeapp.utils.permissionsutils.FragmentPermissions
 import com.example.gaugeapp.utils.permissionsutils.askAnyPermission
+import com.example.gaugeapp.utils.printLogD
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.LatLng
@@ -31,9 +35,10 @@ import kotlinx.android.synthetic.main.layout_credit_main.view.*
 import kotlinx.android.synthetic.main.layout_map_shopping_credit_bottom_cheet.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.InternalCoroutinesApi
-import org.jetbrains.anko.imageResource
-import org.jetbrains.anko.textResource
+import org.jetbrains.anko.*
 import java.util.*
+
+private const val TAG = "ShoppingCreditMainFragm"
 
 @AndroidEntryPoint
 @InternalCoroutinesApi
@@ -46,6 +51,12 @@ class ShoppingCreditMainFragment : FragmentPermissions(), OnMapReadyCallback {
 
         private const val MAPVIEW_BUNDLE_KEY = "AIzaSyAklo5NjMaGF_VYxNi2TS6odpXzjDlr-kg"
     }
+
+    private var firstTime: Boolean = true
+    private var creditDue: Double = 0.0
+    private var creditLeft: Double = 0.0
+    private var currentShoppingCreditLine: ShoppingCreditLine? = null
+    private var currentShoppingCreditRequest: ShoppingCreditRequest? = null
 
     private val viewModel by viewModels<ShoppingCreditMainViewModel>()
 
@@ -65,7 +76,7 @@ class ShoppingCreditMainFragment : FragmentPermissions(), OnMapReadyCallback {
      * 2 if he is overdue
      *
      */
-    private var stateEventCredit: Int = 0
+    private var pending = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -90,8 +101,21 @@ class ShoppingCreditMainFragment : FragmentPermissions(), OnMapReadyCallback {
         bottomSheetBehavior = BottomSheetBehavior.from(id_map_shopping_bottomsheet)
         //we make invisible the views specific to airtime credit
         try {
-            id_airtime_block.visibility = View.GONE
-            id_airtime_block.visibility = View.GONE
+            id_pending_block.visibility = View.GONE
+            id_pending_block.visibility = View.GONE
+            id_credit_borrow_text_button.visibility = View.GONE
+
+            //title
+            id_credit_title.textResource = R.string.shopping_credit
+
+            //image
+            id_credit_image.imageResource = R.drawable.ic_baseline_shopping_cart
+
+            credit_progress.visibility = View.VISIBLE
+            credit_list_empty.visibility = View.GONE
+            id_credit_list_data_block.visibility = View.GONE
+
+            setUiStateGoodStandingNotRequest()
 
 
             askAnyPermission(
@@ -117,7 +141,6 @@ class ShoppingCreditMainFragment : FragmentPermissions(), OnMapReadyCallback {
         id_shopping_google_map_view.getMapAsync(this)
     }
 
-
     private fun configureOnClickListener() {
         id_shopping_credit_lis_store_bottom_sheet.setOnClickListener {
             try {
@@ -131,96 +154,262 @@ class ShoppingCreditMainFragment : FragmentPermissions(), OnMapReadyCallback {
             bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED)
         }
 
-        id_shopping_google_map_view.setOnClickListener {
+        id_shopping_credit_drawer_bottom_sheet.setOnClickListener {
             bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED)
         }
 
     }
 
+
     private fun observeLiveData() {
-        viewModel.currentCreditLinetObserver.observe(
+
+        viewModel.shoppingCreditRequestObserver.observe(viewLifecycleOwner, Observer { dataState ->
+            when (dataState) {
+                is DataState.Loading -> {
+                }
+                is DataState.Success -> {
+                    currentShoppingCreditRequest = dataState.data
+                    printLogD(
+                        TAG,
+                        "currentShoppingCreditRequest => ${currentShoppingCreditRequest.toString()}"
+                    )
+                    //to do pending animation
+                    if (currentShoppingCreditRequest != null && currentShoppingCreditRequest!!.requestEnable) {
+                        when (currentShoppingCreditRequest!!.status) {
+                            ENUM_REQUEST_STATUS.PENDING -> {
+                                setUiStatePendingRequest()
+                            }
+                            ENUM_REQUEST_STATUS.REJECTED -> {
+                                //kola rejected the request, we show and alert to notify the user
+                                requireContext().alert {
+                                    titleResource = R.string.app_name
+                                    messageResource = R.string.your_last_request_has_been_rejected
+                                    okButton {
+                                    }
+                                    onCancelled {
+                                        setUiStateGoodStandingNotRequest()
+                                        ShoppingCreditStateEvent.CloseShoppingCreditRequest(
+                                            currentShoppingCreditRequest!!
+                                        )
+                                    }
+                                }.show()
+                            }
+                            ENUM_REQUEST_STATUS.VALIDATED -> {
+                                //we add Shopping credit to corresponding to this request to the current credit line and we disable de request
+                                setUiStateGoodStandingNotRequest()
+                                currentShoppingCreditRequest!!.requestEnable = false
+                                viewModel.setStateEvent(
+                                    ShoppingCreditStateEvent.CloseValidatedShoppingCreditRequest(
+                                        currentShoppingCreditLine!!,
+                                        currentShoppingCreditRequest!!
+                                    )
+                                )
+                            }
+                            ENUM_REQUEST_STATUS.CANCELED -> {
+                                //We only disable de request
+                                setUiStateGoodStandingNotRequest()
+                                viewModel.setStateEvent(
+                                    ShoppingCreditStateEvent.CloseShoppingCreditRequest(
+                                        currentShoppingCreditRequest!!
+                                    )
+                                )
+                            }
+                        }
+                    }
+                }
+                is DataState.Failure -> {
+                    requireContext().toast(R.string.connection_error_please_try_again)
+                    dataState.throwable?.printStackTrace()
+                }
+            }
+        })
+
+        viewModel.currentShoppingCreditLinetObserver.observe(
             viewLifecycleOwner,
             Observer { dataState ->
                 when (dataState) {
                     is DataState.Loading -> {
+                        credit_progress.visibility = View.VISIBLE
                     }
                     is DataState.Success -> {
-                        updateUI(dataState.data)
+                        credit_progress.visibility = View.GONE
+                        currentShoppingCreditLine = dataState.data
+                        printLogD(
+                            TAG,
+                            "currentShoppingCreditLine => ${currentShoppingCreditLine.toString()}"
+                        )
+                        if (currentShoppingCreditLine != null) {
+                            if (currentShoppingCreditLine!!.id.isNotBlank()) {
+
+                                val totalLoan =
+                                    currentShoppingCreditLine!!.shoppingCreditList.sumByDouble { it.amount }
+
+                                val maxAmount =
+                                    currentShoppingCreditLine!!.maxAmountToLoan
+
+                                if (totalLoan < maxAmount) {
+                                    updateUI(currentShoppingCreditLine!!)
+                                } else if (totalLoan == maxAmount) {
+                                    val totalUnSolved =
+                                        currentShoppingCreditLine!!.shoppingCreditList.filter { !it.solved }
+                                            .sumByDouble {
+                                                it.amount
+                                            }
+                                    if (totalUnSolved == 0.0) {
+                                        //the current credit line is solved, we close it and automatically new is created
+                                        viewModel.setStateEvent(
+                                            ShoppingCreditStateEvent.CloseCurentCreditLine(
+                                                currentShoppingCreditLine!!
+                                            )
+                                        )
+                                    } else {
+                                        updateUI(currentShoppingCreditLine!!)
+                                    }
+                                }
+
+                            } else {
+                                //we try to recover the credit line to be sure to have the id
+                                viewModel.setStateEvent(ShoppingCreditStateEvent.GetCurrentShoppingCreditLineOfTheUser)
+                            }
+                        } else {
+                            //credit left
+                            id_credit_left.text = "0 F"
+
+                            //credit due
+                            id_credit_due.text = "0 F"
+
+                            //init new airtime credit line
+                            viewModel.setStateEvent(ShoppingCreditStateEvent.InitShoppingCreditLine)
+                        }
                     }
                     is DataState.Failure -> {
-                    }
-                }
-            })
-
-        viewModel.stateEventCreditObserver.observe(
-            viewLifecycleOwner,
-            Observer { state ->
-                state?.let {
-                    stateEventCredit = it
-                    try {
-                        when (state) {
-                            1 -> {
-                                //1 if a loan request is pending
-                                id_credit_payment_explanation.visibility = View.VISIBLE
-                                id_credit_payment_penality_explanation.visibility =
-                                    View.GONE
-                            }
-                            2 -> {
-                                //2 if he is overdue
-
-                                id_credit_payment_explanation.visibility = View.GONE
-                                id_credit_payment_penality_explanation.visibility =
-                                    View.VISIBLE
-                            }
-                            else -> {
-                                // 0 by default if the user is in good standing and is not in the process of making a request
-                                id_credit_payment_explanation.visibility = View.VISIBLE
-                                id_credit_payment_penality_explanation.visibility =
-                                    View.GONE
-                            }
-                        }
-                    } catch (e: Exception) {
-                        e.printStackTrace()
+                        dataState.throwable?.printStackTrace()
+                        credit_progress.visibility = View.GONE
                     }
                 }
             })
     }
 
+
+    private fun setUiStateOverdue() {
+        pending = false
+        //2 if he is overdue
+
+        id_pending_block.visibility = View.GONE
+
+        id_credit_payment_explanation.visibility = View.GONE
+        id_credit_payment_penality_explanation.visibility =
+            View.VISIBLE
+    }
+
+    private fun setUiStatePendingRequest() {
+        pending = true
+        //1 if a loan request is pending
+        id_credit_borrow_text_state.apply {
+            visibility = View.VISIBLE
+            textResource = R.string.you_are_on_the_way
+            textColorResource = R.color.colorPrimary
+        }
+        id_credit_borrow_grace_periode.visibility = View.GONE
+        id_credit_borrow_pending_rv.visibility = View.VISIBLE
+        id_credit_borrow_pending_cancel.visibility = View.VISIBLE
+        id_credit_payment_explanation.visibility = View.VISIBLE
+        id_credit_payment_penality_explanation.visibility =
+            View.GONE
+        startPendingAnimation()
+    }
+
+    private fun setUiStateGoodStandingNotRequest() {
+        pending = false
+        // 0 by default if the user is in good standing and is not in the process of making a request
+        id_pending_block.visibility = View.GONE
+
+        id_credit_payment_penality_explanation.visibility =
+            View.VISIBLE
+    }
+
+    private fun startPendingAnimation() {
+        if (pending) {
+
+            val pendingItems = (0..3).map {
+                PendingItem(it)
+            }
+
+            id_credit_borrow_pending_rv.apply {
+                layoutManager =
+                    LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+                adapter = GroupAdapter<ViewHolder>().apply {
+                    add(Section(pendingItems))
+                }
+            }
+
+            val pendingCount = (pendingItems.size - 1)
+
+            //start thread animation
+            try {
+                var currentIndex = 0
+                val thread = Thread {
+                    while (pending) {
+                        requireActivity().runOnUiThread(Runnable {
+                            pendingItems.forEach { item ->
+                                item.apply {
+                                    isCurrentPending = (currentIndex == item.number)
+                                    notifyChanged()
+                                }
+                            }
+                            currentIndex++
+                            if (currentIndex > pendingCount) {
+                                currentIndex = 0
+                            }
+                        })
+                        try {
+                            Thread.sleep(200)
+                        } catch (e: Exception) {
+                            e.printStackTrace()
+                        }
+                    }
+                }
+                thread.start()
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
+
     @SuppressLint("SetTextI18n")
-    private fun updateUI(shoppingCreditLineWithShoppingCreditsList: ShoppingCreditLineWithShoppingCreditsList?) {
-        if (shoppingCreditLineWithShoppingCreditsList != null) {
+    private fun updateUI(shoppingCreditLine: ShoppingCreditLine) {
+        //credit left
+        creditLeft = viewModel.calculateCreditLeft(shoppingCreditLine)
+        id_credit_left.text =
+            creditLeft.formatNumberWithSpaceBetweenThousand() + " F"
 
-            //title
-            id_credit_title.textResource = R.string.shopping_credit
-
-            //image
-            id_credit_image.imageResource = R.drawable.ic_baseline_shopping_cart
-
-
-            //credit left
-            val creditLeft =
-                viewModel.calculateCreditLeft(shoppingCreditLineWithShoppingCreditsList)
-            id_credit_left.text =
-                creditLeft.formatNumberWithSpaceBetweenThousand() + " F"
-
-            //credit due
-            val creditDue = viewModel.calculateCreditDue(shoppingCreditLineWithShoppingCreditsList)
-            id_credit_due.text =
-                creditDue.formatNumberWithSpaceBetweenThousand() + " F"
+        //credit due
+        creditDue = viewModel.calculateCreditDue(shoppingCreditLine)
+        id_credit_due.text =
+            creditDue.formatNumberWithSpaceBetweenThousand() + " F"
 
 
-            val nowDate = Calendar.getInstance().time
+        val nowDate = Calendar.getInstance().time
 
-            if (shoppingCreditLineWithShoppingCreditsList.shoppingCreditLine.dueDate < nowDate) {
-                //value 2 , because user is overdue
-                viewModel.stateEventCreditObserver.value = 2
-            }
+        if (shoppingCreditLine.dueDate < nowDate) {
+            //value 2 , because user is overdue
+            setUiStateOverdue()
+        }
 
-            //show credit list
-            val items = shoppingCreditLineWithShoppingCreditsList.creditList.map {
-                ShoppingCreditItem(it, shoppingCreditLineWithShoppingCreditsList.shoppingCreditLine)
-            }
-            updateRv(items)
+        //show credit list
+        val items = shoppingCreditLine.shoppingCreditList.map {
+            ShoppingCreditItem(it, shoppingCreditLine)
+        }
+        updateRv(items)
+
+        if (firstTime) {
+            firstTime = false
+            //we fetch if we have pending request
+            viewModel.setStateEvent(
+                ShoppingCreditStateEvent.GetLastShoppingCreditRequest(
+                    currentShoppingCreditLine!!.id
+                )
+            )
         }
     }
 
@@ -230,6 +419,14 @@ class ShoppingCreditMainFragment : FragmentPermissions(), OnMapReadyCallback {
             adapter = GroupAdapter<ViewHolder>().apply {
                 add(Section(items))
             }
+        }
+
+        if (items.isEmpty()) {
+            credit_list_empty.visibility = View.VISIBLE
+            id_credit_list_data_block.visibility = View.GONE
+        } else {
+            credit_list_empty.visibility = View.GONE
+            id_credit_list_data_block.visibility = View.VISIBLE
         }
     }
 
@@ -276,7 +473,7 @@ class ShoppingCreditMainFragment : FragmentPermissions(), OnMapReadyCallback {
 
     override fun onDestroy() {
         super.onDestroy()
-        stateEventCredit = 0
+        pending = false
         try {
             navBar = requireActivity().findViewById(R.id.nav_view)
             navBar.visibility = View.VISIBLE

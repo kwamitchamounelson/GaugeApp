@@ -12,10 +12,11 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.gaugeapp.R
-import com.example.gaugeapp.entities.ShoppingCreditLineWithShoppingCreditsList
+import com.example.gaugeapp.entities.ShoppingCreditLine
 import com.example.gaugeapp.ui.credit.items.ShoppingCreditHistoryItem
 import com.example.gaugeapp.utils.DataState
 import com.example.gaugeapp.utils.formatNumberWithSpaceBetweenThousand
+import com.example.gaugeapp.utils.printLogD
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.Section
 import com.xwray.groupie.kotlinandroidextensions.ViewHolder
@@ -24,6 +25,7 @@ import kotlinx.android.synthetic.main.layout_credit_history.*
 import kotlinx.android.synthetic.main.layout_credit_history.view.*
 import kotlinx.coroutines.InternalCoroutinesApi
 import org.jetbrains.anko.textResource
+import org.jetbrains.anko.toast
 
 
 private const val TAG = "ShoppingCreditHistoryFr"
@@ -38,6 +40,8 @@ class ShoppingCreditHistoryFragment : Fragment() {
 
     private val viewModel by viewModels<ShoppingCreditHistoryViewModel>()
 
+    private var firstTime = true
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -50,51 +54,68 @@ class ShoppingCreditHistoryFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        try {
+            //toolbar title
+            id_credit_toolbar_title.textResource = R.string.shopping_credit_history
+
+            id_credit_history_total_amount.text = ""
+
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
         observeLiveData()
-        viewModel.getHistoryOfCredit()
+        viewModel.setStateEvent(ShoppingCreditHistoryStateEven.GetDataFirstTime)
     }
 
-
     private fun observeLiveData() {
-        viewModel.listShoppingCreditLinetObserver.observe(
+        viewModel.listShoppingCreditLinetFirstTimeObserver.observe(
             viewLifecycleOwner,
             Observer { dataState ->
                 when (dataState) {
                     is DataState.Loading -> {
                     }
                     is DataState.Success -> {
-                        updateUI(dataState.data)
+                        val creditLineList = dataState.data ?: listOf()
+                        printLogD(TAG, "creditLineList $creditLineList")
+                        updateUI(creditLineList)
+                        if (firstTime) {
+                            firstTime = false
+                            if (creditLineList.isNotEmpty()) {
+                                val lastCreditLine = creditLineList.last()
+                                viewModel.setStateEvent(
+                                    ShoppingCreditHistoryStateEven.GetDataAfterFirstTime(
+                                        lastCreditLine
+                                    )
+                                )
+                            }
+                        }
                     }
                     is DataState.Failure -> {
+                        requireContext().toast(R.string.connection_error_please_try_again)
+                        printLogD(TAG, " ${dataState.throwable}")
                     }
                 }
             })
     }
 
-    private fun updateUI(listShoppingLineWithCredit: List<ShoppingCreditLineWithShoppingCreditsList>?) {
-        if (listShoppingLineWithCredit != null) {
+    private fun updateUI(shoppingCreditLineList: List<ShoppingCreditLine>?) {
+        if (shoppingCreditLineList != null) {
             try {
-
-                //toolbar title
-                id_credit_toolbar_title.textResource = R.string.shopping_credit_history
-
-                val sumPayBackPercent =
-                    listShoppingLineWithCredit.sumByDouble { it.shoppingCreditLine.payBackPercent }
-
-                val totalRealAmount = listShoppingLineWithCredit.sumByDouble { creditLine ->
-                    creditLine.creditList.sumByDouble { it.amount }
+                val total = shoppingCreditLineList.sumByDouble { creditLine ->
+                    val amount = (creditLine.shoppingCreditList.sumByDouble { it.amount })
+                    val percent = creditLine.payBackPercent
+                    (amount * percent + amount)
                 }
-
-                val total = (totalRealAmount * (1 + sumPayBackPercent))
+                printLogD(TAG, "total $total")
 
                 id_credit_history_total_amount.text =
                     total.formatNumberWithSpaceBetweenThousand() + " F"
 
                 val items = arrayListOf<ShoppingCreditHistoryItem>()
 
-                listShoppingLineWithCredit.forEach { creditLine ->
-                    creditLine.creditList.forEach { credit ->
-                        items.add(ShoppingCreditHistoryItem(credit, creditLine.shoppingCreditLine))
+                shoppingCreditLineList.forEach { creditLine ->
+                    creditLine.shoppingCreditList.forEach { credit ->
+                        items.add(ShoppingCreditHistoryItem(credit, creditLine))
                     }
                 }
 

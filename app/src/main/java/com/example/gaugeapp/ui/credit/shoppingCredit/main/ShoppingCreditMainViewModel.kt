@@ -7,13 +7,12 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.example.gaugeapp.commonRepositories.FireStoreAuthUtil
-import com.example.gaugeapp.entities.ShoppingCreditLineWithShoppingCreditsList
+import com.example.gaugeapp.data.entities.ShoppingCreditRequest
+import com.example.gaugeapp.entities.ShoppingCreditLine
 import com.example.gaugeapp.repositories.creditRepositories.ShoppingCreditRepository
 import com.example.gaugeapp.ui.base.BaseViewModel
 import com.example.gaugeapp.utils.DataState
 import kotlinx.coroutines.InternalCoroutinesApi
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
 
@@ -27,30 +26,17 @@ class ShoppingCreditMainViewModel @ViewModelInject constructor(
     /**
      * current User id
      */
-    //val userId = FireStoreAuthUtil.getUserUID()
-    val userId = "FireStoreAuthUtil.getUserUID()"
-
+    val userId = FireStoreAuthUtil.getUserUID()
 
     /**
-     * Current credit line list observer
+     * Current Shopping credit line list observer
      *
      * to display current credit line and here credits
      */
-    val currentCreditLinetObserver =
-        MutableLiveData<DataState<ShoppingCreditLineWithShoppingCreditsList>>()
+    val currentShoppingCreditLinetObserver = MutableLiveData<DataState<ShoppingCreditLine?>>()
 
-    /**
-     * State event credit observer
-     *
-     * To manage the state of the user
-     * 0 by default if the user is in good standing and is not in the process of making a request
-     * 1 if a loan request is pending
-     * 2 if he is overdue
-     *
-     */
-    val stateEventCreditObserver = MutableLiveData<Int>().apply {
-        value = 0
-    }
+
+    val shoppingCreditRequestObserver = MutableLiveData<DataState<ShoppingCreditRequest?>>()
 
     /**
      * Set state event
@@ -61,24 +47,35 @@ class ShoppingCreditMainViewModel @ViewModelInject constructor(
         val job = viewModelScope.launch {
             when (shoppingCreditStateEvent) {
                 is ShoppingCreditStateEvent.GetCurrentShoppingCreditLineOfTheUser -> {
-                    repository.getCurrentCreditLineOfTheUser(userId).onEach {
-                        currentCreditLinetObserver.value = it
-                    }.launchIn(viewModelScope)
+                    repository.getCurrentShoppingCreditLineNotFlowRealTime {
+                        currentShoppingCreditLinetObserver.value = it
+                    }
                 }
-                is ShoppingCreditStateEvent.BorrowShoppingCredit -> {
-                    repository.borrowShoppingCreditTimeCredit(
-                        userId,
-                        shoppingCreditStateEvent.creditLineId,
-                        shoppingCreditStateEvent.amount,
-                        shoppingCreditStateEvent.phoneNumber
-                    ).onEach {
-                        //TODO success borrow
-                    }.launchIn(viewModelScope)
+                is ShoppingCreditStateEvent.RequestBorrowShoppingCredit -> {
+                    repository.requestBorrowShoppingCredit(shoppingCreditStateEvent.shoppingCreditRequest)
                 }
                 is ShoppingCreditStateEvent.InitShoppingCreditLine -> {
-                    repository.createCreditLine(shoppingCreditStateEvent.shoppingCredit).onEach {
-                        //TODO create new Airtime Credit line
-                    }.launchIn(viewModelScope)
+                    repository.createCreditLine()
+                }
+                is ShoppingCreditStateEvent.GetLastShoppingCreditRequest -> {
+                    repository.getLastShoppingCreditRequestNotFlowRealTime(shoppingCreditStateEvent.currentCreditLineId) {
+                        shoppingCreditRequestObserver.value = it
+                    }
+                }
+                is ShoppingCreditStateEvent.CloseValidatedShoppingCreditRequest -> {
+                    repository.closeValidatedShoppingCreditRequest(
+                        shoppingCreditStateEvent.currentShoppingCreditLine,
+                        shoppingCreditStateEvent.currentShoppingCreditRequest
+                    )
+                }
+                is ShoppingCreditStateEvent.CloseShoppingCreditRequest -> {
+                    repository.closeShoppingCreditRequest(shoppingCreditStateEvent.currentShoppingCreditRequest)
+                }
+                is ShoppingCreditStateEvent.CancelCloselShoppingCreditRequest -> {
+                    repository.cancelCloselShoppingCreditRequest(shoppingCreditStateEvent.currentShoppingCreditRequest)
+                }
+                is ShoppingCreditStateEvent.CloseCurentCreditLine -> {
+                    repository.closeCurrentCreditLine(shoppingCreditStateEvent.currentShoppingCreditLine)
                 }
             }
         }
@@ -86,35 +83,32 @@ class ShoppingCreditMainViewModel @ViewModelInject constructor(
     }
 
     /**
-     * Calculate credit left of the current credit line
+     * Calculate credit left
      *
-     * @param shoppingCreditLineWithShoppingCreditsList
+     * @param shoppingCreditLine
      * @return
      */
-    fun calculateCreditLeft(shoppingCreditLineWithShoppingCreditsList: ShoppingCreditLineWithShoppingCreditsList): Double {
-        val totalDueNotPercentage = shoppingCreditLineWithShoppingCreditsList.creditList.filter {
-            !it._isSolved
-        }.sumByDouble {
+    fun calculateCreditLeft(shoppingCreditLine: ShoppingCreditLine): Double {
+        val totalDueNotPercentage = shoppingCreditLine.shoppingCreditList.sumByDouble {
             it.amount
         }
-        return (shoppingCreditLineWithShoppingCreditsList.shoppingCreditLine.amount - totalDueNotPercentage)
+        return (shoppingCreditLine.maxAmountToLoan - totalDueNotPercentage)
     }
 
 
     /**
-     * Calculate credit due of the current credit line
+     * Calculate credit due
      *
-     * @param shoppingCreditLineWithShoppingCreditsList
+     * @param shoppingCreditLine
      * @return
      */
-    fun calculateCreditDue(shoppingCreditLineWithShoppingCreditsList: ShoppingCreditLineWithShoppingCreditsList): Double {
-        val totalDueNotPercentage = shoppingCreditLineWithShoppingCreditsList.creditList.filter {
-            !it._isSolved
+    fun calculateCreditDue(shoppingCreditLine: ShoppingCreditLine): Double {
+        val totalDueNotPercentage = shoppingCreditLine.shoppingCreditList.filter {
+            !it.solved
         }.sumByDouble {
             it.amount
         }
-        return (totalDueNotPercentage * (1 + shoppingCreditLineWithShoppingCreditsList.shoppingCreditLine.payBackPercent))
+        return (totalDueNotPercentage * (1 + shoppingCreditLine.payBackPercent))
     }
-
 
 }

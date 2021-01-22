@@ -10,14 +10,13 @@ import com.example.gaugeapp.commonRepositories.roomRep.roomEntities.SmsTable
 import com.example.gaugeapp.data.entities.Balance
 import com.example.gaugeapp.dataSource.credit.AirtimeCreditLine.local.AirtimesCreditLineDao
 import com.example.gaugeapp.dataSource.credit.AirtimeCreditLine.local.AirtimesCreditLineLocalEntity
-import com.example.gaugeapp.dataSource.credit.shoppingCredit.local.ShoppingCreditDao
-import com.example.gaugeapp.dataSource.credit.shoppingCredit.local.persistanceEntities.ShoppingCreditLineTable
-import com.example.gaugeapp.dataSource.credit.shoppingCredit.local.persistanceEntities.ShoppingCreditTable
+import com.example.gaugeapp.dataSource.credit.shoppingCredit.local.ShoppingCreditLineDao
+import com.example.gaugeapp.dataSource.credit.shoppingCredit.local.ShoppingCreditLineLocalEntity
 import com.example.gaugeapp.dataSource.user.local.UserCacheEntity
 import com.example.gaugeapp.dataSource.user.local.UserDao
 
 @Database(
-    entities = [SmsTable::class, Balance::class, UserCacheEntity::class, ShoppingCreditLineTable::class, ShoppingCreditTable::class
+    entities = [SmsTable::class, Balance::class, UserCacheEntity::class, ShoppingCreditLineLocalEntity::class
         , AirtimesCreditLineLocalEntity::class],
     version = 3
 )
@@ -44,6 +43,6 @@ abstract class KWalletDataBase : RoomDatabase() {
 
 
     abstract fun userDao(): UserDao
-    abstract fun shoppingCreditDao(): ShoppingCreditDao
+    abstract fun shoppingCreditDao(): ShoppingCreditLineDao
     abstract fun airtimeCreditLineDao(): AirtimesCreditLineDao
 }

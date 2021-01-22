@@ -1,6 +1,7 @@
 package com.example.gaugeapp.ui.credit.items
 
 import android.view.View
+import com.example.gaugeapp.KolaWhalletApplication
 import com.example.gaugeapp.R
 import com.example.gaugeapp.entities.ShoppingCredit
 import com.example.gaugeapp.entities.ShoppingCreditLine
@@ -9,6 +10,8 @@ import com.example.gaugeapp.utils.formatNumberWithSpaceBetweenThousand
 import com.xwray.groupie.kotlinandroidextensions.Item
 import com.xwray.groupie.kotlinandroidextensions.ViewHolder
 import kotlinx.android.synthetic.main.item_credit.view.*
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.InternalCoroutinesApi
 import org.jetbrains.anko.textColorResource
 import java.util.*
 
@@ -17,6 +20,9 @@ class ShoppingCreditItem(
     var shoppingCreditLine: ShoppingCreditLine
 ) : Item() {
     private val nowDate = Calendar.getInstance().time
+
+    @ExperimentalCoroutinesApi
+    @InternalCoroutinesApi
     override fun bind(viewHolder: ViewHolder, position: Int) {
 
         viewHolder.itemView.id_credit_amoun_to_pay_back.text = getTotalAmount()
@@ -40,11 +46,41 @@ class ShoppingCreditItem(
         viewHolder.itemView.id_credit_store_info.apply {
             visibility = View.VISIBLE
             //TODO show name of the store
-            //text = shoppingCredit.storeName
+            text = shoppingCredit.store.name
         }
 
         viewHolder.itemView.id_credit_real_amount.text =
             shoppingCredit.amount.formatNumberWithSpaceBetweenThousand()
+
+
+        viewHolder.itemView.id_credit_repay_button.apply {
+            visibility = if (shoppingCredit.solved) {
+                View.GONE
+            } else {
+                View.VISIBLE
+            }
+
+            setOnClickListener {
+                //TODO navigate to transfer page
+                val index =
+                    shoppingCreditLine.shoppingCreditList.indexOfFirst { it.id == shoppingCredit.id }
+                if (index >= 0) {
+                    val repository =
+                        KolaWhalletApplication.hiltEntryPoint.shoppingCreditRepository()
+                    shoppingCreditLine.shoppingCreditList[index].apply {
+                        solved = true
+                        repaymentDate = Calendar.getInstance().time
+                    }
+                    repository.updateCreditLine(shoppingCreditLine)
+                }
+            }
+        }
+
+        viewHolder.itemView.id_credit_solved.visibility = if (shoppingCredit.solved) {
+            View.VISIBLE
+        } else {
+            View.GONE
+        }
     }
 
     private fun getTotalAmount(): String {

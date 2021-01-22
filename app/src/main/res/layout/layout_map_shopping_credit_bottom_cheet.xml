@@ -41,6 +41,7 @@
         app:layout_constraintWidth_percent="0.90">
 
         <View
+            android:id="@+id/id_shopping_credit_drawer_bottom_sheet"
             android:layout_width="@dimen/dimen_50dp"
             android:layout_height="3dp"
             android:layout_gravity="center_horizontal"

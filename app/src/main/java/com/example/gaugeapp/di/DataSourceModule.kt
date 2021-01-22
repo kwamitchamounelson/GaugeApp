@@ -17,15 +17,13 @@ import com.example.gaugeapp.dataSource.credit.AirtimeCreditLine.remote.AirtimeCr
 import com.example.gaugeapp.dataSource.credit.airtimeCreditRequest.remote.AirTimeCreditRequestRemoteDataSource
 import com.example.gaugeapp.dataSource.credit.airtimeCreditRequest.remote.AirTimeCreditRequestRemoteDataSourceImpl
 import com.example.gaugeapp.dataSource.credit.airtimeCreditRequest.remote.AirtimeCreditRequestService
-import com.example.gaugeapp.dataSource.credit.shoppingCredit.local.IShoppingCreditLocalDataSource
-import com.example.gaugeapp.dataSource.credit.shoppingCredit.local.ShoppingCreditDao
-import com.example.gaugeapp.dataSource.credit.shoppingCredit.local.ShoppingCreditLocalDataSourceImpl
-import com.example.gaugeapp.dataSource.credit.shoppingCredit.local.mappers.ShoppingCreditLineLocalMapper
-import com.example.gaugeapp.dataSource.credit.shoppingCredit.local.mappers.ShoppingCreditLocalMapper
-import com.example.gaugeapp.dataSource.credit.shoppingCredit.remote.IShoppingCreditRemoteDataSource
-import com.example.gaugeapp.dataSource.credit.shoppingCredit.remote.ShoppingCreditRemoteDataSourceImpl
-import com.example.gaugeapp.dataSource.credit.shoppingCredit.remote.ShoppingCreditService
-
+import com.example.gaugeapp.dataSource.credit.shoppingCredit.local.*
+import com.example.gaugeapp.dataSource.credit.shoppingCredit.remote.ShoppingCreditLineRemoteDataSource
+import com.example.gaugeapp.dataSource.credit.shoppingCredit.remote.ShoppingCreditLineRemoteDataSourceImpl
+import com.example.gaugeapp.dataSource.credit.shoppingCredit.remote.ShoppingCreditLineService
+import com.example.gaugeapp.dataSource.credit.shoppingCreditLineRequest.remote.ShoppingCreditRequestRemoteDataSource
+import com.example.gaugeapp.dataSource.credit.shoppingCreditLineRequest.remote.ShoppingCreditRequestRemoteDataSourceImpl
+import com.example.gaugeapp.dataSource.credit.shoppingCreditLineRequest.remote.ShoppingCreditRequestService
 import com.example.gaugeapp.dataSource.storage.StorageDataSource
 import com.example.gaugeapp.dataSource.storage.StorageDataSourceImpl
 import com.example.gaugeapp.dataSource.storage.StorageService
@@ -149,7 +147,6 @@ object DataSourceModule {
     }
 
 
-
     @Singleton
     @Provides
     fun provideUserLocalDataSource(
@@ -160,12 +157,11 @@ object DataSourceModule {
     }
 
 
-
     @Singleton
     @Provides
     fun provideUserRemoteDateSource(
         firestore: FirebaseFirestore
-    ) : UserRemoteDataSource = UserRemoteDataSourceImpl(firestore)
+    ): UserRemoteDataSource = UserRemoteDataSourceImpl(firestore)
 
 
     //---------------------------------------------------------------------------------------------------------------------
@@ -177,18 +173,15 @@ object DataSourceModule {
      *
      * @param dao
      * @param creditLineMapper
-     * @param creditMapper
-     * @return ShoppingCreditLocalDataSourceImpl
-     * @author tsafix
+     * @return
      */
     @Singleton
     @Provides
     fun provideShoppingCreditLocalDataSource(
-        dao: ShoppingCreditDao,
         creditLineMapper: ShoppingCreditLineLocalMapper,
-        creditMapper: ShoppingCreditLocalMapper
-    ): IShoppingCreditLocalDataSource {
-        return ShoppingCreditLocalDataSourceImpl(dao, creditLineMapper, creditMapper)
+        dao: ShoppingCreditLineDao
+    ): ShoppingCreditLineLocalDataSource {
+        return ShoppingCreditLineLocalDataSourceImpl(creditLineMapper, dao)
     }
 
 
@@ -196,13 +189,25 @@ object DataSourceModule {
      * Provide shopping credit remote data source
      *
      * @param service
-     * @return IShoppingCreditRemoteDataSource
-     * @author tsafix
+     * @return
      */
     @Singleton
     @Provides
-    fun provideShoppingCreditRemoteDataSource(service: ShoppingCreditService): IShoppingCreditRemoteDataSource {
-        return ShoppingCreditRemoteDataSourceImpl(service)
+    fun provideShoppingCreditRemoteDataSource(service: ShoppingCreditLineService): ShoppingCreditLineRemoteDataSource {
+        return ShoppingCreditLineRemoteDataSourceImpl(service)
+    }
+
+
+
+    //---------------------------------------------------------------------------------------------------------------------
+    //-------------------------------------------SHOPPING CREDIT REQUEST DATA SOURCE PROVIDING-----------------------------------------
+    //---------------------------------------------------------------------------------------------------------------------
+
+
+    @Singleton
+    @Provides
+    fun provideShoppingCreditRequestRemoteDataSource(service: ShoppingCreditRequestService): ShoppingCreditRequestRemoteDataSource {
+        return ShoppingCreditRequestRemoteDataSourceImpl(service)
     }
 
 
@@ -239,7 +244,6 @@ object DataSourceModule {
     fun provideAirtimeCreditLineRemoteDataSource(service: AirtimeCreditLineService): AirTimeCreditLineRemoteDataSource {
         return AirTimeCreditLineRemoteDataSourceImpl(service)
     }
-
 
 
     //---------------------------------------------------------------------------------------------------------------------
