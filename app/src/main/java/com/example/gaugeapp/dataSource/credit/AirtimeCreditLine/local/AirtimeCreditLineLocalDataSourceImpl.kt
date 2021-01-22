@@ -1,6 +1,8 @@
 package com.example.gaugeapp.dataSource.credit.AirtimeCreditLine.local
 
 import com.example.gaugeapp.entities.AirTimeCreditLine
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class AirtimeCreditLineLocalDataSourceImpl @Inject constructor(
@@ -74,7 +76,9 @@ class AirtimeCreditLineLocalDataSourceImpl @Inject constructor(
      *
      * @return
      */
-    override suspend fun getAllSolvedCreditLineOfTheUser(): List<AirTimeCreditLine> =
-        mapper.mapListToEntity(dao.getAllSolvedCreditLineOfTheUser())
+    override fun getAllSolvedCreditLineOfTheUser(): Flow<List<AirTimeCreditLine>> =
+        dao.getAllSolvedCreditLineOfTheUser().map {
+            mapper.mapListToEntity(it)
+        }
 
 }

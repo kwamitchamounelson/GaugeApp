@@ -1,6 +1,7 @@
 package com.example.gaugeapp.dataSource.credit.AirtimeCreditLine.local
 
 import com.example.gaugeapp.entities.AirTimeCreditLine
+import kotlinx.coroutines.flow.Flow
 
 interface AirtimeCreditLineLocalDataSource {
 
@@ -58,5 +59,5 @@ interface AirtimeCreditLineLocalDataSource {
      *
      * @return
      */
-    suspend fun getAllSolvedCreditLineOfTheUser(): List<AirTimeCreditLine>
+    fun getAllSolvedCreditLineOfTheUser(): Flow<List<AirTimeCreditLine>>
 }

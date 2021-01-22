@@ -14,6 +14,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.tasks.await
+import java.util.*
 import javax.inject.Inject
 
 private const val TAG = "AirtimeCreditLineServic"
@@ -66,6 +67,35 @@ class AirtimeCreditLineService @Inject constructor(
             .addOnFailureListener { exception ->
                 exception.printStackTrace()
                 printLogD(TAG, exception.toString())
+            }
+    }
+
+
+    /**
+     * Update airtime credit line
+     *
+     * @param airtimeCreditLine
+     * @param onSuccess
+     * @param onError
+     * @receiver
+     * @receiver
+     */
+    fun updateAirtimeCreditLine(
+        airtimeCreditLine: AirTimeCreditLine,
+        onSuccess: () -> Unit,
+        onError: () -> Unit
+    ) {
+        FireStoreCollDocRef.airtimeCreditLineCollRef
+            .document(airtimeCreditLine.id)
+            .set(airtimeCreditLine, SetOptions.merge())
+            .addOnSuccessListener {
+                printLogD(TAG, "Success updateAirtimeCreditLine")
+                onSuccess()
+            }
+            .addOnFailureListener { exception ->
+                exception.printStackTrace()
+                printLogD(TAG, exception.toString())
+                onError()
             }
     }
 
@@ -211,6 +241,56 @@ class AirtimeCreditLineService @Inject constructor(
                 val snapshot = FireStoreCollDocRef.airtimeCreditLineCollRef
                     .whereEqualTo(AirTimeCreditLine::solved.name, true)
                     .orderBy(AirTimeCreditLine::createAt.name, Query.Direction.DESCENDING)
+                    .get()
+                    .await()
+
+                val data = snapshot.map { queryDocumentSnapshot ->
+                    val entity = queryDocumentSnapshot.toObject(AirTimeCreditLine::class.java)
+                    entity.apply {
+                        id = queryDocumentSnapshot.id
+                    }
+                }
+                emit(FirebaseResponseType.FirebaseSuccessResponse(data))
+            } catch (ex: Exception) {
+                emit(FirebaseResponseType.FirebaseErrorResponse(ex))
+            }
+        }
+
+
+    fun getAllSolvedCreditLineOfTheUserStartAfterLimit(
+        creationDate: Date,
+        limit: Long
+    ): Flow<FirebaseResponseType<List<AirTimeCreditLine>>> =
+        flow {
+            try {
+                val snapshot = FireStoreCollDocRef.airtimeCreditLineCollRef
+                    .whereEqualTo(AirTimeCreditLine::solved.name, true)
+                    .orderBy(AirTimeCreditLine::createAt.name, Query.Direction.DESCENDING)
+                    .startAfter(creationDate)
+                    .limit(limit)
+                    .get()
+                    .await()
+
+                val data = snapshot.map { queryDocumentSnapshot ->
+                    val entity = queryDocumentSnapshot.toObject(AirTimeCreditLine::class.java)
+                    entity.apply {
+                        id = queryDocumentSnapshot.id
+                    }
+                }
+                emit(FirebaseResponseType.FirebaseSuccessResponse(data))
+            } catch (ex: Exception) {
+                emit(FirebaseResponseType.FirebaseErrorResponse(ex))
+            }
+        }
+
+
+    fun getAllSolvedCreditLineOfTheUserStartAfter(creationDate: Date): Flow<FirebaseResponseType<List<AirTimeCreditLine>>> =
+        flow {
+            try {
+                val snapshot = FireStoreCollDocRef.airtimeCreditLineCollRef
+                    .whereEqualTo(AirTimeCreditLine::solved.name, true)
+                    .orderBy(AirTimeCreditLine::createAt.name, Query.Direction.DESCENDING)
+                    .startAfter(creationDate)
                     .get()
                     .await()
 

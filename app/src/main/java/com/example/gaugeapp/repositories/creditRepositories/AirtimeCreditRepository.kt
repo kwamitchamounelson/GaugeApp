@@ -38,6 +38,9 @@ class AirtimeCreditRepository @Inject constructor(
     private val airtimeCreditRequestRemoteDataSource: AirTimeCreditRequestRemoteDataSource
 ) {
 
+
+    private val LIMIT_REMOTE: Long = 5
+
     /**
      * Get current credit line of the user
      *
@@ -89,13 +92,11 @@ class AirtimeCreditRepository @Inject constructor(
      * @return
      */
     @InternalCoroutinesApi
-    fun getAllSolvedCreditLineOfTheUser(): Flow<DataState<List<AirTimeCreditLine>>> {
+    fun getAllSolvedCreditLineOfTheUserFirsTime(): Flow<DataState<List<AirTimeCreditLine>>> {
 
         return NetworkBoundResourceAirtimeCredit(
             fetchFromLocal = {
-                flow {
-                    emit(airtimeCreditLineLocalDataSource.getAllSolvedCreditLineOfTheUser())
-                }
+                airtimeCreditLineLocalDataSource.getAllSolvedCreditLineOfTheUser()
             },
             shouldFetchFromRemote = { localList ->
                 localList?.isEmpty()
@@ -111,7 +112,45 @@ class AirtimeCreditRepository @Inject constructor(
                 GlobalScope.launch {
                     airtimeCreditLineLocalDataSource.insertManyAirtimeCreditLine(remoteList)
                 }
-            }, onFetchFailed = { errorBody: String?, statusCode: Int ->
+            }, onFetchFailed = { _: String?, _: Int ->
+
+            }
+        ).flowOn(Dispatchers.IO)
+
+    }
+
+
+    /**
+     * Get all solved credit line of the user after date
+     *
+     * @param lastCreditLine
+     * @return
+     */
+    @InternalCoroutinesApi
+    fun getAllSolvedCreditLineOfTheUserAfterDate(lastCreditLine: AirTimeCreditLine): Flow<DataState<List<AirTimeCreditLine>>> {
+
+        return NetworkBoundResourceAirtimeCredit(
+            fetchFromLocal = {
+                flow {
+                    emit(listOf<AirTimeCreditLine>())
+                }
+            },
+            shouldFetchFromRemote = {
+                true
+            },
+            fetchFromRemote = {
+                airtimeCreditLineRemoteDataSource.getAllSolvedCreditLineOfTheUserStartAfter(
+                    lastCreditLine.createAt
+                )
+            },
+            processRemoteResponse = { dataState ->
+                dataState.extractData ?: arrayListOf()
+            },
+            saveRemoteData = { remoteList ->
+                GlobalScope.launch {
+                    airtimeCreditLineLocalDataSource.insertManyAirtimeCreditLine(remoteList)
+                }
+            }, onFetchFailed = { _: String?, _: Int ->
 
             }
         ).flowOn(Dispatchers.IO)
@@ -252,7 +291,18 @@ class AirtimeCreditRepository @Inject constructor(
             solved = true
             syncDate = nowDate
         }
-        airtimeCreditLineRemoteDataSource.updateAirtimeCreditLine(currentAirtimeCreditLine)
+        airtimeCreditLineRemoteDataSource.updateAirtimeCreditLine(currentAirtimeCreditLine,
+            onSuccess = {
+                GlobalScope.launch {
+                    airtimeCreditLineLocalDataSource.insertAirtimeCreditLine(
+                        currentAirtimeCreditLine
+                    )
+                }
+            },
+            onError = {
+
+            }
+        )
     }
 
 

@@ -28,13 +28,25 @@ class AirtimeCreditHistoryViewModel @ViewModelInject constructor(
      */
     val userId = FireStoreAuthUtil.getUserUID()
 
-    val listAirtimeCreditLinetObserver = MutableLiveData<DataState<List<AirTimeCreditLine>>>()
+    val listAirtimeCreditLinetFirstTimeObserver =
+        MutableLiveData<DataState<List<AirTimeCreditLine>>>()
 
-    fun getHistoryOfCredit() {
+
+    fun setStateEvent(airtimeCreditHistoryStateEven: AirtimeCreditHistoryStateEven) {
         val job = viewModelScope.launch {
-            repository.getAllSolvedCreditLineOfTheUser().onEach {
-                listAirtimeCreditLinetObserver.value = it
-            }.launchIn(viewModelScope)
+            when (airtimeCreditHistoryStateEven) {
+                is AirtimeCreditHistoryStateEven.GetDataFirstTime -> {
+                    repository.getAllSolvedCreditLineOfTheUserFirsTime().onEach {
+                        listAirtimeCreditLinetFirstTimeObserver.value = it
+                    }.launchIn(viewModelScope)
+                }
+                is AirtimeCreditHistoryStateEven.GetDataAfterFirstTime -> {
+                    repository.getAllSolvedCreditLineOfTheUserAfterDate(
+                        airtimeCreditHistoryStateEven.lastCreditLine
+                    ).onEach {
+                    }.launchIn(viewModelScope)
+                }
+            }
         }
         jobList["AirtimeCreditHistory"] = job
     }

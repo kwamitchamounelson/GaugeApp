@@ -1,6 +1,7 @@
 package com.example.gaugeapp.dataSource.credit.AirtimeCreditLine.local
 
 import androidx.room.*
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface AirtimesCreditLineDao {
@@ -26,5 +27,5 @@ interface AirtimesCreditLineDao {
     suspend fun getAllAirtimeCreditLine(): List<AirtimesCreditLineLocalEntity>
 
     @Query("SELECT * FROM airtimescreditlinelocalentity WHERE solved=1 ORDER BY createAt DESC")
-    fun getAllSolvedCreditLineOfTheUser(): List<AirtimesCreditLineLocalEntity>
+    fun getAllSolvedCreditLineOfTheUser(): Flow<List<AirtimesCreditLineLocalEntity>>
 }

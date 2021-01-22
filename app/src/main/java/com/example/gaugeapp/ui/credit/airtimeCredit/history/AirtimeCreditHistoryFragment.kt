@@ -25,6 +25,7 @@ import kotlinx.android.synthetic.main.layout_credit_history.*
 import kotlinx.android.synthetic.main.layout_credit_history.view.*
 import kotlinx.coroutines.InternalCoroutinesApi
 import org.jetbrains.anko.textResource
+import org.jetbrains.anko.toast
 
 
 private const val TAG = "AirtimeCreditHistoryFra"
@@ -38,6 +39,8 @@ class AirtimeCreditHistoryFragment : Fragment() {
     }
 
     private val viewModel by viewModels<AirtimeCreditHistoryViewModel>()
+
+    private var firstTime = true
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -55,41 +58,55 @@ class AirtimeCreditHistoryFragment : Fragment() {
             //toolbar title
             id_credit_toolbar_title.textResource = R.string.airtime_credit_history
 
-            id_credit_history_total_amount.text =""
+            id_credit_history_total_amount.text = ""
 
         } catch (e: Exception) {
             e.printStackTrace()
         }
         observeLiveData()
-        viewModel.getHistoryOfCredit()
+        viewModel.setStateEvent(AirtimeCreditHistoryStateEven.GetDataFirstTime)
     }
 
     private fun observeLiveData() {
-        viewModel.listAirtimeCreditLinetObserver.observe(viewLifecycleOwner, Observer { dataState ->
-            when (dataState) {
-                is DataState.Loading -> {
+        viewModel.listAirtimeCreditLinetFirstTimeObserver.observe(
+            viewLifecycleOwner,
+            Observer { dataState ->
+                when (dataState) {
+                    is DataState.Loading -> {
+                    }
+                    is DataState.Success -> {
+                        val creditLineList = dataState.data ?: listOf()
+                        printLogD(TAG, "creditLineList $creditLineList")
+                        updateUI(creditLineList)
+                        if (firstTime) {
+                            firstTime = false
+                            if (creditLineList.isNotEmpty()) {
+                                val lastCreditLine = creditLineList.last()
+                                viewModel.setStateEvent(
+                                    AirtimeCreditHistoryStateEven.GetDataAfterFirstTime(
+                                        lastCreditLine
+                                    )
+                                )
+                            }
+                        }
+                    }
+                    is DataState.Failure -> {
+                        requireContext().toast(R.string.connection_error_please_try_again)
+                        printLogD(TAG, " ${dataState.throwable}")
+                    }
                 }
-                is DataState.Success -> {
-                    printLogD(TAG, "${dataState.data?.size}")
-                    updateUI(dataState.data)
-                }
-                is DataState.Failure -> {
-                }
-            }
-        })
+            })
     }
 
     private fun updateUI(airtimeCreditLineList: List<AirTimeCreditLine>?) {
         if (airtimeCreditLineList != null) {
             try {
-
-                val sumPayBackPercent = airtimeCreditLineList.sumByDouble { it.payBackPercent }
-
-                val totalRealAmount = airtimeCreditLineList.sumByDouble { creditLine ->
-                    creditLine.airtimeCreditList.sumByDouble { it.amount }
+                val total = airtimeCreditLineList.sumByDouble { creditLine ->
+                    val amount = (creditLine.airtimeCreditList.sumByDouble { it.amount })
+                    val percent = creditLine.payBackPercent
+                    (amount * percent + amount)
                 }
-
-                val total = (totalRealAmount * (1 + sumPayBackPercent))
+                printLogD(TAG, "total $total")
 
                 id_credit_history_total_amount.text =
                     total.formatNumberWithSpaceBetweenThousand() + " F"

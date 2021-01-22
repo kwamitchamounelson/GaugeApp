@@ -5,6 +5,7 @@ import com.example.gaugeapp.entities.AirTimeCreditLine
 import com.example.gaugeapp.utils.DataState
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
+import java.util.*
 import javax.inject.Inject
 
 /**
@@ -38,6 +39,21 @@ class AirTimeCreditLineRemoteDataSourceImpl @Inject constructor(
     override fun updateAirtimeCreditLine(airtimeCreditLine: AirTimeCreditLine) =
         service.updateAirtimeCreditLine(airtimeCreditLine)
 
+    /**
+     * Update airtime credit line
+     *
+     * @param airtimeCreditLine
+     * @param onSuccess
+     * @param onError
+     * @receiver
+     * @receiver
+     */
+    override fun updateAirtimeCreditLine(
+        airtimeCreditLine: AirTimeCreditLine,
+        onSuccess: () -> Unit,
+        onError: () -> Unit
+    ) = service.updateAirtimeCreditLine(airtimeCreditLine, onSuccess, onError)
+
 
     /**
      * Get all airtime credit line
@@ -54,6 +70,27 @@ class AirTimeCreditLineRemoteDataSourceImpl @Inject constructor(
      */
     override fun getAllSolvedCreditLineOfTheUser() =
         getResult { service.getAllSolvedCreditLineOfTheUser() }
+
+    /**
+     * Get all solved credit line of the user start after limit
+     *
+     * @param creationDate
+     * @param limit
+     */
+    override fun getAllSolvedCreditLineOfTheUserStartAfterLimit(
+        creationDate: Date,
+        limit: Long
+    ) =
+        getResult { service.getAllSolvedCreditLineOfTheUserStartAfterLimit(creationDate, limit) }
+
+
+    /**
+     * Get all solved credit line of the user start after
+     *
+     * @param creationDate
+     */
+    override fun getAllSolvedCreditLineOfTheUserStartAfter(creationDate: Date) =
+        getResult { service.getAllSolvedCreditLineOfTheUserStartAfter(creationDate) }
 
 
     /**

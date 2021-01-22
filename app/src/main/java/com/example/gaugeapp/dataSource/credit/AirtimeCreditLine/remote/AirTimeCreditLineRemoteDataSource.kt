@@ -3,6 +3,7 @@ package com.example.gaugeapp.dataSource.credit.AirtimeCreditLine.remote
 import com.example.gaugeapp.entities.AirTimeCreditLine
 import com.example.gaugeapp.utils.DataState
 import kotlinx.coroutines.flow.Flow
+import java.util.*
 
 
 /**
@@ -27,6 +28,21 @@ interface AirTimeCreditLineRemoteDataSource {
     fun updateAirtimeCreditLine(airtimeCreditLine: AirTimeCreditLine)
 
     /**
+     * Update airtime credit line
+     *
+     * @param airtimeCreditLine
+     * @param onSuccess
+     * @param onError
+     * @receiver
+     * @receiver
+     */
+    fun updateAirtimeCreditLine(
+        airtimeCreditLine: AirTimeCreditLine,
+        onSuccess: () -> Unit,
+        onError: () -> Unit
+    )
+
+    /**
      * Get all airtime credit line
      *
      * @return
@@ -39,6 +55,27 @@ interface AirTimeCreditLineRemoteDataSource {
      * @return
      */
     fun getAllSolvedCreditLineOfTheUser(): Flow<DataState<List<AirTimeCreditLine>>>
+
+    /**
+     * Get all solved credit line of the user start after limit
+     *
+     * @param creationDate
+     * @param limit
+     * @return
+     */
+    fun getAllSolvedCreditLineOfTheUserStartAfterLimit(
+        creationDate: Date,
+        limit: Long
+    ): Flow<DataState<List<AirTimeCreditLine>>>
+
+
+    /**
+     * Get all solved credit line of the user start after
+     *
+     * @param creationDate
+     * @return
+     */
+    fun getAllSolvedCreditLineOfTheUserStartAfter(creationDate: Date): Flow<DataState<List<AirTimeCreditLine>>>
 
     /**
      * Get current airtime credit line of the user
