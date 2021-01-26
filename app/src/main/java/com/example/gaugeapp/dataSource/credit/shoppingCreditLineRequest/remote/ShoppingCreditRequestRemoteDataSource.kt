@@ -15,7 +15,11 @@ interface ShoppingCreditRequestRemoteDataSource {
      *
      * @param shoppingCreditRequest
      */
-    fun createShoppingCreditRequest(shoppingCreditRequest: ShoppingCreditRequest)
+    fun createShoppingCreditRequest(
+        shoppingCreditRequest: ShoppingCreditRequest,
+        onSuccess: () -> Unit,
+        onError: () -> Unit
+    )
 
 
     /**

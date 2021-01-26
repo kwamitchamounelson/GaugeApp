@@ -63,7 +63,7 @@
     <dimen name="diment_mt_credit_left">8dp</dimen>
     <dimen name="dim_mv_credit_left">20dp</dimen>
     <dimen name="dimen_26sp">26sp</dimen>
-    <dimen name="dim_ms_credit_left">20dp</dimen>
+    <dimen name="dim_ms_credit_left">16dp</dimen>
     <dimen name="dimen_amount_left_credit">26sp</dimen>
     <dimen name="dimen_text_size_button_item">10sp</dimen>
     <dimen name="dimen_heigth_button_item">33dp</dimen>

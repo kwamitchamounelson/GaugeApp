@@ -12,24 +12,33 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.gaugeapp.R
+import com.example.gaugeapp.data.entities.ShoppingCreditRequest
+import com.example.gaugeapp.data.enums.ENUM_REQUEST_STATUS
 import com.example.gaugeapp.entities.Store
 import com.example.gaugeapp.ui.credit.items.StoreShoppingItem
+import com.example.gaugeapp.ui.credit.shoppingCredit.main.ShoppingCreditMainFragment
 import com.example.gaugeapp.utils.DataState
-import com.example.gaugeapp.ui.credit.shoppingCredit.purchaseShoppingBottonSheet.PurchaseShoppingBottonSheetFragment
+import com.example.gaugeapp.ui.credit.shoppingCredit.purchaseShoppingBottonSheet.PurchaseShoppingBottomSheetFragment
+import com.example.gaugeapp.utils.printLogD
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.Section
 import com.xwray.groupie.kotlinandroidextensions.ViewHolder
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.partenered_stores_fragment.*
 import kotlinx.android.synthetic.main.partenered_stores_fragment.view.*
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.InternalCoroutinesApi
+import org.jetbrains.anko.toast
+import java.util.*
 
+private const val TAG = "PartnerStoresFragmen"
+@ExperimentalCoroutinesApi
 @AndroidEntryPoint
 @InternalCoroutinesApi
-class ParteneredStoresFragment : Fragment() {
+class PartnerStoresFragment : Fragment() {
 
     companion object {
-        fun newInstance() = ParteneredStoresFragment()
+        fun newInstance() = PartnerStoresFragment()
     }
 
     private val viewModel by viewModels<ParteneredStoresViewModel>()
@@ -82,8 +91,36 @@ class ParteneredStoresFragment : Fragment() {
 
                     setOnItemClickListener { item, _ ->
                         val store = (item as StoreShoppingItem).store
-                        val bs = PurchaseShoppingBottonSheetFragment(store) {
-                            //TODO implement purchase
+                        val bs = PurchaseShoppingBottomSheetFragment(store) { amount ->
+                            val nowDate = Calendar.getInstance().time
+
+                            val shoppingCreditRequest = ShoppingCreditRequest(
+                                "",
+                                ShoppingCreditMainFragment.currentShoppingCreditLine!!.id,
+                                amount,
+                                store,
+                                viewModel.userId,
+                                nowDate,
+                                ENUM_REQUEST_STATUS.PENDING,
+                                nowDate,
+                                true
+                            )
+
+                            printLogD(TAG,"new shoppingCreditRequest to create=> $shoppingCreditRequest")
+
+                            viewModel.requestBorrowShopping(
+                                shoppingCreditRequest,
+                                onSuccess = {
+                                    try {
+                                        findNavController().navigateUp()
+                                    } catch (e: Exception) {
+                                        e.printStackTrace()
+                                    }
+                                },
+                                onError = {
+                                    requireContext().toast(R.string.connection_error_please_try_again)
+                                }
+                            )
                         }
                         bs.show(childFragmentManager, "")
                     }

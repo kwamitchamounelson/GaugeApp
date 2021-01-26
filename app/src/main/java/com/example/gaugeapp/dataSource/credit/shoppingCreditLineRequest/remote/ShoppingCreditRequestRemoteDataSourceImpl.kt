@@ -24,8 +24,12 @@ class ShoppingCreditRequestRemoteDataSourceImpl @Inject constructor(
      *
      * @param shoppingCreditRequest
      */
-    override fun createShoppingCreditRequest(shoppingCreditRequest: ShoppingCreditRequest) =
-        service.createShoppingCreditRequest(shoppingCreditRequest)
+    override fun createShoppingCreditRequest(
+        shoppingCreditRequest: ShoppingCreditRequest,
+        onSuccess: () -> Unit,
+        onError: () -> Unit
+    ) =
+        service.createShoppingCreditRequest(shoppingCreditRequest, onSuccess, onError)
 
     /**
      * Get last shopping credit request

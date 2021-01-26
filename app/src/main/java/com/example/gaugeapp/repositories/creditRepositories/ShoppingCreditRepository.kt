@@ -50,8 +50,16 @@ class ShoppingCreditRepository @Inject constructor(
      *
      * @param shoppingCreditRequest
      */
-    fun requestBorrowShoppingCredit(shoppingCreditRequest: ShoppingCreditRequest) {
-        shoppingCreditRequestRemoteDataSource.createShoppingCreditRequest(shoppingCreditRequest)
+    fun requestBorrowShoppingCredit(
+        shoppingCreditRequest: ShoppingCreditRequest,
+        onSuccess: () -> Unit,
+        onError: () -> Unit
+    ) {
+        shoppingCreditRequestRemoteDataSource.createShoppingCreditRequest(
+            shoppingCreditRequest,
+            onSuccess,
+            onError
+        )
     }
 
     /**

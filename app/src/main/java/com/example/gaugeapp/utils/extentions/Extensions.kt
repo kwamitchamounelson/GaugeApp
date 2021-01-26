@@ -874,6 +874,6 @@ fun Bitmap.resize(width: Int, height: Int): Bitmap {
     val w: Int = (height / ratio).roundToInt()
     val h: Int = (width / ratio).roundToInt()
 
-    return Bitmap.createScaledBitmap(this, w, h, false)
+    return Bitmap.createScaledBitmap(this, width, height, false)
 }
 

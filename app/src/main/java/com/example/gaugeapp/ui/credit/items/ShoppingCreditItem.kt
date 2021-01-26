@@ -45,7 +45,6 @@ class ShoppingCreditItem(
 
         viewHolder.itemView.id_credit_store_info.apply {
             visibility = View.VISIBLE
-            //TODO show name of the store
             text = shoppingCredit.store.name
         }
 

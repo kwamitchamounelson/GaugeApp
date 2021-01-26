@@ -20,7 +20,7 @@ class StoreRepository @Inject constructor() {
                     "690935868",
                     "678243790",
                     "Yaounde",
-                    Localization(11.520612738784084, 3.8628988555103922, 0.0, ""),
+                    Localization(11.520555764436722, 3.862452253007848, 0.0, ""),
                     Date(),
                     Date()
                 ),

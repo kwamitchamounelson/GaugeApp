@@ -4,7 +4,6 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.*
@@ -24,8 +23,8 @@ import com.example.gaugeapp.entities.ShoppingCreditLine
 import com.example.gaugeapp.entities.Store
 import com.example.gaugeapp.ui.credit.items.PendingItem
 import com.example.gaugeapp.ui.credit.items.ShoppingCreditItem
+import com.example.gaugeapp.ui.credit.shoppingCredit.purchaseShoppingBottonSheet.PurchaseShoppingBottomSheetFragment
 import com.example.gaugeapp.utils.DataState
-import com.example.gaugeapp.utils.bitmapDescriptorFromVector
 import com.example.gaugeapp.utils.extentions.resize
 import com.example.gaugeapp.utils.formatNumberWithSpaceBetweenThousand
 import com.example.gaugeapp.utils.permissionsutils.FragmentPermissions
@@ -47,7 +46,6 @@ import kotlinx.android.synthetic.main.layout_map_shopping_credit_bottom_cheet.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.InternalCoroutinesApi
 import org.jetbrains.anko.*
-import java.net.URL
 import java.util.*
 
 
@@ -62,13 +60,13 @@ class ShoppingCreditMainFragment : FragmentPermissions(), OnMapReadyCallback {
         fun newInstance() =
             ShoppingCreditMainFragment()
 
+        var currentShoppingCreditLine: ShoppingCreditLine? = null
+        var creditLeft: Double = 0.0
         private const val MAPVIEW_BUNDLE_KEY = "AIzaSyAklo5NjMaGF_VYxNi2TS6odpXzjDlr-kg"
     }
 
     private var firstTime: Boolean = true
     private var creditDue: Double = 0.0
-    private var creditLeft: Double = 0.0
-    private var currentShoppingCreditLine: ShoppingCreditLine? = null
     private var currentShoppingCreditRequest: ShoppingCreditRequest? = null
 
     private var storeList = listOf<Store>()
@@ -334,10 +332,12 @@ class ShoppingCreditMainFragment : FragmentPermissions(), OnMapReadyCallback {
         id_credit_payment_explanation.visibility = View.GONE
         id_credit_payment_penality_explanation.visibility =
             View.VISIBLE
+        bottomSheetBehavior.isDraggable = false
     }
 
     private fun setUiStatePendingRequest() {
         pending = true
+        id_pending_block.visibility = View.VISIBLE
         //1 if a loan request is pending
         id_credit_borrow_text_state.apply {
             visibility = View.VISIBLE
@@ -351,6 +351,7 @@ class ShoppingCreditMainFragment : FragmentPermissions(), OnMapReadyCallback {
         id_credit_payment_penality_explanation.visibility =
             View.GONE
         startPendingAnimation()
+        bottomSheetBehavior.isDraggable = false
     }
 
     private fun setUiStateGoodStandingNotRequest() {
@@ -360,6 +361,8 @@ class ShoppingCreditMainFragment : FragmentPermissions(), OnMapReadyCallback {
 
         id_credit_payment_penality_explanation.visibility =
             View.VISIBLE
+
+        bottomSheetBehavior.isDraggable = true
     }
 
     private fun startPendingAnimation() {
@@ -441,7 +444,7 @@ class ShoppingCreditMainFragment : FragmentPermissions(), OnMapReadyCallback {
             //we fetch if we have pending request
             viewModel.setStateEvent(
                 ShoppingCreditStateEvent.GetLastShoppingCreditRequest(
-                    currentShoppingCreditLine!!.id
+                    shoppingCreditLine.id
                 )
             )
         }
@@ -501,24 +504,6 @@ class ShoppingCreditMainFragment : FragmentPermissions(), OnMapReadyCallback {
 
                 //adding all stores
                 storeList.forEach { store ->
-
-                    /*addMarker(
-                        MarkerOptions()
-                            .position(
-                                LatLng(
-                                    store.localization.latitude,
-                                    store.localization.longitude
-                                )
-                            )
-                            .title(store.name)
-                            .icon(
-                                bitmapDescriptorFromVector(
-                                    requireContext(),
-                                    R.drawable.ic_location_gray
-                                )
-                            )
-                    )*/
-
                     Glide.with(requireContext())
                         .asBitmap()
                         .load(store.imageUrl)
@@ -536,7 +521,14 @@ class ShoppingCreditMainFragment : FragmentPermissions(), OnMapReadyCallback {
                                             )
                                         )
                                         .title(store.name)
-                                        .icon(BitmapDescriptorFactory.fromBitmap(resource.resize(30,30)))
+                                        .icon(
+                                            BitmapDescriptorFactory.fromBitmap(
+                                                resource.resize(
+                                                    50,
+                                                    50
+                                                )
+                                            )
+                                        )
                                 )
                             }
 
@@ -557,7 +549,12 @@ class ShoppingCreditMainFragment : FragmentPermissions(), OnMapReadyCallback {
 
                 val firsStore = storeList.first()
                 val cameraPosition = CameraPosition.builder()
-                    .target(LatLng(firsStore.localization.latitude,firsStore.localization.longitude))
+                    .target(
+                        LatLng(
+                            firsStore.localization.latitude,
+                            firsStore.localization.longitude
+                        )
+                    )
                     .zoom(6f)
                     .bearing(90f)
                     .build()
@@ -566,8 +563,33 @@ class ShoppingCreditMainFragment : FragmentPermissions(), OnMapReadyCallback {
                 animateCamera(CameraUpdateFactory.zoomTo(18f))
 
                 setOnMapClickListener { latLng ->
+                    printLogD(TAG, "latLng=> $latLng")
                     val selectedStore = storeList.find { store ->
                         (store.localization.latitude == latLng.latitude) && (store.localization.longitude == latLng.longitude)
+                    }
+
+                    if (selectedStore != null) {
+                        val bs = PurchaseShoppingBottomSheetFragment(selectedStore) { amount ->
+                            val nowDate = Calendar.getInstance().time
+                            val shoppingCreditRequest = ShoppingCreditRequest(
+                                "",
+                                currentShoppingCreditLine!!.id,
+                                amount,
+                                selectedStore,
+                                viewModel.userId,
+                                nowDate,
+                                ENUM_REQUEST_STATUS.PENDING,
+                                nowDate,
+                                true
+                            )
+                            viewModel.setStateEvent(
+                                ShoppingCreditStateEvent.RequestBorrowShoppingCredit(
+                                    shoppingCreditRequest
+                                )
+                            )
+                            bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED)
+                        }
+                        bs.show(childFragmentManager, "")
                     }
                 }
             }

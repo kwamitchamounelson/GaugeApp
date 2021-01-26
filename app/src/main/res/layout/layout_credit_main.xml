@@ -85,7 +85,7 @@
 
                     <TextView
                         android:id="@+id/id_credit_left"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/diment_mt_credit_left"
                         android:fontFamily="@font/roboto_medium"
@@ -118,8 +118,9 @@
 
                     <TextView
                         android:id="@+id/id_credit_due"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:gravity="end"
                         android:layout_marginTop="@dimen/diment_mt_credit_left"
                         android:fontFamily="@font/roboto_medium"
                         android:textColor="@color/color_red_credit_due"

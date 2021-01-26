@@ -60,7 +60,10 @@ class ShoppingCreditMainViewModel @ViewModelInject constructor(
                     }
                 }
                 is ShoppingCreditStateEvent.RequestBorrowShoppingCredit -> {
-                    repository.requestBorrowShoppingCredit(shoppingCreditStateEvent.shoppingCreditRequest)
+                    repository.requestBorrowShoppingCredit(
+                        shoppingCreditStateEvent.shoppingCreditRequest,
+                        onSuccess = {},
+                        onError = {})
                 }
                 is ShoppingCreditStateEvent.InitShoppingCreditLine -> {
                     repository.createCreditLine()

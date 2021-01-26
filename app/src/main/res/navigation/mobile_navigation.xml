@@ -60,7 +60,7 @@
         tools:layout="@layout/shopping_credit_history_fragment" />
     <fragment
         android:id="@+id/parteneredStoresFragment"
-        android:name="com.example.gaugeapp.ui.credit.shoppingCredit.parteneredStores.ParteneredStoresFragment"
+        android:name="com.example.gaugeapp.ui.credit.shoppingCredit.parteneredStores.PartnerStoresFragment"
         android:label="partenered_stores_fragment"
         tools:layout="@layout/partenered_stores_fragment" />
 </navigation>

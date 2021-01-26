@@ -35,17 +35,23 @@ class ShoppingCreditRequestService @Inject constructor(
      *
      * @param shoppingCreditRequest
      */
-    fun createShoppingCreditRequest(shoppingCreditRequest: ShoppingCreditRequest) {
+    fun createShoppingCreditRequest(
+        shoppingCreditRequest: ShoppingCreditRequest,
+        onSuccess: () -> Unit,
+        onError: () -> Unit
+    ) {
         val collection = getCollectionReference(shoppingCreditRequest.shoppingCreditLineId)
         collection
             .document()
             .set(shoppingCreditRequest, SetOptions.merge())
             .addOnSuccessListener {
                 printLogD(TAG, "Success createShoppingCreditRequest")
+                onSuccess()
             }
             .addOnFailureListener { exception ->
                 exception.printStackTrace()
                 printLogD(TAG, exception.toString())
+                onError()
             }
     }
 
@@ -90,10 +96,10 @@ class ShoppingCreditRequestService @Inject constructor(
     /**
      * Get collection reference
      *
-     * @param airtimeCreditRequestId
+     * @param creditLineId
      */
-    private fun getCollectionReference(airtimeCreditRequestId: String) =
-        FireStoreCollDocRef.shoppingCreditLineCollRef.document(airtimeCreditRequestId)
+    private fun getCollectionReference(creditLineId: String) =
+        FireStoreCollDocRef.shoppingCreditLineCollRef.document(creditLineId)
             .collection(commonFireStoreRefKeyWord.SHOPPING_CREDIT_REQUEST)
 
 
