@@ -2,28 +2,39 @@ package com.example.gaugeapp.ui.credit.shoppingCredit.main
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.target.CustomTarget
+import com.bumptech.glide.request.transition.Transition
 import com.example.gaugeapp.R
 import com.example.gaugeapp.data.entities.ShoppingCreditRequest
 import com.example.gaugeapp.data.enums.ENUM_REQUEST_STATUS
 import com.example.gaugeapp.entities.ShoppingCreditLine
+import com.example.gaugeapp.entities.Store
 import com.example.gaugeapp.ui.credit.items.PendingItem
 import com.example.gaugeapp.ui.credit.items.ShoppingCreditItem
 import com.example.gaugeapp.utils.DataState
+import com.example.gaugeapp.utils.bitmapDescriptorFromVector
+import com.example.gaugeapp.utils.extentions.resize
 import com.example.gaugeapp.utils.formatNumberWithSpaceBetweenThousand
 import com.example.gaugeapp.utils.permissionsutils.FragmentPermissions
 import com.example.gaugeapp.utils.permissionsutils.askAnyPermission
 import com.example.gaugeapp.utils.printLogD
+import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.maps.model.*
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.xwray.groupie.GroupAdapter
@@ -36,7 +47,9 @@ import kotlinx.android.synthetic.main.layout_map_shopping_credit_bottom_cheet.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.InternalCoroutinesApi
 import org.jetbrains.anko.*
+import java.net.URL
 import java.util.*
+
 
 private const val TAG = "ShoppingCreditMainFragm"
 
@@ -58,6 +71,8 @@ class ShoppingCreditMainFragment : FragmentPermissions(), OnMapReadyCallback {
     private var currentShoppingCreditLine: ShoppingCreditLine? = null
     private var currentShoppingCreditRequest: ShoppingCreditRequest? = null
 
+    private var storeList = listOf<Store>()
+
     private val viewModel by viewModels<ShoppingCreditMainViewModel>()
 
     private lateinit var bottomSheetBehavior: BottomSheetBehavior<*>
@@ -65,6 +80,8 @@ class ShoppingCreditMainFragment : FragmentPermissions(), OnMapReadyCallback {
     private lateinit var mMap: GoogleMap
 
     lateinit var navBar: BottomNavigationView
+
+    private var currentSavedInstanceState: Bundle? = null
 
 
     /**
@@ -99,6 +116,7 @@ class ShoppingCreditMainFragment : FragmentPermissions(), OnMapReadyCallback {
         }
 
         bottomSheetBehavior = BottomSheetBehavior.from(id_map_shopping_bottomsheet)
+
         //we make invisible the views specific to airtime credit
         try {
             id_pending_block.visibility = View.GONE
@@ -117,21 +135,14 @@ class ShoppingCreditMainFragment : FragmentPermissions(), OnMapReadyCallback {
 
             setUiStateGoodStandingNotRequest()
 
-
-            askAnyPermission(
-                listOf(
-                    Manifest.permission.ACCESS_FINE_LOCATION,
-                    Manifest.permission.ACCESS_COARSE_LOCATION
-                )
-            ) {
-                initMap(savedInstanceState)
-            }
+            currentSavedInstanceState = savedInstanceState
         } catch (e: Exception) {
             e.printStackTrace()
         }
 
         observeLiveData()
         viewModel.setStateEvent(ShoppingCreditStateEvent.GetCurrentShoppingCreditLineOfTheUser)
+        viewModel.setStateEvent(ShoppingCreditStateEvent.GetStoreList)
         configureOnClickListener()
     }
 
@@ -288,6 +299,29 @@ class ShoppingCreditMainFragment : FragmentPermissions(), OnMapReadyCallback {
                     }
                 }
             })
+
+        viewModel.storeListObserver.observe(viewLifecycleOwner, Observer { dataState ->
+
+            when (dataState) {
+                is DataState.Loading -> {
+                }
+                is DataState.Success -> {
+                    storeList = dataState.data ?: listOf()
+                    printLogD(TAG, "storeList => $storeList")
+                    askAnyPermission(
+                        listOf(
+                            Manifest.permission.ACCESS_FINE_LOCATION,
+                            Manifest.permission.ACCESS_COARSE_LOCATION
+                        )
+                    ) {
+                        initMap(currentSavedInstanceState)
+                    }
+                }
+                is DataState.Failure -> {
+                    printLogD(TAG, dataState.throwable.toString())
+                }
+            }
+        })
     }
 
 
@@ -462,12 +496,81 @@ class ShoppingCreditMainFragment : FragmentPermissions(), OnMapReadyCallback {
     override fun onMapReady(googleMap: GoogleMap?) {
         googleMap?.let {
             mMap = it
-            mMap.addMarker(
-                MarkerOptions()
-                    .position(LatLng(0.0, 0.0))
-                    .title("Marker")
-            )
-            mMap.mapType = GoogleMap.MAP_TYPE_NORMAL
+            mMap.apply {
+                mapType = GoogleMap.MAP_TYPE_NORMAL
+
+                //adding all stores
+                storeList.forEach { store ->
+
+                    /*addMarker(
+                        MarkerOptions()
+                            .position(
+                                LatLng(
+                                    store.localization.latitude,
+                                    store.localization.longitude
+                                )
+                            )
+                            .title(store.name)
+                            .icon(
+                                bitmapDescriptorFromVector(
+                                    requireContext(),
+                                    R.drawable.ic_location_gray
+                                )
+                            )
+                    )*/
+
+                    Glide.with(requireContext())
+                        .asBitmap()
+                        .load(store.imageUrl)
+                        .into(object : CustomTarget<Bitmap>() {
+                            override fun onResourceReady(
+                                resource: Bitmap,
+                                transition: Transition<in Bitmap>?
+                            ) {
+                                addMarker(
+                                    MarkerOptions()
+                                        .position(
+                                            LatLng(
+                                                store.localization.latitude,
+                                                store.localization.longitude
+                                            )
+                                        )
+                                        .title(store.name)
+                                        .icon(BitmapDescriptorFactory.fromBitmap(resource.resize(30,30)))
+                                )
+                            }
+
+                            override fun onLoadCleared(placeholder: Drawable?) {}
+                        })
+                }
+
+                if (ActivityCompat.checkSelfPermission(
+                        requireContext(),
+                        Manifest.permission.ACCESS_FINE_LOCATION
+                    ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                        requireContext(),
+                        Manifest.permission.ACCESS_COARSE_LOCATION
+                    ) != PackageManager.PERMISSION_GRANTED
+                ) {
+                    isMyLocationEnabled = true
+                }
+
+                val firsStore = storeList.first()
+                val cameraPosition = CameraPosition.builder()
+                    .target(LatLng(firsStore.localization.latitude,firsStore.localization.longitude))
+                    .zoom(6f)
+                    .bearing(90f)
+                    .build()
+
+                moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
+                animateCamera(CameraUpdateFactory.zoomTo(18f))
+
+                setOnMapClickListener { latLng ->
+                    val selectedStore = storeList.find { store ->
+                        (store.localization.latitude == latLng.latitude) && (store.localization.longitude == latLng.longitude)
+                    }
+                }
+            }
         }
     }
 

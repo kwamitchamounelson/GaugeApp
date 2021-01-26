@@ -20,4 +20,6 @@ sealed class ShoppingCreditStateEvent {
     class CancelCloselShoppingCreditRequest(val currentShoppingCreditRequest: ShoppingCreditRequest) : ShoppingCreditStateEvent()
 
     class CloseCurentCreditLine(val currentShoppingCreditLine: ShoppingCreditLine) : ShoppingCreditStateEvent()
+
+    object GetStoreList : ShoppingCreditStateEvent()
 }

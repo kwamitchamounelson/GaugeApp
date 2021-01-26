@@ -44,6 +44,7 @@ import java.io.FileOutputStream
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.math.round
+import kotlin.math.roundToInt
 
 
 private const val TAG = "Extentions"
@@ -167,9 +168,9 @@ fun Date.formatDateWithToDay(context: Context, fromat: String = "dd MMM yyy"): S
     val sendDate = this.convertDateToSpecificStringFormat("dd MMM yyy")
     if (todayDate == sendDate) {
         return "${context.getString(R.string.today)}: ${
-        this.convertDateToSpecificStringFormat(
-            "kk:mm"
-        )
+            this.convertDateToSpecificStringFormat(
+                "kk:mm"
+            )
         }"
     }
     return this.convertDateToSpecificStringFormat(fromat)
@@ -753,9 +754,9 @@ fun MenuItem.applyIconeOnFilterAmount(desc: Boolean, context: Context) {
 fun Context.showTexteForStartAndEndDate(startDate: Date, endDate: Date): String {
     //val to = this.getString(R.string.to_au)
     return "${startDate.convertDateToSpecificStringFormat("dd MMM yyyy")}  -  ${
-    endDate.convertDateToSpecificStringFormat(
-        "dd MMM yyyy"
-    )
+        endDate.convertDateToSpecificStringFormat(
+            "dd MMM yyyy"
+        )
     }".capitalize()
 }
 
@@ -837,5 +838,42 @@ fun View.openKeyBoard(activity: Activity) {
         this,
         InputMethodManager.HIDE_IMPLICIT_ONLY
     )
+}
+
+
+// Extension function to resize bitmap using new width value by keeping aspect ratio
+fun Bitmap.resizeByWidth(width: Int): Bitmap {
+    val ratio: Float = this.width.toFloat() / this.height.toFloat()
+    val height: Int = (width / ratio).roundToInt()
+
+    return Bitmap.createScaledBitmap(
+        this,
+        width,
+        height,
+        false
+    )
+}
+
+
+// Extension function to resize bitmap using new height value by keeping aspect ratio
+fun Bitmap.resizeByHeight(height: Int): Bitmap {
+    val ratio: Float = this.height.toFloat() / this.width.toFloat()
+    val width: Int = (height / ratio).roundToInt()
+
+    return Bitmap.createScaledBitmap(
+        this,
+        width,
+        height,
+        false
+    )
+}
+
+
+fun Bitmap.resize(width: Int, height: Int): Bitmap {
+    val ratio: Float = this.height.toFloat() / this.width.toFloat()
+    val w: Int = (height / ratio).roundToInt()
+    val h: Int = (width / ratio).roundToInt()
+
+    return Bitmap.createScaledBitmap(this, w, h, false)
 }
 

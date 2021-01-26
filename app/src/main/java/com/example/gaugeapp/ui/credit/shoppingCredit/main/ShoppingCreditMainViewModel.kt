@@ -9,16 +9,21 @@ import androidx.lifecycle.viewModelScope
 import com.example.gaugeapp.commonRepositories.FireStoreAuthUtil
 import com.example.gaugeapp.data.entities.ShoppingCreditRequest
 import com.example.gaugeapp.entities.ShoppingCreditLine
+import com.example.gaugeapp.entities.Store
 import com.example.gaugeapp.repositories.creditRepositories.ShoppingCreditRepository
+import com.example.gaugeapp.repositories.creditRepositories.StoreRepository
 import com.example.gaugeapp.ui.base.BaseViewModel
 import com.example.gaugeapp.utils.DataState
 import kotlinx.coroutines.InternalCoroutinesApi
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
 
 @InternalCoroutinesApi
 class ShoppingCreditMainViewModel @ViewModelInject constructor(
     private val repository: ShoppingCreditRepository,
+    private val storeRepository: StoreRepository,
     application: Application,
     @Assisted savedStateHandle: SavedStateHandle
 ) : BaseViewModel(application) {
@@ -37,6 +42,9 @@ class ShoppingCreditMainViewModel @ViewModelInject constructor(
 
 
     val shoppingCreditRequestObserver = MutableLiveData<DataState<ShoppingCreditRequest?>>()
+
+    val storeListObserver =
+        MutableLiveData<DataState<List<Store>>>()
 
     /**
      * Set state event
@@ -76,6 +84,11 @@ class ShoppingCreditMainViewModel @ViewModelInject constructor(
                 }
                 is ShoppingCreditStateEvent.CloseCurentCreditLine -> {
                     repository.closeCurrentCreditLine(shoppingCreditStateEvent.currentShoppingCreditLine)
+                }
+                is ShoppingCreditStateEvent.GetStoreList -> {
+                    storeRepository.getAllStores().onEach {
+                        storeListObserver.value = it
+                    }.launchIn(viewModelScope)
                 }
             }
         }

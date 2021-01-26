@@ -1,7 +1,7 @@
 package com.example.gaugeapp.entities
 
-import com.example.gaugeapp.entities.Localization
 import com.google.firebase.firestore.ServerTimestamp
+import com.kola.kola_entities_features.entities.Localization
 import java.util.*
 
 class Store(
