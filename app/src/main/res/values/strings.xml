@@ -266,6 +266,6 @@
     <string name="connection_error_please_try_again">Connection error, please try again</string>
     <string name="your_last_request_has_been_rejected">Your last request has been rejected</string>
     <string name="your_remaining_credit_is_insufficient">Your remaining credit is insufficient</string>
-    <string name="you_can_only_borrow">You can only borrow %1$d FCFA</string>
+    <string name="you_can_only_borrow">You can only borrow</string>
     <string name="invalid_amount">Invalid amount</string>
 </resources>

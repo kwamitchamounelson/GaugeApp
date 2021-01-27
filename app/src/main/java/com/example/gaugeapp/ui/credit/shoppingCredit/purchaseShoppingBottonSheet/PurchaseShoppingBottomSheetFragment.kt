@@ -11,6 +11,7 @@ import com.bumptech.glide.Glide
 import com.example.gaugeapp.R
 import com.example.gaugeapp.entities.Store
 import com.example.gaugeapp.ui.credit.shoppingCredit.main.ShoppingCreditMainFragment
+import com.example.gaugeapp.utils.extentions.removeSpaces
 import com.example.gaugeapp.utils.formatNumberWithSpaceBetweenThousand
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
@@ -47,7 +48,10 @@ class PurchaseShoppingBottomSheetFragment(
         try {
             id_purchase_shopping_store_description.text = "${store.name}, ${store.address}"
 
-            id_amount_shopping_credit.setText(ShoppingCreditMainFragment.creditLeft.formatNumberWithSpaceBetweenThousand())
+            id_amount_shopping_credit.setText(
+                ShoppingCreditMainFragment.creditLeft.formatNumberWithSpaceBetweenThousand()
+                    .removeSpaces()
+            )
 
             Glide.with(requireContext())
                 .load(store.imageUrl)
@@ -72,13 +76,10 @@ class PurchaseShoppingBottomSheetFragment(
                     onComplete(amount)
                 } else {
                     requireContext().toast(
-                        getString(
-                            R.string.you_can_only_borrow,
-                            ShoppingCreditMainFragment.creditLeft
-                        )
+                        getString(R.string.you_can_only_borrow) + " ${ShoppingCreditMainFragment.creditLeft} FCFA"
                     )
                 }
-            }else{
+            } else {
                 requireContext().toast(R.string.invalid_amount)
             }
         }

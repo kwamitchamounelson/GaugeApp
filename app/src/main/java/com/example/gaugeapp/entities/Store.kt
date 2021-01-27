@@ -4,7 +4,7 @@ import com.google.firebase.firestore.ServerTimestamp
 import com.kola.kola_entities_features.entities.Localization
 import java.util.*
 
-class Store(
+data class Store(
     var uid: String,
     var name: String,
     var imageUrl: String,

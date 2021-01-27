@@ -19,6 +19,7 @@ import com.bumptech.glide.request.transition.Transition
 import com.example.gaugeapp.R
 import com.example.gaugeapp.data.entities.ShoppingCreditRequest
 import com.example.gaugeapp.data.enums.ENUM_REQUEST_STATUS
+import com.example.gaugeapp.entities.ClusterMarker
 import com.example.gaugeapp.entities.ShoppingCreditLine
 import com.example.gaugeapp.entities.Store
 import com.example.gaugeapp.ui.credit.items.PendingItem
@@ -27,6 +28,7 @@ import com.example.gaugeapp.ui.credit.shoppingCredit.purchaseShoppingBottonSheet
 import com.example.gaugeapp.utils.DataState
 import com.example.gaugeapp.utils.extentions.resize
 import com.example.gaugeapp.utils.formatNumberWithSpaceBetweenThousand
+import com.example.gaugeapp.utils.map.MyClusterManagerRenderer
 import com.example.gaugeapp.utils.permissionsutils.FragmentPermissions
 import com.example.gaugeapp.utils.permissionsutils.askAnyPermission
 import com.example.gaugeapp.utils.printLogD
@@ -36,6 +38,7 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.*
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.maps.android.clustering.ClusterManager
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.Section
 import com.xwray.groupie.kotlinandroidextensions.ViewHolder
@@ -81,6 +84,11 @@ class ShoppingCreditMainFragment : FragmentPermissions(), OnMapReadyCallback {
 
     private var currentSavedInstanceState: Bundle? = null
 
+    private lateinit var mClusterManager: ClusterManager<ClusterMarker>
+
+    private lateinit var mClusterManagerRenderer: MyClusterManagerRenderer
+
+    private var mClusterMarkers = arrayListOf<ClusterMarker>()
 
     /**
      * State event credit
@@ -499,8 +507,28 @@ class ShoppingCreditMainFragment : FragmentPermissions(), OnMapReadyCallback {
     override fun onMapReady(googleMap: GoogleMap?) {
         googleMap?.let {
             mMap = it
+            /*if (!this::mClusterManager.isInitialized) {
+                mClusterManager = ClusterManager(requireActivity().applicationContext, mMap)
+            }
+
+            if (!this::mClusterManagerRenderer.isInitialized) {
+                mClusterManagerRenderer =
+                    MyClusterManagerRenderer(requireActivity(), mMap, mClusterManager)
+                mClusterManager.renderer = mClusterManagerRenderer
+            }*/
+
             mMap.apply {
                 mapType = GoogleMap.MAP_TYPE_NORMAL
+                if (ActivityCompat.checkSelfPermission(
+                        requireContext(),
+                        Manifest.permission.ACCESS_FINE_LOCATION
+                    ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                        requireContext(),
+                        Manifest.permission.ACCESS_COARSE_LOCATION
+                    ) != PackageManager.PERMISSION_GRANTED
+                ) {
+                    isMyLocationEnabled = true
+                }
 
                 //adding all stores
                 storeList.forEach { store ->
@@ -512,6 +540,21 @@ class ShoppingCreditMainFragment : FragmentPermissions(), OnMapReadyCallback {
                                 resource: Bitmap,
                                 transition: Transition<in Bitmap>?
                             ) {
+
+                                /*val newClusterMarker = ClusterMarker(
+                                    LatLng(
+                                        store.localization.latitude,
+                                        store.localization.longitude
+                                    ),
+                                    store.name,
+                                    "",
+                                    resource,
+                                    store
+                                )
+
+                                mClusterManager.addItem(newClusterMarker)
+                                mClusterMarkers.add(newClusterMarker)*/
+
                                 addMarker(
                                     MarkerOptions()
                                         .position(
@@ -536,18 +579,19 @@ class ShoppingCreditMainFragment : FragmentPermissions(), OnMapReadyCallback {
                         })
                 }
 
-                if (ActivityCompat.checkSelfPermission(
-                        requireContext(),
-                        Manifest.permission.ACCESS_FINE_LOCATION
-                    ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-                        requireContext(),
-                        Manifest.permission.ACCESS_COARSE_LOCATION
-                    ) != PackageManager.PERMISSION_GRANTED
-                ) {
-                    isMyLocationEnabled = true
-                }
+                //mClusterManager.cluster()
 
                 val firsStore = storeList.first()
+
+                /*val bottomBoundary = firsStore.localization.latitude - .1
+                val leftBoundary = firsStore.localization.longitude - .1
+                val topBoundary = firsStore.localization.latitude + .1
+                val rightBoundary = firsStore.localization.longitude + .1
+                val mMapBoundary = LatLngBounds(
+                    LatLng(bottomBoundary, leftBoundary),
+                    LatLng(topBoundary, rightBoundary)
+                )
+                mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(mMapBoundary, 0))*/
                 val cameraPosition = CameraPosition.builder()
                     .target(
                         LatLng(
